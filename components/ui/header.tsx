@@ -3,13 +3,13 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 
 export default function Header() {
   return (
-    <header className="flex items-center justify-between w-full px-4 py-2 bg-black border-b border-neutral-800">
+    <header className="flex items-center  justify-between w-full px-4 py-2 bg-black border-b border-neutral-800">
       {/* Left section: Sidebar toggle + Banner fills the space */}
       <div className="flex items-center gap-4 flex-1 min-w-0">
         <SidebarTrigger className="text-white hover:text-orange-500 flex-shrink-0" />
-        
+
         <img
-          src="/assets/banner.png" 
+          src="/assets/banner.png"
           alt="Banner"
           className="h-16 w-full object-cover rounded-xl"
         />

@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import {
   Sidebar,
@@ -22,6 +23,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import Link from "next/link";
 
 // Menu items
 const items = [
@@ -62,6 +64,7 @@ const items = [
 export function AppSidebar() {
   const [openMenus, setOpenMenus] = useState<{ [key: string]: boolean }>({});
   const pathname = usePathname();
+  const router = useRouter();
 
   const toggleMenu = (title: string) => {
     setOpenMenus((prev) => ({
@@ -97,17 +100,18 @@ export function AppSidebar() {
                             ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white"
                             : "hover:bg-neutral-800"
                         }`}
-                        onClick={() =>
-                          hasChildren ? toggleMenu(item.title) : null
-                        }
+                        onClick={() => {
+                          if (hasChildren) {
+                            toggleMenu(item.title);
+                          } else {
+                            router.push(item.url ?? "#");
+                          }
+                        }}
                       >
-                        <a
-                          href={item.url ?? "#"}
-                          className="flex items-center gap-2"
-                        >
+                        <div className="flex items-center gap-2">
                           <item.icon className="w-4 h-4" />
                           <span>{item.title}</span>
-                        </a>
+                        </div>
                         {hasChildren &&
                           (isOpen ? (
                             <ChevronDown className="w-4 h-4" />
@@ -124,7 +128,7 @@ export function AppSidebar() {
                           return (
                             <SidebarMenuItem key={sub.title}>
                               <SidebarMenuButton asChild>
-                                <a
+                                <Link
                                   href={sub.url}
                                   className={`flex items-center gap-2 w-full px-2 py-2 rounded ${
                                     isChildActive
@@ -134,7 +138,7 @@ export function AppSidebar() {
                                 >
                                   <sub.icon className="w-4 h-4" />
                                   {sub.title}
-                                </a>
+                                </Link>
                               </SidebarMenuButton>
                             </SidebarMenuItem>
                           );
