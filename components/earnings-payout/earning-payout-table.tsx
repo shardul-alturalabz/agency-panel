@@ -87,7 +87,7 @@ export const EarningPayoutTable = ({ data }: { data: Transaction[] }) => {
             <TableHead style={{ padding: 0 }} className="text-white text-right gap-1 w-[20%]">Download item</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody className="overflow-scroll h-[51vh]">
           {items.map((item) => (
             <TableRow key={item.transactionId} className="flex justify-between items-center hover:bg-transparent border-dashed border-white/30 text-white/85">
               <TableCell style={{ paddingTop: "18px", paddingBottom: "18px" }} className="w-[20%]">{item.transactionId}</TableCell>

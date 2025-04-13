@@ -61,7 +61,7 @@ const page = () => {
         <p>Next payout scheduled on :<span className='font-semibold'> 24 / 04 / 2025</span></p>
       </div>
       <p className='mt-8 text-3xl font-semibold'>Transaction history</p>
-        <EarningPayoutTable data={data}/>
+      <EarningPayoutTable data={data}/>
     </div>
   )
 }
