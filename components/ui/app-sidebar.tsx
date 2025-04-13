@@ -76,10 +76,10 @@ export function AppSidebar() {
   const isActive = (url: string) => pathname === url;
 
   return (
-    <Sidebar className="bg-black text-white min-h-screen">
-      <SidebarContent className="bg-neutral-900">
+    <Sidebar className="bg-[#0D0D0D] border-neutral-900">
+      <SidebarContent className="bg-[#111111] m-2 shadow-xl rounded-3xl  relative z-20">
         <SidebarGroup>
-          <SidebarGroupLabel className="text-xs font-semibold text-neutral-400 px-4 pt-4 pb-2 tracking-widest mb-5 uppercase">
+          <SidebarGroupLabel className="text-[11px] font-medium text-neutral-500 px-4 uppercase tracking-widest mb-6">
             Agency Panel
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -93,36 +93,36 @@ export function AppSidebar() {
 
                 return (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <div
-                        className={`flex items-center justify-between cursor-pointer w-full rounded-lg px-2 py-2 ${
-                          isItemActive
-                            ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white"
-                            : "hover:bg-neutral-800"
-                        }`}
-                        onClick={() => {
-                          if (hasChildren) {
-                            toggleMenu(item.title);
-                          } else {
-                            router.push(item.url ?? "#");
-                          }
-                        }}
-                      >
-                        <div className="flex items-center gap-2">
-                          <item.icon className="w-4 h-4" />
-                          <span>{item.title}</span>
-                        </div>
-                        {hasChildren &&
-                          (isOpen ? (
-                            <ChevronDown className="w-4 h-4" />
-                          ) : (
-                            <ChevronRight className="w-4 h-4" />
-                          ))}
+                    <div
+                      className={`flex items-center justify-between cursor-pointer w-full rounded-xl px-3 py-2 transition-all duration-150 ease-in-out ${
+                        isItemActive
+                          ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white shadow-sm"
+                          : "hover:bg-neutral-800 text-neutral-300"
+                      }`}
+                      onClick={() => {
+                        if (hasChildren) {
+                          toggleMenu(item.title);
+                        } else {
+                          router.push(item.url ?? "#");
+                        }
+                      }}
+                    >
+                      <div className="flex items-center gap-3">
+                        <item.icon className="w-[18px] h-[18px]" />
+                        <span className="text-sm font-medium">
+                          {item.title}
+                        </span>
                       </div>
-                    </SidebarMenuButton>
+                      {hasChildren &&
+                        (isOpen ? (
+                          <ChevronDown className="w-4 h-4 text-neutral-400" />
+                        ) : (
+                          <ChevronRight className="w-4 h-4 text-neutral-400" />
+                        ))}
+                    </div>
 
                     {hasChildren && isOpen && (
-                      <SidebarMenu className="pl-6">
+                      <SidebarMenu className="pl-5 mt-1 space-y-1">
                         {item.children.map((sub) => {
                           const isChildActive = isActive(sub.url);
                           return (
@@ -130,13 +130,13 @@ export function AppSidebar() {
                               <SidebarMenuButton asChild>
                                 <Link
                                   href={sub.url}
-                                  className={`flex items-center gap-2 w-full px-2 py-2 rounded ${
+                                  className={`flex items-center gap-3 w-full px-3 py-2 rounded-lg text-sm transition-colors duration-150 ${
                                     isChildActive
                                       ? "bg-orange-500 text-white"
-                                      : "hover:bg-neutral-800"
+                                      : "hover:bg-neutral-800 text-neutral-300"
                                   }`}
                                 >
-                                  <sub.icon className="w-4 h-4" />
+                                  <sub.icon className="w-[16px] h-[16px]" />
                                   {sub.title}
                                 </Link>
                               </SidebarMenuButton>

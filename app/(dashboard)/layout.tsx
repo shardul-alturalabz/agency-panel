@@ -5,7 +5,9 @@ import Header from "../../components/ui/header";
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
-      <AppSidebar />
+      {/* <div className=""> */}
+        <AppSidebar />
+      {/* </div> */}
       <main className="w-full">
         <div className="flex items-center justify-start">
           <Header />
