@@ -1,5 +1,6 @@
 import { EarningPayoutTable } from '@/components/earnings-payout/earning-payout-table'
-import { PriceText } from '@/components/earnings-payout/price-text'
+import { BadgeWithHeader } from '@/components/ui/badge-with-header'
+
 import React from 'react'
 
 const page = () => {
@@ -47,21 +48,24 @@ const page = () => {
       payoutAmount: 300.00,
       date: "23/04/25"
     },
-    
   ]
 
   return (
     <div className='bg-black h-full pl-8 flex flex-col text-white gap-8'>
-      <div className='h-[17%] w-[35%]  mt-10 flex flex-col justify-between text-[1.10rem] max-lg:text-sm'>
-        <PriceText text='Total earnings' price={24000} />
-        <div className='flex justify-between'>
-          <PriceText text='Total payout' price={24000} />
-          <PriceText text='Balance' price={0} />
-        </div>
-        <p>Next payout scheduled on :<span className='font-semibold'> 24 / 04 / 2025</span></p>
+      <div className='mt-10 flex flex-wrap  gap-5 text-[1.10rem] max-lg:text-sm'>
+          <BadgeWithHeader type='price' text='Total earnings' price={24000} />
+          <BadgeWithHeader type='price' text='Total payout' price={24000} />
+          <BadgeWithHeader type='price' text='Balance' price={0} />
+          <BadgeWithHeader type='text' text='Next payout scheduled on' currencySymbol='' price={"24 / 04 / 2025"} />
       </div>
       <p className='mt-8 text-3xl font-semibold'>Transaction history</p>
-      <EarningPayoutTable data={data}/>
+      {data.length > 0 ? (
+        <EarningPayoutTable data={data}/>
+      ) : (
+        <div className="flex items-center justify-center h-[53vh] bg-zinc-900 rounded-xl">
+          <p className="text-white/50 text-lg">You don't have any previous transactions.</p>
+        </div>
+      )}
     </div>
   )
 }

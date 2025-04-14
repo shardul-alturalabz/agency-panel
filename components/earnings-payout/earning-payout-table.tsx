@@ -1,6 +1,7 @@
 'use client'
 import { ChevronsUpDown, Download } from "lucide-react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { Badge } from '@/components/ui/badge'
 import { useState } from "react";
 
 interface Transaction {
@@ -91,9 +92,15 @@ export const EarningPayoutTable = ({ data }: { data: Transaction[] }) => {
           {items.map((item) => (
             <TableRow key={item.transactionId} className="flex justify-between items-center hover:bg-transparent border-dashed border-white/30 text-white/85">
               <TableCell style={{ paddingTop: "18px", paddingBottom: "18px" }} className="w-[20%]">{item.transactionId}</TableCell>
-              <TableCell className="w-[20%] ml-2">&#8377;{item.payoutAmount}</TableCell>
+              <TableCell className="w-[20%] ml-2">
+                <Badge variant="payout">₹{item.payoutAmount}</Badge>
+              </TableCell>
               <TableCell className="w-[20%]">{item.date}</TableCell>
-              <TableCell className={`${item.status == "Completed" ? "text-green-500" : item.status == "Failed" ? "text-red-500" : "text-yellow-500"} w-[20%]`}>{item.status}</TableCell>
+              <TableCell className="w-[20%]">
+                <Badge variant={item.status === "Completed" ? "success" : item.status === "Failed" ? "destructive" : "secondary"}>
+                  {item.status}
+                </Badge>
+              </TableCell>
               <TableCell className="flex justify-end w-[20%] pr-10"><Download className='cursor-pointer' size={21} /></TableCell>
             </TableRow>
           ))}
