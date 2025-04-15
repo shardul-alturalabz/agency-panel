@@ -2,15 +2,16 @@
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { useRouter } from "next/navigation";
+import { FaSignInAlt } from "react-icons/fa";
 
 const page = () => {
   const router = useRouter();
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#b83227] to-[#ea541f] flex flex-col">
       {/* Header */}
       <div className="bg-[#f4c9c2] px-6 py-3 flex justify-between items-center">
         <div className="flex items-center space-x-2 text-[#e94e1b] font-semibold">
-          {/* Optional logo icon */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5 fill-current"
@@ -20,9 +21,6 @@ const page = () => {
           </svg>
           <span>Salsa. you</span>
         </div>
-        <button className="bg-white text-[#e94e1b] font-medium px-4 py-1.5 rounded-lg shadow text-sm hover:bg-orange-100">
-          Lorem
-        </button>
       </div>
 
       {/* Main Content */}
@@ -34,12 +32,29 @@ const page = () => {
           Partner with us to unlock new revenue streams, brand deals, and a
           thriving creator ecosystem.
         </p>
-        <Button
-          onClick={() => router.push("/join-us")}
-          className="bg-white text-[#e94e1b] font-semibold px-6 py-2 rounded-md shadow-md hover:bg-orange-100 transition"
-        >
-          Become a partner
-        </Button>
+
+        {/* Button + Login CTA Row */}
+        <div className="flex flex-col sm:flex-row items-center gap-4">
+          <Button
+            onClick={() => router.push("/join-us")}
+            className="bg-white text-[#e94e1b] font-semibold px-6 py-2 rounded-md shadow-md hover:bg-orange-100 transition"
+          >
+            Become a partner
+          </Button>
+
+          <div className="flex items-center bg-gradient-to-r from-[#ff7143] to-[#ff4e1b] px-4 py-2 rounded-md shadow-md border border-white/20 text-sm text-white gap-2">
+            <FaSignInAlt className="text-white" />
+            <span>
+              Already a partner?
+              <button
+                onClick={() => router.push("/auth/login")}
+                className="underline font-medium hover:text-orange-200 transition"
+              >
+                Login
+              </button>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ import {
   Users,
   Wallet2,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 
@@ -75,9 +75,24 @@ export function AppSidebar() {
 
   const isActive = (url: string) => pathname === url;
 
+  // Auto-open the correct submenu on page load
+  useEffect(() => {
+    const initialOpenMenus: { [key: string]: boolean } = {};
+
+    items.forEach((item) => {
+      const isAnyChildActive =
+        item.children?.some((child) => isActive(child.url)) ?? false;
+      if (isAnyChildActive) {
+        initialOpenMenus[item.title] = true;
+      }
+    });
+
+    setOpenMenus(initialOpenMenus);
+  }, [pathname]);
+
   return (
     <Sidebar className="bg-[#0D0D0D] border-neutral-900">
-      <SidebarContent className="bg-[#111111] m-2 shadow-xl rounded-3xl  relative z-20">
+      <SidebarContent className="bg-[#111111] m-2 shadow-xl rounded-3xl relative z-20">
         <SidebarGroup>
           <SidebarGroupLabel className="text-[11px] font-medium text-neutral-500 px-4 uppercase tracking-widest mb-6">
             Agency Panel
@@ -89,7 +104,7 @@ export function AppSidebar() {
                 const isAnyChildActive =
                   item.children?.some((child) => isActive(child.url)) ?? false;
                 const isItemActive = isActive(item.url) || isAnyChildActive;
-                const isOpen = openMenus[item.title] || isAnyChildActive;
+                const isOpen = openMenus[item.title] ?? isAnyChildActive; // 👈 FIX HERE
 
                 return (
                   <SidebarMenuItem key={item.title}>

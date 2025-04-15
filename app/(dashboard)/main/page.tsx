@@ -2,7 +2,7 @@ import React from "react";
 
 const Page = () => {
   return (
-    <div className="w-full min-h-screen bg-black text-white p-6">
+    <div className="w-full min-h-screenbg-black text-white p-6">
       <h1 className="text-2xl font-semibold mb-4">Welcome to Agency Panel</h1>
 
       <div className="grid grid-cols-4 gap-4 mb-4">
