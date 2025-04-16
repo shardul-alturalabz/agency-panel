@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import axios from "axios";
+import Cookies from "js-cookie";
+import { toast } from "sonner"; // ✅ Import toast
 
 export default function LoginPage() {
   const router = useRouter();
@@ -33,15 +35,18 @@ export default function LoginPage() {
 
       const data = response.data;
 
-      // Example: store token if available
-      // localStorage.setItem("token", data.token);
+      if (data?.data?.token) {
+        Cookies.set("token", data.data.token, { expires: 7 });
+        router.push("/main");
+      } else {
+        console.warn("Token missing in response:", data);
+      }
 
-      router.push("/dashboard");
     } catch (err: any) {
-      setError(
-        err.response?.data?.message || "Login failed. Please try again."
-      );
-      console.error("Login error:", err);
+      const errorMessage =
+        err.response?.data?.data.error || "Login failed. Please try again.";
+      setError(errorMessage);
+      toast.error("Check your email and password"); // ✅ Show toast
     } finally {
       setLoading(false);
     }
@@ -63,8 +68,6 @@ export default function LoginPage() {
         <div className="bg-black bg-opacity-80 rounded-xl shadow-lg w-full max-w-md">
           <div className="p-8 flex flex-col">
             <h2 className="text-white text-2xl font-bold mb-6">Login</h2>
-
-            {error && <div className="text-red-400 text-sm mb-4">{error}</div>}
 
             <form onSubmit={handleLogin}>
               <div className="mb-7">

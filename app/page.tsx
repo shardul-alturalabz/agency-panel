@@ -1,24 +1,26 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FaSignInAlt } from "react-icons/fa";
+import Image from "next/image";
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
+  const [showTooltip, setShowTooltip] = useState(false);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#b83227] to-[#ea541f] flex flex-col">
       {/* Header */}
       <div className="bg-[#f4c9c2] px-6 py-3 flex justify-between items-center">
         <div className="flex items-center space-x-2 text-[#e94e1b] font-semibold">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 fill-current"
-            viewBox="0 0 24 24"
-          >
-            <path d="M4 4h16v2H4zm2 4h12v2H6zm3 4h6v2H9zm3 4h0v2h0z" />
-          </svg>
+          <Image
+            src="/assets/logo.png"
+            alt="Logo"
+            width={24}
+            height={24}
+            className="w-5 h-5"
+          />
           <span>Salsa. you</span>
         </div>
       </div>
@@ -33,8 +35,8 @@ const page = () => {
           thriving creator ecosystem.
         </p>
 
-        {/* Button + Login CTA Row */}
-        <div className="flex flex-col sm:flex-row items-center gap-4">
+        {/* Button Row */}
+        <div className="flex flex-col sm:flex-row items-center gap-4 relative">
           <Button
             onClick={() => router.push("/join-us")}
             className="bg-white text-[#e94e1b] font-semibold px-6 py-2 rounded-md shadow-md hover:bg-orange-100 transition"
@@ -42,17 +44,25 @@ const page = () => {
             Become a partner
           </Button>
 
-          <div className="flex items-center bg-gradient-to-r from-[#ff7143] to-[#ff4e1b] px-4 py-2 rounded-md shadow-md border border-white/20 text-sm text-white gap-2">
-            <FaSignInAlt className="text-white" />
-            <span>
-              Already a partner?
-              <button
-                onClick={() => router.push("/auth/login")}
-                className="underline font-medium hover:text-orange-200 transition"
-              >
-                Login
-              </button>
-            </span>
+          {/* Login Button with Tooltip */}
+          <div
+            className="relative flex items-center"
+            onMouseEnter={() => setShowTooltip(true)}
+            onMouseLeave={() => setShowTooltip(false)}
+          >
+            <button
+              onClick={() => router.push("/auth/login")}
+              className="p-3 rounded-md bg-gradient-to-r from-[#ff7143] to-[#ff4e1b] text-white shadow-md hover:scale-105 transition"
+            >
+              <FaSignInAlt size={18} />
+            </button>
+
+            {/* Tooltip */}
+            {showTooltip && (
+              <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-white text-[#e94e1b] text-sm px-4 py-2 rounded-lg shadow-lg whitespace-nowrap z-10">
+                Login, if you are already a partner
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -60,4 +70,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
