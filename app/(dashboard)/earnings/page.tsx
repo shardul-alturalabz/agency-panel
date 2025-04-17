@@ -47,7 +47,7 @@ const page = () => {
       status: "Failed",
       payoutAmount: 300.00,
       date: "23/04/25"
-    },
+    }
   ]
 
   return (
