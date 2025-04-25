@@ -36,7 +36,7 @@ const page = () => {
       id: "T003",
       name: "Neha Gupta",
       totalEarnings: 312000,
-      totalStreams: 105,
+      totalStreams: 200,
       totalFollowers: 18200,
       totalPrivateCallDuration: 2100,
       avgStreamTime: 150,
@@ -83,7 +83,7 @@ const page = () => {
       totalStreams: 110,
       totalFollowers: 21000,
       totalPrivateCallDuration: 2300,
-      avgStreamTime: 145,
+      avgStreamTime: 45,
       avgViewersPerStream: 450,
       avgDiamondsPerStream: 3700
     },
@@ -125,10 +125,10 @@ const page = () => {
 
   return (
     <div className='flex flex-col text-white w-full gap-7'>
-        <TalentHeader/>
+        <TalentHeader data={sampleTalentData}/>
         <div className='flex gap-4 px-5'>
         <Button className='bg-zinc-600 hover:bg-zinc-700 cursor-pointer text-[1.1rem] min-w-fit w-28 h-10'>Filter<ChevronDown /></Button>
-        <Button className='bg-zinc-600 hover:bg-zinc-700 cursor-pointer text-[1.1rem] min-w-fit w-28 h-10'>Sort by<ChevronDown /></Button>
+        {/* <Button className='bg-zinc-600 hover:bg-zinc-700 cursor-pointer text-[1.1rem] min-w-fit w-28 h-10'>Sort by<ChevronDown /></Button> */}
         <Input value={searchValue} onChange={(e)=>setSearchValue(e.target.value)}  className='w-[35%]' placeholder='Search Creator'></Input>
         </div>
         <div className='mt-8'>
