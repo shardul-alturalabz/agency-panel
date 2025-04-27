@@ -21,7 +21,7 @@ export default function ChartPie() {
     <div className="w-full h-full flex">
       <ChartContainer config={chartConfig} className="w-full h-full">
         <PieChart>
-          <Pie data={data} dataKey="value" cx="50%" cy="50%" outerRadius={"90%"} label={false}>
+          <Pie data={data} dataKey="value" cx="50%" cy="50%" outerRadius={"75%"} label={false}>
             <LabelList
               dataKey="value"
               position="inside"

@@ -2,7 +2,6 @@ import { ChartBar } from "@/components/main/ChartBar";
 import ChartPie from "@/components/main/ChartPie";
 import TitleCard from "@/components/main/TiltleCard";
 import { BadgeWithHeader } from "@/components/ui/badge-with-header";
-import { MoveDiagonal } from "lucide-react";
 import badge from '../../../public/badgeleader.png'
 import React from "react";
 import Image from "next/image";
@@ -64,7 +63,7 @@ const Page = () => {
           </div>
         </div>
           <div className="w-full gap-3 flex">
-            <div className="w-1/3 flex flex-col h-[19rem] bg-[#1e1e1e] rounded-2xl">
+            <div className="w-1/3 flex rounded-2xl">
                 <ChartHorizontal/>
             </div>
             <div className="w-1/3 bg-[#1e1e1e] rounded-2xl flex flex-col">

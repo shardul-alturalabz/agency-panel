@@ -16,7 +16,6 @@ const chartData = [
 ]
 
 
-
 const chartConfig = {
   value: {
     label: "Viewers",
@@ -41,18 +40,20 @@ useEffect(()=>{
 },[])
 
   return (
-    <Card className="bg-[#1e1e1e] text-white border-0 h-full flex py-0! gap-0!">
+    <Card className="bg-[#1e1e1e] text-white border-0 h-full w-full flex py-0! gap-0!">
       <CardHeader>
         <CardTitle className="text-lg mt-3">Most watched category</CardTitle>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-full flex py-1">
           <BarChart
+          className="h-full"
             accessibilityLayer
             data={chartData}
             layout="vertical"
             margin={{
               right: 16,
+              bottom: 10,
             }}
           >
             <YAxis dataKey="category" type="category" tickLine={false} tickMargin={10} axisLine={false} hide />
