@@ -1,20 +1,36 @@
+'use client'
 import { ChartBar } from "@/components/main/ChartBar";
 import ChartPie from "@/components/main/ChartPie";
 import TitleCard from "@/components/main/TiltleCard";
 import { BadgeWithHeader } from "@/components/ui/badge-with-header";
 import badge from '../../../public/badgeleader.png'
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { ChartHorizontal } from "@/components/main/ChartHorizontal";
+import NotificationFilters from "@/components/notification/NotificationFilters";
+
+const filters = [
+  'This year',
+  'Last month',
+  "This month",
+  'This week',
+];
 
 
 const Page = () => {
+  const [activeFilter, setActiveFilter] = useState<string>('This year');
+
   return (
-    <div className="w-full h-full bg-black text-white">
-      <div className="border-white/15 border-b-2 w-full p-4 pb-2">
+    <div className="w-full bg-black text-white overflow-scroll">
+      <div className="border-white/15 border-b-2 w-full p-4 pb-1">
         <h1 className="text-2xl font-semibold mb-4">Welcome to Agency Panel</h1>
       </div>
       <div className="p-6 flex flex-col gap-3 h-full">
+      <NotificationFilters
+          filters={filters}
+          activeFilter={activeFilter}
+          onFilterChange={setActiveFilter}
+        />
         <div className="flex gap-x-4 flex-wrap">
           <BadgeWithHeader type="price" price={24000} text="Total earnings" />
           <BadgeWithHeader type="price" price={5670} text="Average earnings" />

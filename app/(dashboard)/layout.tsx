@@ -7,13 +7,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <AuthGuard>
       <SidebarProvider>
-        {/* <div className=""> */}
         <AppSidebar />
-        {/* </div> */}
-        <main className="w-full">
-          <div className="flex items-center justify-start">
-            <Header />
-          </div>
+        <main className="w-full h-screen overflow-hidden">
+          <Header />
           {children}
         </main>
       </SidebarProvider>

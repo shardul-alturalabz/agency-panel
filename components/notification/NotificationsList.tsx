@@ -25,7 +25,7 @@ const NotificationsList = ({ notifications }: NotificationsListProps) => {
   };
 
   return (
-    <div className="flex gap-4 h-screen px-6 bg-[#151515] py-4 rounded-2xl">
+    <div className="flex gap-4 h-screen px-6 bg-[#151515] py-4 rounded-2xl overflow-hidden">
       <div className="space-y-1 w-1/2 overflow-y-auto">
         {notifications.map((notification) => (
           <div

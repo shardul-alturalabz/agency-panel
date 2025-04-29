@@ -1,10 +1,10 @@
 'use client'
 
-import NotificationFilters, { FilterType, Notification } from '@/components/notification/NotificationFilters';
+import NotificationFilters from '@/components/notification/NotificationFilters';
 import NotificationsList from '@/components/notification/NotificationsList';
 import { useState } from 'react';
 
-const notifications: Notification[] = [
+const notifications = [
   {
     id: '1',
     title: "Payout of ₹50,000 processed successfully!",
@@ -44,13 +44,22 @@ const notifications: Notification[] = [
   }
 ];
 
+const filters = [
+  'Unread',
+  'Today',
+  "What's new?",
+  'Earnings and payouts',
+  'Creator performance',
+];
+
 const Page = () => {
-  const [activeFilter, setActiveFilter] = useState<FilterType>('Unread');
+  const [activeFilter, setActiveFilter] = useState<string>('Unread');
   
   return (
-    <div className="min-h-screen flex flex-col gap-4 bg-black text-white p-6">
+    <div className="flex flex-col gap-4 bg-black text-white p-6 overflow-hidden">
         <h1 className="text-2xl font-semibold mb-6">Notifications</h1>
         <NotificationFilters
+          filters={filters}
           activeFilter={activeFilter}
           onFilterChange={setActiveFilter}
         />

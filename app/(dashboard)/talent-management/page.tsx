@@ -124,7 +124,7 @@ const page = () => {
   
 
   return (
-    <div className='flex flex-col text-white w-full gap-7'>
+    <div className='flex flex-col text-white w-full gap-7 overflow-scroll'>
         <TalentHeader data={sampleTalentData}/>
         <div className='flex gap-4 px-5'>
         <Button className='bg-zinc-600 hover:bg-zinc-700 cursor-pointer text-[1.1rem] min-w-fit w-28 h-10'>Filter<ChevronDown /></Button>

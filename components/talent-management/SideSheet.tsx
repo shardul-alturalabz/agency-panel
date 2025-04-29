@@ -152,7 +152,7 @@ export function SideSheet({ children }: SideSheetProps) {
 
             <div className="mt-4">
               <button
-                className="cursor-pointer text-red-500 hover:underline p-0 bg-transparent border-none text-left"
+                className="cursor-pointer text-white font-medium border-0 p-2 rounded-lg bg-red-600/90 border-none text-left"
                 onClick={onRemoveCreator}
               >
                 Remove creator

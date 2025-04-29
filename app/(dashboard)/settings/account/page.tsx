@@ -3,11 +3,11 @@ import React from 'react'
 
 const page = () => {
   return (
-    <div className='w-full h-full flex flex-col px-7 pt-12 gap-4 max-xl:text-md max-lg:text-sm'>
+    <div className='w-full h-full flex flex-col px-7 pt-12 gap-4 max-xl:text-md max-lg:text-sm overflow-scroll'>
       <p className='text-white text-3xl mb-6 tracking-wide'>Account</p>
-      <div className='w-[98%] h-[40%] flex flex-col pl-8 pt-8 pr-42 max-xl:pr-30 max-lg:pr-18  max-md:pr-12 max-sm:pr-6 rounded-2xl bg-zinc-900'>
-        <p className='text-2xl max-xl:text-lg max-lg:text-md font-semibold text-white'>Login & Security</p>
-        <div className='text-lg max-xl:text-sm max-lg:text-xs font-[600] gap-5 flex justify-between mt-6 text-white tracking-wide'>
+      <div className='w-[98%] h-[35%] flex flex-col pl-8 pt-8 pr-42 max-xl:pr-30 max-lg:pr-18  max-md:pr-12 max-sm:pr-6 rounded-2xl bg-zinc-900'>
+        <p className='text-lg max-lg:text-md font-semibold text-white'>Login & Security</p>
+        <div className='text-md max-xl:text-sm max-lg:text-xs font-[600] gap-5 flex justify-between mt-6 text-white tracking-wide'>
           <div className='flex flex-col '>
             <p className='text-white/30'>Username</p>
             <p>Sushi_vid1207</p>
@@ -22,16 +22,16 @@ const page = () => {
           <div className='flex flex-col gap-12'>
             <div className='flex flex-col gap-0.5'>
               <p className='text-white/30'>Set recovery options</p>
-              <p className='text-blue-500/80 underline text-[1.3rem] max-xl:text-[1rem] max-lg:text-[0.85rem] cursor-pointer'>Add recovery email address</p>
+              <p className='text-blue-500/80 underline text-[1.1rem] max-lg:text-[0.85rem] cursor-pointer'>Add recovery email address</p>
             </div>
             <div className='flex flex-col gap-0.5'>
               <p className='text-white/30'>Account verification</p>
-              <p className='text-green-600/80 font-semibold text-[1.3rem] max-xl:text[1rem] cursor-pointer'>Verified</p>
+              <p className='text-green-600/80 font-semibold text-[1.1rem] cursor-pointer'>Verified</p>
             </div>
           </div>
         </div>
       </div>
-      <div className='w-[98%] h-[40%] flex flex-col pl-8 pt-8 pr-42 max-xl:pr-30 max-lg:pr-18 max-md:pr-12 max-sm:pr-6 rounded-2xl bg-zinc-900'>
+      <div className='w-[98%] h-[35%] flex flex-col pl-8 pt-8 pr-42 max-xl:pr-30 max-lg:pr-18 max-md:pr-12 max-sm:pr-6 rounded-2xl bg-zinc-900'>
         <p className='text-2xl max-xl:text-xl font-semibold text-white'>Payment Methods</p>
         <div className='flex'>
           <div className='text-white flex mt-12 gap-8 justify-between w-full items-center'>

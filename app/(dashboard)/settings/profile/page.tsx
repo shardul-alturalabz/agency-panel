@@ -4,7 +4,7 @@ import { Copy, User } from "lucide-react";
 
 const ProfilePage = () => {
   return (
-    <div className="p-6">
+    <div className="p-6 overflow-scroll">
       <h1 className="text-2xl font-semibold text-white mb-6">Profile</h1>
 
       {/* Basic Info */}
