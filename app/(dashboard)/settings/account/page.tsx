@@ -1,64 +1,104 @@
-import { DeleteIcon, Trash2 } from 'lucide-react'
-import React from 'react'
+import { Trash2, ChevronRight, CreditCard } from 'lucide-react';
 
-const page = () => {
+const AccountPage = () => {
   return (
-    <div className='w-full h-full flex flex-col px-7 pt-12 gap-4 max-xl:text-md max-lg:text-sm overflow-scroll'>
-      <p className='text-white text-3xl mb-6 tracking-wide'>Account</p>
-      <div className='w-[98%] h-[35%] flex flex-col pl-8 pt-8 pr-42 max-xl:pr-30 max-lg:pr-18  max-md:pr-12 max-sm:pr-6 rounded-2xl bg-zinc-900'>
-        <p className='text-lg max-lg:text-md font-semibold text-white'>Login & Security</p>
-        <div className='text-md max-xl:text-sm max-lg:text-xs font-[600] gap-5 flex justify-between mt-6 text-white tracking-wide'>
-          <div className='flex flex-col '>
-            <p className='text-white/30'>Username</p>
-            <p>Sushi_vid1207</p>
+    <div className="w-full min-h-screen bg-zinc-950 text-white p-4 md:p-6 lg:p-8">
+      <h1 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8">Account</h1>
+      
+      <div className="w-full mb-6 rounded-xl bg-zinc-900 shadow-lg overflow-hidden">
+        <div className="p-4 md:p-6 lg:p-8">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-lg md:text-xl font-semibold">Login & Security</h2>
           </div>
-          <div className='flex flex-col'>
-            <p className='text-white/30'>Password</p>
-            <div className='flex gap-6'>
-              <p className='masked'>abcdefghijklmnop</p>
-              <p className='underline text-blue-500/80 cursor-pointer '>Change Password</p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            <div className="space-y-2">
+              <p className="text-zinc-400 text-sm">Username</p>
+              <p className="font-medium">Sushi_vid1207</p>
             </div>
-          </div>
-          <div className='flex flex-col gap-12'>
-            <div className='flex flex-col gap-0.5'>
-              <p className='text-white/30'>Set recovery options</p>
-              <p className='text-blue-500/80 underline text-[1.1rem] max-lg:text-[0.85rem] cursor-pointer'>Add recovery email address</p>
+            
+            <div className="space-y-2">
+              <p className="text-zinc-400 text-sm">Password</p>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+                <p className="font-mono">••••••••••••</p>
+                <button className="text-blue-500 text-sm hover:text-blue-400 transition-colors">
+                  Change Password
+                </button>
+              </div>
             </div>
-            <div className='flex flex-col gap-0.5'>
-              <p className='text-white/30'>Account verification</p>
-              <p className='text-green-600/80 font-semibold text-[1.1rem] cursor-pointer'>Verified</p>
+            
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <p className="text-zinc-400 text-sm">Recovery Options</p>
+                <button className="text-blue-500 text-sm hover:text-blue-400 transition-colors">
+                  Add recovery email address
+                </button>
+              </div>
+              
+              <div className="space-y-2">
+                <p className="text-zinc-400 text-sm">Account Verification</p>
+                <div className="flex items-center gap-2">
+                  <span className="text-green-500 font-medium">Verified</span>
+                  <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div className='w-[98%] h-[35%] flex flex-col pl-8 pt-8 pr-42 max-xl:pr-30 max-lg:pr-18 max-md:pr-12 max-sm:pr-6 rounded-2xl bg-zinc-900'>
-        <p className='text-2xl max-xl:text-xl font-semibold text-white'>Payment Methods</p>
-        <div className='flex'>
-          <div className='text-white flex mt-12 gap-8 justify-between w-full items-center'>
-            <div className='flex flex-col '>
-              <p className='text-white/30 text-[1.05rem] max-xl:text-[0.95rem] font-semibold'>Primary payout method</p>
-              <div className='flex mt-4 gap-5 items-center'>
-                <div className='border-2 size-9 rounded-lg'></div>
-                <div className='flex flex-col'>
-                  <p className='text-lg max-xl:text-sm'>Account holder name</p>
-                  <p className='text-white/75 max-xl:text-sm'><span className='masked'>1234 4321</span>5678</p>
+      
+      <div className="w-full mb-6 rounded-xl bg-zinc-900 shadow-lg overflow-hidden">
+        <div className="p-4 md:p-6 lg:p-8">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-lg md:text-xl font-semibold">Payment Methods</h2>
+          </div>
+          
+          <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
+            <div className="space-y-4 w-full lg:w-2/3">
+              <p className="text-zinc-400 text-sm font-medium">Primary payout method</p>
+              
+              <div className="flex items-center gap-4 p-3 bg-zinc-800 rounded-lg">
+                <div className="border border-zinc-600 rounded-lg w-10 h-10 flex items-center justify-center">
+                  <CreditCard size={20} className="text-zinc-300" />
                 </div>
-                <Trash2 className='ml-24 max-lg:mr-16 max-lg:ml-0 cursor-pointer' />
+                
+                <div className="flex-grow">
+                  <p className="font-medium">Account holder name</p>
+                  <p className="text-zinc-400 text-sm">
+                    <span className="font-mono">••••</span> 
+                    <span className="font-mono">••••</span> 5678
+                  </p>
+                </div>
+                
+                <button className="text-zinc-400 hover:text-red-500 transition-colors" aria-label="Delete payment method">
+                  <Trash2 size={18} />
+                </button>
               </div>
             </div>
-            <div className='flex flex-col gap-4'>
-              <p className='underline text-blue-500/80 cursor-pointer'>Add UPI</p>
-              <p className='underline text-blue-500/80 cursor-pointer'>Add another bank account</p>
-              <p className='underline text-blue-500/80 cursor-pointer'>Add card details</p>
+            
+            <div className="space-y-3 w-full lg:w-1/3 lg:pl-6 lg:border-l lg:border-zinc-700">
+              <p className="text-zinc-400 text-sm font-medium mb-2">Additional options</p>
+              
+              <button className="w-full flex items-center justify-between p-3 bg-zinc-800 rounded-lg hover:bg-zinc-700 transition-colors">
+                <span>Add UPI</span>
+                <ChevronRight size={16} />
+              </button>
+              
+              <button className="w-full flex items-center justify-between p-3 bg-zinc-800 rounded-lg hover:bg-zinc-700 transition-colors">
+                <span>Add another bank account</span>
+                <ChevronRight size={16} />
+              </button>
+              
+              <button className="w-full flex items-center justify-between p-3 bg-zinc-800 rounded-lg hover:bg-zinc-700 transition-colors">
+                <span>Add card details</span>
+                <ChevronRight size={16} />
+              </button>
             </div>
-          </div>
-          <div>
-
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default AccountPage;

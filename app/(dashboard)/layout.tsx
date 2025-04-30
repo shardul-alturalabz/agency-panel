@@ -8,7 +8,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <AuthGuard>
       <SidebarProvider>
         <AppSidebar />
-        <main className="w-full h-screen overflow-hidden">
+        <main className="flex flex-col w-full h-screen overflow-hidden">
           <Header />
           {children}
         </main>

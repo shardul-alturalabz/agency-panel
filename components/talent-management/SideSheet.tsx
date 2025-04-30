@@ -64,16 +64,16 @@ export function SideSheet({ children }: SideSheetProps) {
   return (
     <Sheet>
       {children}
-      <SheetContent className="bg-[#121212] text-white p-0 border-none w-full sm:max-w-md">
-        <div className="flex flex-col h-full">
+      <SheetContent className="bg-[#121212] text-white p-0 border-none overflow-scroll">
+        <div className="flex flex-col">
           <SheetHeader className="pl-4 py-6 flex flex-row justify-between items-center">
-            <SheetTitle className="text-white text-2xl font-semibold">Host / creator details</SheetTitle>
+            <SheetTitle className="text-white text-xl font-semibold">Host / creator details</SheetTitle>
           </SheetHeader>
 
-          <div className="px-6 py-4 flex flex-col gap-12">
+          <div className="px-6 pb-4 flex flex-col gap-10">
             <div>
-              <h3 className="text-white text-lg mb-2">Basic details</h3>
-              <div className="space-y-4">
+              <h3 className="text-white text-md mb-2">Basic details</h3>
+              <div className="space-y-3 text-sm">
                 <div className="flex justify-between">
                   <span className="text-gray-400">Creator name</span>
                   <span className="text-white">{creatorData.basicDetails.name}</span>
@@ -90,8 +90,8 @@ export function SideSheet({ children }: SideSheetProps) {
             </div>
 
             <div>
-              <h3 className="text-white text-lg mb-2">Interaction on app</h3>
-              <div className="space-y-4">
+              <h3 className="text-white text-md mb-2">Interaction on app</h3>
+              <div className="space-y-3 text-sm">
                 <div className="flex justify-between">
                   <span className="text-gray-400">Total earnings</span>
                   <span className="text-white">{creatorData.appInteraction.totalEarnings}</span>
@@ -112,8 +112,8 @@ export function SideSheet({ children }: SideSheetProps) {
             </div>
 
             <div>
-              <h3 className="text-white text-lg mb-2">More details</h3>
-              <div className="space-y-4">
+              <h3 className="text-white text-md mb-2">More details</h3>
+              <div className="space-y-4 text-sm">
                 <div className="flex justify-between">
                   <span className="text-gray-400">Total interactions</span>
                   <div className="flex items-center gap-3">
@@ -152,7 +152,7 @@ export function SideSheet({ children }: SideSheetProps) {
 
             <div className="mt-4">
               <button
-                className="cursor-pointer text-white font-medium border-0 p-2 rounded-lg bg-red-600/90 border-none text-left"
+                className="cursor-pointer text-white text-sm font-medium border-0 py-1.5 px-2 rounded-lg bg-red-600/90 border-none text-left"
                 onClick={onRemoveCreator}
               >
                 Remove creator

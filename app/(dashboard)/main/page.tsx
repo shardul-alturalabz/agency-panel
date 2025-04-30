@@ -31,7 +31,7 @@ const Page = () => {
           activeFilter={activeFilter}
           onFilterChange={setActiveFilter}
         />
-        <div className="flex gap-x-4 flex-wrap">
+        <div className="flex gap-x-4 flex-wrap gap-y-4">
           <BadgeWithHeader type="price" price={24000} text="Total earnings" />
           <BadgeWithHeader type="price" price={5670} text="Average earnings" />
           <BadgeWithHeader type="text" price={52} text="Creators onboard" />
@@ -101,7 +101,7 @@ const Page = () => {
             </div>
             <div className="w-1/3 bg-[#1e1e1e] rounded-2xl">
               <TitleCard text="⚠️ Flags / Warnings"/>
-              <div className="mt-2 overflow-scroll h-full">
+              <div className="mt-2 overflow-scroll h-full pb-2.5">
                 {[...Array(3)].map((_, index)=><p key={index} className="text-wrap px-6 text-lg mt-2">Riya_traveldiaries – Low stream time this week (6 hrs)<br/><span className="opacity-40">Apr 12</span></p>)}
               </div>
             </div>
