@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { useEffect, useState } from "react";
 import { SideSheet } from "./SideSheet";
 import { SheetTrigger } from "../ui/sheet";
+import { FilterSettings } from "./FilterButton";
 
 interface TalentData {
   id: string;
@@ -20,10 +21,17 @@ interface TalentData {
 
 type SortField = keyof Omit<TalentData, 'id'>;
 
-export const TalentTable = ({ data, searchValue }: { data: TalentData[]; searchValue: string; }) => {
+interface TalentTableProps {
+  data: TalentData[];
+  searchValue: string;
+  filterSettings: FilterSettings;
+}
+
+export const TalentTable = ({ data, searchValue, filterSettings }: TalentTableProps) => {
   const [items, setItems] = useState(data);
   const [filteredItems, setFilteredItems] = useState(data);
   
+  // Sort states
   const [earningsClicked, setEarningsClicked] = useState(false);
   const [streamsClicked, setStreamsClicked] = useState(false);
   const [followersClicked, setFollowersClicked] = useState(false);
@@ -31,6 +39,11 @@ export const TalentTable = ({ data, searchValue }: { data: TalentData[]; searchV
   const [avgStreamTimeClicked, setAvgStreamTimeClicked] = useState(false);
   const [viewersClicked, setViewersClicked] = useState(false);
   const [diamondsClicked, setDiamondsClicked] = useState(false);
+
+  // Helper function to get max value for a field
+  function getMaxValue(data: TalentData[], field: keyof TalentData): number {
+    return Math.max(...data.map(item => Number(item[field])));
+  }
 
   function sortTalentData(field: SortField, ascending: boolean) {
     const sortedItems = [...filteredItems].sort((a, b) => {
@@ -53,7 +66,7 @@ export const TalentTable = ({ data, searchValue }: { data: TalentData[]; searchV
 
   function filterByName(searchValue: string) {
     if (!searchValue.trim()) {
-      setFilteredItems(items);
+      applyAllFilters(items);
       return;
     }
 
@@ -61,15 +74,48 @@ export const TalentTable = ({ data, searchValue }: { data: TalentData[]; searchV
       item.name.toLowerCase().includes(searchValue.toLowerCase())
     );
 
+    applyAllFilters(filtered);
+  }
+
+  function applyAllFilters(dataToFilter: TalentData[]) {
+    // If no filter settings provided or empty object, return all data
+    if (!filterSettings || Object.keys(filterSettings).length === 0) {
+      setFilteredItems(dataToFilter);
+      return;
+    }
+
+    const filtered = dataToFilter.filter(item => {
+      // Check each filter setting
+      for (const [field, range] of Object.entries(filterSettings)) {
+        const value = item[field as keyof TalentData] as number;
+        if (value < range[0] || value > range[1]) {
+          return false;
+        }
+      }
+      return true;
+    });
+    
     setFilteredItems(filtered);
   }
 
+  // Update filtered items when data changes
+  useEffect(() => {
+    setItems(data);
+    filterByName(searchValue);
+  }, [data]);
+
+  // Update when search value changes
   useEffect(() => {
     filterByName(searchValue);
-  }, [searchValue, items])
+  }, [searchValue, items]);
+
+  // Update when filter settings change
+  useEffect(() => {
+    filterByName(searchValue);
+  }, [filterSettings]);
 
   return (
-    <div className='flex pr-4'>
+    <div className='flex flex-col pr-4'>
       <Table className="bg-zinc-900 text-sm max-lg:text-[0.58rem] max-md:text-[0.5rem] flex flex-col w-full py-4 border-0 rounded-xl">
         <TableHeader className='w-full'>
           <TableRow className="hover:bg-transparent border-white/50 px-4 flex justify-between w-full items-center">

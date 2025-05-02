@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { ChartHorizontal } from "@/components/main/ChartHorizontal";
 import NotificationFilters from "@/components/notification/NotificationFilters";
+import { Copy } from "lucide-react";
 
 const filters = [
   'This year',
@@ -22,8 +23,12 @@ const Page = () => {
 
   return (
     <div className="w-full bg-black text-white overflow-scroll">
-      <div className="border-white/15 border-b-2 w-full p-4 pb-1">
+      <div className="border-white/15 border-b-2 w-full p-4 pb-1 flex justify-between  items-center">
         <h1 className="text-2xl font-semibold mb-4">Welcome to Agency Panel</h1>
+        <div className="flex items-center gap-10">
+          <div className="bg-[#404040] flex gap-3 p-3 mb-1.5 rounded-lg cursor-pointer"><Copy/>Copy app link to invite creators</div>
+          <p className="text-blue-600 underline cursor-pointer text-lg pr-2">Send feedback</p>
+        </div>
       </div>
       <div className="p-6 flex flex-col gap-3 h-full">
       <NotificationFilters
@@ -84,14 +89,14 @@ const Page = () => {
             </div>
             <div className="w-1/3 bg-[#1e1e1e] rounded-2xl flex flex-col">
               <TitleCard text="LeaderBoard"/>
-              <div className="flex px-8 justify-between my-2 text-white/40">
+              <div className="flex px-8 justify-between my-2 text-white/40 max-2xl:text-[0.7rem] max-lg:px-2 max-lg:text-[0.57rem]">
                 <div className="w-[10%] flex"></div>
                 <div className="w-[20%]">Creator</div>
                 <div className="w-[20%]">Earned</div>
                 <div className="w-[30%]">Avg Stream Time</div>
               </div>
               <div className="overflow-scroll">
-              {[...Array(3)].map((_, index)=><div key={index} className="flex px-8 justify-between my-2">
+              {[...Array(3)].map((_, index)=><div key={index} className="flex px-8 justify-between max-lg:px-2 my-2 max-2xl:text-[0.5rem] max-lg:text-[0.37rem]">
                 <div className="w-[10%] flex"><Image src={badge} alt="medal" className=""></Image></div>
                 <p className="w-[20%] text-wrap">Simran makeup</p>
                 <div className="w-[20%] px-2">₹3,10,000</div>
@@ -102,7 +107,7 @@ const Page = () => {
             <div className="w-1/3 bg-[#1e1e1e] rounded-2xl">
               <TitleCard text="⚠️ Flags / Warnings"/>
               <div className="mt-2 overflow-scroll h-full pb-2.5">
-                {[...Array(3)].map((_, index)=><p key={index} className="text-wrap px-6 text-lg mt-2">Riya_traveldiaries – Low stream time this week (6 hrs)<br/><span className="opacity-40">Apr 12</span></p>)}
+                {[...Array(3)].map((_, index)=><p key={index} className="text-wrap px-6 text-lg max-2xl:text-sm mt-2 max-lg:text-[0.6rem]">Riya_traveldiaries – Low stream time this week (6 hrs)<br/><span className="opacity-40">Apr 12</span></p>)}
               </div>
             </div>
           </div>
