@@ -4,8 +4,8 @@ export const BadgeWithHeader = ({
     currencySymbol = '₹',
     type = 'text'
 }: { 
-    text: string; 
-    price: number | string;
+    text?: string; 
+    price?: number | string;
     currencySymbol?: string;
     type?: 'price' | 'text';
 }) => {
@@ -25,7 +25,7 @@ export const BadgeWithHeader = ({
     return (
         <div className="flex w-[24%] flex-col items-start p-4 gap-0.5 rounded-lg bg-[#1e1e1e] text-white">
             <span className=" max-md:text-sm max-sm:text-[0.6rem] text-lg font-medium mb-1 opacity-70">{text}</span>
-            <span className="max-md:text-2xl max-sm:text-[0.8rem] text-[1.7rem] font-bold tracking-wide">{currencySymbol}{displayPrice}</span>
+            <span className="max-md:text-2xl max-sm:text-[0.8rem] text-[1.7rem] font-bold tracking-wide">{type=="price" && currencySymbol}{displayPrice}</span>
         </div>
     )
 }

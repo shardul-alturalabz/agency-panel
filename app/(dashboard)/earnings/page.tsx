@@ -20,7 +20,7 @@ const page = () => {
     },
     {
       transactionId: "12124235746",
-      status: "Completed",
+      status: "Pending",
       payoutAmount: 350.00,
       date: "24/04/25"
     },
@@ -32,7 +32,7 @@ const page = () => {
     },
     {
       transactionId: "12124235744",
-      status: "Completed",
+      status: "Pending",
       payoutAmount: 550.00,
       date: "24/06/25"
     },
@@ -47,7 +47,7 @@ const page = () => {
       status: "Failed",
       payoutAmount: 300.00,
       date: "23/04/25"
-    },
+    }
   ]
 
   return (

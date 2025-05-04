@@ -1,5 +1,6 @@
 "use client";
 import {
+  Bell,
   ChevronDown,
   ChevronRight,
   LayoutDashboard,
@@ -58,6 +59,11 @@ const items = [
         icon: UserCircle,
       },
     ],
+  },
+  {
+    title: "Notification",
+    url: "/notification",
+    icon: Bell,
   },
 ];
 
