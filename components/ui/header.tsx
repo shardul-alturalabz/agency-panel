@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Bell, CrossIcon, Headphones, UserCircle } from "lucide-react";
+import { Bell, Headphones, UserCircle } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import Cookies from "js-cookie";
 import { useState } from "react";
@@ -18,12 +18,14 @@ export default function Header() {
 
   return (
     <header className="flex items-center justify-between w-full px-4 py-2 bg-black border-b border-neutral-800">
-      {/* Left section: Sidebar toggle + Banner fills the space */}
-      {menu==2 && 
-          <div className="absolute z-30 w-screen h-screen inset-0 gap-5 flex flex-col items-center justify-center bg-black/90">
-            <FeedbackForm setMenu={setMenu} />
-          </div>
-        }
+      {/* Overlay for feedback */}
+      {menu === 2 && (
+        <div className="absolute z-30 w-screen h-screen inset-0 gap-5 flex flex-col items-center justify-center bg-black/90">
+          <FeedbackForm setMenu={setMenu} />
+        </div>
+      )}
+
+      {/* Left: Sidebar + Banner */}
       <div className="flex items-center gap-4 flex-1 min-w-0">
         <SidebarTrigger className="text-white hover:text-orange-500 flex-shrink-0" />
 
@@ -34,20 +36,34 @@ export default function Header() {
         />
       </div>
 
-      {/* Right: Icons & Avatar with dropdown */}
+      {/* Right: Icons */}
       <div className="flex items-center gap-6 flex-shrink-0 ml-4 relative">
         <Bell className="text-white w-5 h-5 cursor-pointer hover:text-orange-500" />
-        <Headphones onClick={()=>setMenu(0)} className="text-white w-5 h-5 cursor-pointer hover:text-orange-500" />
-        {menu==0 && <div className="z-20 absolute h-[8rem] border-0 rounded-2xl flex flex-col items-start pl-4 text-lg gap-5 text-white font-semibold justify-center w-[17rem] bg-zinc-800 top-16 right-5">
-          <p onClick={()=>setMenu(1)} className="hover:bg-white/20 px-5 pr-12 py-1.5 rounded-xl cursor-pointer">Contact us</p>
-          <p onClick={()=>setMenu(2)} className="hover:bg-white/20 px-5 pr-12 py-1.5 rounded-xl cursor-pointer">Send feedback</p>
-        </div>}
+
+        {/* Headphones Icon with Hover Dropdown */}
+        <div className="relative group">
+          <Headphones className="text-white w-5 h-5 cursor-pointer hover:text-orange-500" />
+
+          <div className="absolute z-20 h-[8rem] border-0 rounded-2xl flex flex-col items-start pl-4 text-lg gap-5 text-white font-semibold justify-center w-[17rem] bg-zinc-800 top-8 right-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+            <p
+              onClick={() => setMenu(1)}
+              className="hover:bg-white/20 px-5 pr-12 py-1.5 rounded-xl cursor-pointer"
+            >
+              Contact us
+            </p>
+            <p
+              onClick={() => setMenu(2)}
+              className="hover:bg-white/20 px-5 pr-12 py-1.5 rounded-xl cursor-pointer"
+            >
+              Send feedback
+            </p>
+          </div>
+        </div>
+
         {/* Profile Icon with Hover Dropdown */}
         <div className="relative group">
           <UserCircle className="w-10 h-10 text-white border-2 border-white rounded-full p-1 cursor-pointer hover:text-orange-500" />
 
-          {/* Dropdown */}
-          {/* Dropdown */}
           <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded-xl shadow-xl opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200 z-50 overflow-hidden">
             <button
               onClick={handleLogout}

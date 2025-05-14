@@ -12,16 +12,16 @@ const Page = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#b83227] to-[#ea541f] flex flex-col">
       {/* Header */}
-      <div className="bg-[#f4c9c2] px-6 py-3 flex justify-between items-center">
-        <div className="flex items-center space-x-2 text-[#e94e1b] font-semibold">
+      <div className="px-6 py-3 flex justify-between items-center">
+        <div className="flex items-center space-x-3 text-[#e94e1b] font-semibold">
           <Image
             src="/assets/logo.png"
             alt="Logo"
-            width={24}
-            height={24}
-            className="w-5 h-5"
+            width={128}
+            height={32}
+            className="h-8 w-auto object-contain"
           />
-          <span>Salsa. you</span>
+          {/* <span className="text-lg font-semibold">Salsayou</span> */}
         </div>
       </div>
 
