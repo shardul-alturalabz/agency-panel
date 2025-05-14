@@ -3,6 +3,9 @@ import React, { useState } from "react";
 import axios from "axios";
 import countries from "../../data/countries.json";
 import { FaTimes, FaCheckCircle } from "react-icons/fa"; // Importing the cross and check icons
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 const Page = () => {
   const [formData, setFormData] = useState({
@@ -17,7 +20,8 @@ const Page = () => {
     hostCount: "",
     email: "",
   });
-
+  const token = Cookies.get("token");
+  const router = useRouter();
   const [status, setStatus] = useState<"loading" | "success" | "error" | null>(
     null
   );
@@ -86,7 +90,12 @@ const Page = () => {
     };
 
     try {
-      await axios.post(process.env.NEXT_PUBLIC_FORM_API as string, payload);
+      await axios.post(process.env.NEXT_PUBLIC_FORM_API as string, payload, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setFormData({
         fullName: "",
         country: "",
@@ -119,6 +128,14 @@ const Page = () => {
       </div>
 
       <div className="bg-gradient-to-b from-[#b83a1b] to-[#e65b2e] p-6 md:p-10 rounded-t-3xl text-white max-w-5xl mx-auto w-full">
+        <div className="flex justify-end mb-4">
+          <Button
+            onClick={() => router.back()}
+            className="bg-white text-[#e34e1c] px-6 py-2 rounded-md font-semibold hover:bg-orange-100 transition"
+          >
+            ← Back
+          </Button>
+        </div>
         <h3 className="text-lg font-semibold mb-6">Reach us now!</h3>
 
         <form
