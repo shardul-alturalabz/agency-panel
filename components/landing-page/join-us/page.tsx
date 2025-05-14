@@ -2,10 +2,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import countries from "../../../data/countries.json";
-import { FaTimes, FaCheckCircle } from "react-icons/fa"; // Importing the cross and check icons
+import { FaTimes, FaCheckCircle } from "react-icons/fa";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
 
 const JoinUs = () => {
   const [formData, setFormData] = useState({
@@ -20,6 +19,7 @@ const JoinUs = () => {
     hostCount: "",
     email: "",
   });
+
   const token = Cookies.get("token");
   const router = useRouter();
   const [status, setStatus] = useState<"loading" | "success" | "error" | null>(
@@ -96,6 +96,7 @@ const JoinUs = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+
       setFormData({
         fullName: "",
         country: "",
@@ -108,9 +109,10 @@ const JoinUs = () => {
         hostCount: "",
         email: "",
       });
+
       setStatus("success");
       setShowSuccessNotification(true);
-      setTimeout(() => setShowSuccessNotification(false), 5000); // Hide after 5 seconds
+      setTimeout(() => setShowSuccessNotification(false), 5000);
     } catch (error) {
       console.error("Submission error:", error);
       setStatus("error");
@@ -118,8 +120,11 @@ const JoinUs = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#141010] to-[#e34e1c] flex flex-col">
-      <div className="text-center text-white py-12 px-4">
+    <div className="min-h-screen bg-black relative" id="join-us">
+      {/* Blending overlay */}
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm z-0" />
+
+      <div className="relative z-10 text-center text-white py-12 px-4">
         <h2 className="text-2xl md:text-3xl font-bold">JOIN US</h2>
         <p className="mt-3 text-white/80 max-w-xl mx-auto">
           Share with us your details, we will get in touch with you to have you
@@ -127,15 +132,7 @@ const JoinUs = () => {
         </p>
       </div>
 
-      <div className="bg-gradient-to-b from-[#b83a1b] to-[#e65b2e] p-6 md:p-10 rounded-t-3xl text-white max-w-5xl mx-auto w-full">
-        <div className="flex justify-end mb-4">
-          <Button
-            onClick={() => router.back()}
-            className="bg-white text-[#e34e1c] px-6 py-2 rounded-md font-semibold hover:bg-orange-100 transition"
-          >
-            ← Back
-          </Button>
-        </div>
+      <div className="relative z-10 bg-gradient-to-br from-[#ff5c1c]/90 via-[#e94e1c]/90 to-[#bf360c]/90 border border-white/20 p-6 md:p-10 rounded-2xl backdrop-blur-md text-white max-w-5xl mx-auto w-full shadow-xl">
         <h3 className="text-lg font-semibold mb-6">Reach us now!</h3>
 
         <form

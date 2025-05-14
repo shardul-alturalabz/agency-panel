@@ -1,60 +1,87 @@
-import type React from "react"
-import { Flame, DollarSign, BarChart3, AlertCircle } from "lucide-react"
+import type React from "react";
+import { Flame, DollarSign, BarChart3, AlertCircle } from "lucide-react";
 
 interface FeatureCardProps {
-  icon: React.ReactNode
-  title: string
-  description: string
+  icon: React.ReactNode;
+  title: string;
+  description: string;
 }
 
 function FeatureCard({ icon, title, description }: FeatureCardProps) {
   return (
-    <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-lg p-6 backdrop-blur-sm">
-      <div className="flex flex-col items-center md:items-start">
-        <div className="bg-white rounded-full p-3 mb-4">
-          <div className="w-10 h-10 flex items-center justify-center text-orange-500">{icon}</div>
+    <div className="rounded-xl bg-[#1C1C1E]/80 backdrop-blur-md p-6 transition-all hover:scale-[1.02] hover:shadow-lg border border-white/10">
+      <div className="flex flex-col items-start">
+        <div className="bg-white/90 rounded-full p-3 mb-4 shadow-sm">
+          <div className="w-10 h-10 flex items-center justify-center text-orange-500">
+            {icon}
+          </div>
         </div>
-        <h3 className="text-xl font-semibold text-white mb-3">{title}</h3>
-        <p className="text-gray-300 text-center md:text-left">{description}</p>
+        <h3 className="text-lg font-semibold text-white mb-2">{title}</h3>
+        <p className="text-sm text-gray-300 leading-relaxed">{description}</p>
       </div>
     </div>
-  )
+  );
 }
 
 export default function FeatureSection() {
   const features = [
     {
-      icon: <Flame size={28} />,
+      icon: <Flame size={24} />,
       title: "Massive reach",
-      description: "Your creators get prime visibility & enhanced engagement tools",
+      description:
+        "Your creators get prime visibility & enhanced engagement tools",
     },
     {
-      icon: <DollarSign size={28} />,
+      icon: <DollarSign size={24} />,
       title: "Higher revenue potential",
-      description: "Higher revenue potential through gifts, bonuses & premium placements",
+      description:
+        "Higher revenue potential through gifts, bonuses & premium placements",
     },
     {
-      icon: <BarChart3 size={28} />,
+      icon: <BarChart3 size={24} />,
       title: "Data and insight",
-      description: "Optimize creator engagement & earnings with advanced analytics",
+      description:
+        "Optimize creator engagement & earnings with advanced analytics",
     },
     {
-      icon: <AlertCircle size={28} />,
+      icon: <AlertCircle size={24} />,
       title: "Priority support and perks",
-      description: "Enjoy dedicated support, early updates, and premium placements",
+      description:
+        "Enjoy dedicated support, early updates, and premium placements",
     },
-  ]
+  ];
 
   return (
-    <div className="w-full bg-gradient-to-br from-black to-gray-900 py-16">
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-white text-center mb-12">WHY CHOOSE US?</h2>
+    <div
+      className="relative w-full py-20 bg-black"
+      style={{
+        backgroundImage: `url('/assets/Why%20choose%20us_bg%20image.png')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      {/* Overlay on top of background image */}
+      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm pointer-events-none" />
+
+      {/* Foreground content */}
+      <div className="relative z-10 container mx-auto px-4">
+        <h2 className="text-center text-white text-3xl font-bold mb-14 tracking-tight">
+          WHY CHOOSE US?
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {features.map((feature, index) => (
-            <FeatureCard key={index} icon={feature.icon} title={feature.title} description={feature.description} />
+            <FeatureCard
+              key={index}
+              icon={feature.icon}
+              title={feature.title}
+              description={feature.description}
+            />
           ))}
         </div>
       </div>
     </div>
-  )
+  );
 }
+
+
