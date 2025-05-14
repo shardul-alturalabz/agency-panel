@@ -1,0 +1,25 @@
+name: Agency-Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy to EC2 on main branch push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the files
+        uses: actions/checkout@v2
+
+      - name: Executing remote ssh command
+        uses: appleboy/ssh-action@master
+        with:
+          host: 64.227.138.24
+          username: root
+          key: ${{ secrets.KEY }}
+          script: |
+            whoami
+            bash deploy.sh
