@@ -1,20 +1,17 @@
-import FeatureSection from "@/components/landing-page/feature-section";
 import Hero from "@/components/landing-page/hero";
-import HowItWorks from "@/components/landing-page/how-it-works";
-import JoinUs from "@/components/landing-page/join-us/page";
 import StatsSection from "@/components/landing-page/stats-section";
-import React from "react";
+import FeatureSection from "@/components//landing-page/feature-section";
+import JoinUs from "@/components/landing-page/join-us/page";
+import HowItWorks from "@/components/landing-page/how-it-works";
 
-const page = () => {
+export default function Home() {
   return (
-    <div className="min-h-screen overflow-hidden">
+    <main className="min-h-screen bg-black text-white">
       <Hero />
       <StatsSection />
       <FeatureSection />
       <JoinUs />
       <HowItWorks />
-    </div>
+    </main>
   );
-};
-
-export default page;
+}

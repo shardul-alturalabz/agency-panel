@@ -2,6 +2,7 @@
 
 import { Check } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function HowItWorks() {
   const steps = [
@@ -25,14 +26,16 @@ export default function HowItWorks() {
 
   return (
     <section className="relative bg-black text-white py-20 px-4 min-h-[600px] flex items-center">
-      <div
-        className="absolute inset-0 bg-cover bg-center opacity-30 z-0"
-        style={{
-          backgroundImage: "url('/assets/Why%20choose%20us_bg%20image.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      ></div>
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/assets/Bottom area bg.png"
+          alt="Background"
+          fill
+          style={{ objectFit: "cover" }}
+        />
+        <div className="absolute inset-0 bg-black/70"></div>
+      </div>
 
       <div className="relative z-10 max-w-7xl mx-auto text-center w-full">
         <h2 className="text-4xl font-bold mb-16">HOW IT WORKS?</h2>

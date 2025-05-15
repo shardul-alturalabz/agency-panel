@@ -1,5 +1,6 @@
 import type React from "react";
 import { Flame, DollarSign, BarChart3, AlertCircle } from "lucide-react";
+import Image from "next/image";
 
 interface FeatureCardProps {
   icon: React.ReactNode;
@@ -52,17 +53,17 @@ export default function FeatureSection() {
   ];
 
   return (
-    <div
-      className="relative w-full py-20 bg-black"
-      style={{
-        backgroundImage: `url('/assets/Why%20choose%20us_bg%20image.png')`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
-    >
-      {/* Overlay on top of background image */}
-      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm pointer-events-none" />
+    <div className="relative w-full py-20 bg-black">
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/assets/Why choose us_bg image.png"
+          alt="Background"
+          fill
+          style={{ objectFit: "cover" }}
+        />
+        <div className="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+      </div>
 
       {/* Foreground content */}
       <div className="relative z-10 container mx-auto px-4">
@@ -83,5 +84,3 @@ export default function FeatureSection() {
     </div>
   );
 }
-
-

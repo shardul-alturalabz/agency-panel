@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import Image from "next/image";
 import axios from "axios";
 import countries from "../../../data/countries.json";
 import { FaTimes, FaCheckCircle } from "react-icons/fa";
@@ -121,8 +122,16 @@ const JoinUs = () => {
 
   return (
     <div className="min-h-screen bg-black relative" id="join-us">
-      {/* Blending overlay */}
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm z-0" />
+      {/* Background with gradient overlay */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/assets/Why choose us_bg image.png"
+          alt="Background"
+          fill
+          style={{ objectFit: "cover" }}
+        />
+        <div className="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+      </div>
 
       <div className="relative z-10 text-center text-white py-12 px-4">
         <h2 className="text-2xl md:text-3xl font-bold">JOIN US</h2>
