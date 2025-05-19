@@ -14,7 +14,7 @@ const NotificationFilters = ({ activeFilter, onFilterChange, filters }: Notifica
           key={index}
           variant="outline"
           size="sm"
-          className={`rounded-full bg-zinc-800/50 border-zinc-700 cursor-pointer hover:bg-zinc-700 ${
+          className={`rounded-[0.85rem] p-5 py-4.5 bg-zinc-800/50 border-zinc-700 cursor-pointer hover:bg-zinc-700 ${
             activeFilter === filter ? 'bg-zinc-400/50 border-zinc-600' : ''
           }`}
           onClick={() => onFilterChange(filter)}

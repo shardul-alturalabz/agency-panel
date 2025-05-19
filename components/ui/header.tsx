@@ -17,7 +17,7 @@ export default function Header() {
   };
 
   return (
-    <header className="flex items-center justify-between w-full px-4 py-2 bg-black border-b border-neutral-800">
+    <header className="flex items-center justify-between w-full px-2 py-2 bg-black border-b border-neutral-800">
       {/* Left section: Sidebar toggle + Banner fills the space */}
       {menu==2 && 
           <div className="absolute z-30 w-screen h-screen inset-0 gap-5 flex flex-col items-center justify-center bg-black/90">

@@ -2,10 +2,10 @@ import { Trash2, ChevronRight, CreditCard } from 'lucide-react';
 
 const AccountPage = () => {
   return (
-    <div className="w-full min-h-screen bg-zinc-950 text-white p-4 md:p-6 lg:p-8">
+    <div className="w-full min-h-screen bg-black text-white p-4 md:p-6 lg:p-8 overflow-auto">
       <h1 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8">Account</h1>
       
-      <div className="w-full mb-6 rounded-xl bg-zinc-900 shadow-lg overflow-hidden">
+      <div className="w-full mb-6 rounded-xl bg-[#1E1E1E] shadow-lg overflow-hidden">
         <div className="p-4 md:p-6 lg:p-8">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg md:text-xl font-semibold">Login & Security</h2>
@@ -47,7 +47,7 @@ const AccountPage = () => {
         </div>
       </div>
       
-      <div className="w-full mb-6 rounded-xl bg-zinc-900 shadow-lg overflow-hidden">
+      <div className="w-full mb-6 rounded-xl bg-[#1E1E1E] shadow-lg overflow-hidden">
         <div className="p-4 md:p-6 lg:p-8">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg md:text-xl font-semibold">Payment Methods</h2>

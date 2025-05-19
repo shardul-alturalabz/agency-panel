@@ -115,8 +115,8 @@ export const TalentTable = ({ data, searchValue, filterSettings }: TalentTablePr
   }, [filterSettings]);
 
   return (
-    <div className='flex flex-col pr-4'>
-      <Table className="bg-zinc-900 text-sm max-lg:text-[0.58rem] max-md:text-[0.5rem] flex flex-col w-full py-4 border-0 rounded-xl">
+    <div className='flex flex-col px-4 '>
+      <Table className="bg-[#1E1E1E] text-sm max-lg:text-[0.58rem] max-md:text-[0.5rem] flex flex-col w-full py-4 border-0 rounded-xl">
         <TableHeader className='w-full'>
           <TableRow className="hover:bg-transparent border-white/50 px-4 flex justify-between w-full items-center">
             <TableHead style={{ padding: 0 }} className="text-white flex w-[7%]">

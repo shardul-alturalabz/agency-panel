@@ -1,8 +1,15 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Notification } from './NotificationFilters';
 import { cn } from '@/lib/utils';
+
+interface Notification {
+  id: string;
+  timestamp: string;
+  title: string;
+  type: string;
+  description?: string;
+}
 
 interface NotificationsListProps {
   notifications: Notification[];
@@ -26,7 +33,7 @@ const NotificationsList = ({ notifications }: NotificationsListProps) => {
 
   return (
     <div className="flex gap-4 h-screen px-6 bg-[#151515] py-4 rounded-2xl overflow-hidden">
-      <div className="space-y-1 w-1/2 overflow-y-auto">
+      <div className="space-y-1 w-1/3 overflow-y-auto">
         {notifications.map((notification) => (
           <div
             key={notification.id}
@@ -49,7 +56,7 @@ const NotificationsList = ({ notifications }: NotificationsListProps) => {
         ))}
       </div>
 
-      <div className="w-1/2 bg-zinc-900/50 border-l border-zinc-800 p-6 overflow-y-auto">
+      <div className="w-2/3 bg-zinc-900/50 border-l border-zinc-800 p-6 overflow-y-auto">
         {selectedNotification ? (
           <div className="space-y-4">
             <div className="text-2xl">{getNotificationIcon(selectedNotification.type)}</div>
