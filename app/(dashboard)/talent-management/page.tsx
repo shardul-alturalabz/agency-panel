@@ -161,7 +161,7 @@ const Page = () => {
         <Input 
           value={searchValue} 
           onChange={(e) => setSearchValue(e.target.value)}  
-          className='w-[35%]' 
+          className='w-[35%] h-[2.5rem]' 
           placeholder='Search Creator'
         />
       </div>

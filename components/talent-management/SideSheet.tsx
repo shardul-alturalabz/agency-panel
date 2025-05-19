@@ -70,7 +70,7 @@ export function SideSheet({ children }: SideSheetProps) {
             <SheetTitle className="text-white text-xl font-semibold">Host / creator details</SheetTitle>
           </SheetHeader>
 
-          <div className="px-6 pb-4 flex flex-col gap-10">
+          <div className="px-6 pb-4 flex flex-col gap-14">
             <div>
               <h3 className="text-white text-md mb-2">Basic details</h3>
               <div className="space-y-3 text-sm">

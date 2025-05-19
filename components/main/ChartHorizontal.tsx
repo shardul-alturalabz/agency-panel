@@ -27,64 +27,57 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function ChartHorizontal() {
-    const [max, setMax] = useState<number>(-1);
+  const [max, setMax] = useState<number>(-1);
 
-useEffect(()=>{
+  useEffect(() => {
     let max = -1;
-    Object.values(chartData).map((i: any, index: number)=>{
-        if(i.value>max) {
-            setMax(i.value);
-            max = i.value;
-        }
+    Object.values(chartData).map((i: any, index: number) => {
+      if (i.value > max) {
+        setMax(i.value);
+        max = i.value;
+      }
     })
-},[])
+  }, [])
 
   return (
-    <Card className="bg-[#1e1e1e] text-white border-0 h-full w-full flex py-0! gap-0!">
-      <CardHeader>
-        <CardTitle className="text-lg mt-3">Most watched category</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig} className="h-full flex py-1">
-          <BarChart
-          className="h-full"
-            accessibilityLayer
-            data={chartData}
-            layout="vertical"
-            margin={{
-              right: 16,
-              bottom: 10,
-            }}
-          >
-            <YAxis dataKey="category" type="category" tickLine={false} tickMargin={10} axisLine={false} hide />
-            <XAxis dataKey="value" type="number" hide />
-            <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
-            <Bar dataKey="value" layout="vertical" fill="var(--color-value)" radius={4}>
-              <LabelList
-                dataKey="category"
-                position="insideLeft"
-                offset={8}
-                className="fill-[white]"
-                fontSize={12}
-              />
-              {chartData.map((entry, index) => (
-                          <Cell
-                            key={`cell-${index}`}
-                            fill={entry.value === max ? "#e85414" : "var(--color-value)"}
-                          />
-                        ))}
-              <LabelList
-                dataKey="value"
-                position="right"
-                offset={8}
-                className="fill-[white]"
-                fontSize={12}
-                formatter={(value: number) => `${(value / 1000).toFixed(0)}K`}
-              />
-            </Bar>
-          </BarChart>
-        </ChartContainer>
-      </CardContent>
-    </Card>
+    <ChartContainer config={chartConfig} className="h-full flex py-1 px-6">
+      <BarChart
+        className="h-full"
+        accessibilityLayer
+        data={chartData}
+        layout="vertical"
+        margin={{
+          right: 16,
+          bottom: 10,
+        }}
+      >
+        <YAxis dataKey="category" type="category" tickLine={false} tickMargin={10} axisLine={false} hide />
+        <XAxis dataKey="value" type="number" hide />
+        <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
+        <Bar dataKey="value" layout="vertical" fill="var(--color-value)" radius={4}>
+          <LabelList
+            dataKey="category"
+            position="insideLeft"
+            offset={8}
+            className="fill-[white]"
+            fontSize={12}
+          />
+          {chartData.map((entry, index) => (
+            <Cell
+              key={`cell-${index}`}
+              fill={entry.value === max ? "#e85414" : "var(--color-value)"}
+            />
+          ))}
+          <LabelList
+            dataKey="value"
+            position="right"
+            offset={8}
+            className="fill-[white]"
+            fontSize={12}
+            formatter={(value: number) => `${(value / 1000).toFixed(0)}K`}
+          />
+        </Bar>
+      </BarChart>
+    </ChartContainer>
   )
 }

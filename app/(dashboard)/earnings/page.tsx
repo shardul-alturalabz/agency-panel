@@ -51,7 +51,7 @@ const page = () => {
   ]
 
   return (
-    <div className='bg-black h-full pl-8 flex flex-col text-white gap-8'>
+    <div className='bg-black h-full pl-8 flex flex-col text-white gap-8 overflow-auto'>
       <div className='mt-10 flex flex-wrap  gap-5 text-[1.10rem] max-lg:text-sm'>
           <BadgeWithHeader type='price' text='Total earnings' price={24000} />
           <BadgeWithHeader type='price' text='Total payout' price={24000} />

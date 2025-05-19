@@ -58,7 +58,7 @@ const ProfilePage = () => {
       <h1 className="text-2xl font-semibold text-white mb-6">Profile</h1>
 
       {/* Basic Info */}
-      <div className="bg-zinc-900 rounded-xl p-6 mb-6 shadow-lg">
+      <div className="bg-[#1E1E1E] rounded-xl p-6 mb-6 shadow-lg">
         <h2 className="text-lg text-white font-semibold mb-4">
           Basic information
         </h2>
@@ -100,7 +100,7 @@ const ProfilePage = () => {
       </div>
 
       {/* Contact Info */}
-      <div className="bg-zinc-900 rounded-xl p-6 mb-6 shadow-lg">
+      <div className="bg-[#1E1E1E] rounded-xl p-6 mb-6 shadow-lg">
         <h2 className="text-lg text-white font-semibold mb-4">
           Contact information
         </h2>
@@ -117,7 +117,7 @@ const ProfilePage = () => {
       </div>
 
       {/* Platform Details */}
-      <div className="bg-zinc-900 rounded-xl p-6 shadow-lg">
+      <div className="bg-[#1E1E1E] rounded-xl p-6 shadow-lg">
         <h2 className="text-lg text-white font-semibold mb-4">
           Platform details
         </h2>
