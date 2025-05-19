@@ -27,10 +27,7 @@ const ProfilePage = () => {
       try {
         const response = await axios.post(
           process.env.NEXT_PUBLIC_LOGIN_API!,
-          {
-            email: "",
-            password: "",
-          }, // send empty body if none
+          {}, // send empty body if none
           {
             headers: {
               Authorization: `Bearer ${token}`,
