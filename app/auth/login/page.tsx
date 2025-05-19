@@ -34,6 +34,7 @@ export default function LoginPage() {
       );
 
       const data = response.data;
+      console.log("Login response:", data);
 
       if (data?.data?.token) {
         Cookies.set("token", data.data.token, { expires: 7 });
@@ -41,7 +42,6 @@ export default function LoginPage() {
       } else {
         console.warn("Token missing in response:", data);
       }
-
     } catch (err: any) {
       const errorMessage =
         err.response?.data?.data.error || "Login failed. Please try again.";
