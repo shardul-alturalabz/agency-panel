@@ -1,15 +1,16 @@
 'use client';
 
 import React, { useState } from 'react';
+import NotificationFilters from './NotificationFilters';
 import { cn } from '@/lib/utils';
 
-interface Notification {
+type Notification = {
   id: string;
-  timestamp: string;
   title: string;
-  type: string;
   description?: string;
-}
+  type: 'payout' | 'milestone' | 'security' | string;
+  timestamp: string;
+};
 
 interface NotificationsListProps {
   notifications: Notification[];
