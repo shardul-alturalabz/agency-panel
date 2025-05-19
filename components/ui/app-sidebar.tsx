@@ -13,6 +13,7 @@ import {
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
+import logo from  "@/public/assets/agency_logo.png";
 
 import {
   Sidebar,
@@ -25,6 +26,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import Image from "next/image";
 
 // Menu items
 const items = [
@@ -97,12 +99,12 @@ export function AppSidebar() {
   }, [pathname]);
 
   return (
-    <Sidebar className="bg-[#0D0D0D] border-neutral-900">
+    <Sidebar className="bg-[#0D0D0D] border-black">
       <SidebarContent className="bg-[#111111] m-2 shadow-xl rounded-3xl relative z-20">
         <SidebarGroup>
-          <SidebarGroupLabel className="text-[11px] font-medium text-neutral-500 px-4 uppercase tracking-widest mb-6">
-            Agency Panel
-          </SidebarGroupLabel>
+          <div className="h-16 rounded-xl w-full my-4 mb-5 border-0 flex items-center overflow-hidden">
+            <Image src={logo} alt="AGENCY LOGO" className="object-fill"></Image>
+          </div>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => {
@@ -115,9 +117,9 @@ export function AppSidebar() {
                 return (
                   <SidebarMenuItem key={item.title}>
                     <div
-                      className={`flex items-center justify-between cursor-pointer w-full rounded-xl px-3 py-2 transition-all duration-150 ease-in-out ${
+                      className={`flex items-center justify-between cursor-pointer w-full rounded-xl px-3 py-3.5 transition-all duration-150 ease-in-out ${
                         isItemActive
-                          ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white shadow-sm"
+                          ? "bg-gradient-to-b from-[#b8301b] to-[#e85414] text-white shadow-sm"
                           : "hover:bg-neutral-800 text-neutral-300"
                       }`}
                       onClick={() => {
@@ -153,7 +155,7 @@ export function AppSidebar() {
                                   href={sub.url}
                                   className={`flex items-center gap-3 w-full px-3 py-2 rounded-lg text-sm transition-colors duration-150 ${
                                     isChildActive
-                                      ? "bg-orange-500 text-white"
+                                      ? "bg-[#e85414] text-white"
                                       : "hover:bg-neutral-800 text-neutral-300"
                                   }`}
                                 >
