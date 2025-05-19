@@ -88,14 +88,14 @@ export const FilterButton = ({ data, onFilterChange, initialFilters, fields }: F
       <Button 
         onClick={() => setIsFilterOpen(!isFilterOpen)}
         variant="ghost" 
-        className="flex items-center gap-2 text-white bg-zinc-800 hover:bg-zinc-700"
+        className="flex items-center gap-2 w-[8rem] h-[2.5rem] cursor-pointer text-white bg-zinc-800 hover:bg-zinc-700"
       >
         <Filter size={16} />
         <span>Filter</span>
       </Button>
       
       {isFilterOpen && (
-        <div className="absolute inset-0 w-80 h-fit top-10 bg-zinc-800 p-4 rounded-md shadow-lg z-10 border border-zinc-700">
+        <div className="absolute inset-0 w-80 h-fit top-10 bg-zinc-800 p-4 mt-2 rounded-md shadow-lg z-10 border border-zinc-700">
           <h3 className="text-white font-medium mb-4">Filter Options</h3>
           
           {fields.map((field) => (
@@ -131,7 +131,7 @@ export const FilterButton = ({ data, onFilterChange, initialFilters, fields }: F
               variant="default" 
               size="sm" 
               onClick={applyFilters}
-              className="bg-blue-600 hover:bg-blue-700 text-white cursor-pointer"
+              className="bg-[#e85414] hover:bg-[#e85414] text-white cursor-pointer"
             >
               Apply
             </Button>
