@@ -107,7 +107,7 @@ const Page = () => {
             <div className="w-1/3 bg-[#1e1e1e] flex h-full flex-col pb-3 rounded-2xl">
               <TitleCard text="⚠️ Flags / Warnings"/>
               <div className="mt-2 overflow-scroll flex flex-col pb-2.5 gap-2">
-                {[...Array(7)].map((_, index)=><p key={index} className="text-wrap px-6 text-[0.7vw]">Riya_traveldiaries – Low stream time this week (6 hrs)<br/><span className="opacity-40">Apr 12</span></p>)}
+                {[...Array(7)].map((_, index)=><p key={index} className="text-wrap px-6 text-[0.9vw]">Riya_traveldiaries – Low stream time this week (6 hrs)<br/><span className="opacity-40">Apr 12</span></p>)}
               </div>
             </div>
           </div>
