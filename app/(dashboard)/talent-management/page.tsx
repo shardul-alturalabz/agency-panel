@@ -1,9 +1,12 @@
-'use client'
-import { FilterButton, FilterSettings } from '@/components/talent-management/FilterButton';
-import TalentHeader from '@/components/talent-management/TalentHeader'
-import { TalentTable } from '@/components/talent-management/TalentTable'
-import { Input } from '@/components/ui/input';
-import React, { useState } from 'react'
+"use client";
+import {
+  FilterButton,
+  FilterSettings,
+} from "@/components/talent-management/FilterButton";
+import TalentHeader from "@/components/talent-management/TalentHeader";
+import { TalentTable } from "@/components/talent-management/TalentTable";
+import { Input } from "@/components/ui/input";
+import React, { useState } from "react";
 
 const sampleTalentData = [
   {
@@ -15,7 +18,7 @@ const sampleTalentData = [
     totalPrivateCallDuration: 1850,
     avgStreamTime: 125,
     avgViewersPerStream: 340,
-    avgDiamondsPerStream: 2800
+    avgDiamondsPerStream: 2800,
   },
   {
     id: "T002",
@@ -26,7 +29,7 @@ const sampleTalentData = [
     totalPrivateCallDuration: 1240,
     avgStreamTime: 110,
     avgViewersPerStream: 275,
-    avgDiamondsPerStream: 2200
+    avgDiamondsPerStream: 2200,
   },
   {
     id: "T003",
@@ -37,7 +40,7 @@ const sampleTalentData = [
     totalPrivateCallDuration: 2100,
     avgStreamTime: 150,
     avgViewersPerStream: 420,
-    avgDiamondsPerStream: 3500
+    avgDiamondsPerStream: 3500,
   },
   {
     id: "T004",
@@ -48,7 +51,7 @@ const sampleTalentData = [
     totalPrivateCallDuration: 980,
     avgStreamTime: 95,
     avgViewersPerStream: 210,
-    avgDiamondsPerStream: 1800
+    avgDiamondsPerStream: 1800,
   },
   {
     id: "T005",
@@ -59,7 +62,7 @@ const sampleTalentData = [
     totalPrivateCallDuration: 1750,
     avgStreamTime: 115,
     avgViewersPerStream: 380,
-    avgDiamondsPerStream: 3100
+    avgDiamondsPerStream: 3100,
   },
   {
     id: "T006",
@@ -70,7 +73,7 @@ const sampleTalentData = [
     totalPrivateCallDuration: 1520,
     avgStreamTime: 120,
     avgViewersPerStream: 310,
-    avgDiamondsPerStream: 2500
+    avgDiamondsPerStream: 2500,
   },
   {
     id: "T007",
@@ -81,7 +84,7 @@ const sampleTalentData = [
     totalPrivateCallDuration: 2300,
     avgStreamTime: 45,
     avgViewersPerStream: 450,
-    avgDiamondsPerStream: 3700
+    avgDiamondsPerStream: 3700,
   },
   {
     id: "T008",
@@ -92,7 +95,7 @@ const sampleTalentData = [
     totalPrivateCallDuration: 890,
     avgStreamTime: 90,
     avgViewersPerStream: 195,
-    avgDiamondsPerStream: 1650
+    avgDiamondsPerStream: 1650,
   },
   {
     id: "T009",
@@ -103,7 +106,7 @@ const sampleTalentData = [
     totalPrivateCallDuration: 1680,
     avgStreamTime: 135,
     avgViewersPerStream: 365,
-    avgDiamondsPerStream: 2900
+    avgDiamondsPerStream: 2900,
   },
   {
     id: "T010",
@@ -114,8 +117,8 @@ const sampleTalentData = [
     totalPrivateCallDuration: 1350,
     avgStreamTime: 105,
     avgViewersPerStream: 290,
-    avgDiamondsPerStream: 2400
-  }
+    avgDiamondsPerStream: 2400,
+  },
 ];
 
 const filterFields = [
@@ -123,33 +126,36 @@ const filterFields = [
     name: "Total Earnings",
     field: "totalEarnings",
     min: 0,
-    max: Math.max(...sampleTalentData.map(item => Number(item.totalEarnings))),
+    max: Math.max(
+      ...sampleTalentData.map((item) => Number(item.totalEarnings))
+    ),
     step: 100,
-    prefix: "₹"
+    prefix: "₹",
   },
   {
     name: "Total Followers",
     field: "totalFollowers",
     min: 0,
-    max: Math.max(...sampleTalentData.map(item => Number(item.totalFollowers))),
-    step: 100
-  }
+    max: Math.max(
+      ...sampleTalentData.map((item) => Number(item.totalFollowers))
+    ),
+    step: 100,
+  },
 ];
 
 const Page = () => {
   const [searchValue, setSearchValue] = useState("");
   const [filterSettings, setFilterSettings] = useState<FilterSettings>({});
-  
 
   const onFilterChange = (filters: FilterSettings) => {
     setFilterSettings(filters);
   };
 
   return (
-    <div className='flex flex-col text-white w-full gap-7 overflow-scroll'>
-      <TalentHeader data={sampleTalentData}/>
-      
-      <div className='flex gap-4 px-5'>
+    <div className="flex flex-col text-white w-full gap-7 overflow-scroll">
+      <TalentHeader data={sampleTalentData} />
+
+      <div className="flex gap-4 px-5">
         {/* Using our reusable FilterButton component */}
         <FilterButton
           data={sampleTalentData}
@@ -157,24 +163,24 @@ const Page = () => {
           fields={filterFields}
           initialFilters={filterSettings}
         />
-        
-        <Input 
-          value={searchValue} 
-          onChange={(e) => setSearchValue(e.target.value)}  
-          className='w-[35%] h-[2.5rem]' 
-          placeholder='Search Creator'
+
+        <Input
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+          className="w-[35%] h-[2.5rem]"
+          placeholder="Search Creator"
         />
       </div>
-      
-      <div className='mt-8'>
-        <TalentTable 
-          searchValue={searchValue} 
+
+      <div className="mt-8">
+        <TalentTable
+          searchValue={searchValue}
           data={sampleTalentData}
           filterSettings={filterSettings}
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Page;

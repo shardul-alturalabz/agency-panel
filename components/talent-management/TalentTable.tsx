@@ -1,7 +1,14 @@
-'use client'
-import { ChevronRight, MoveUp, MoveDown } from "lucide-react"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { Badge } from '@/components/ui/badge'
+"use client";
+import { ChevronRight, MoveUp, MoveDown } from "lucide-react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
 import { useEffect, useState } from "react";
 import { SideSheet } from "./SideSheet";
 import { SheetTrigger } from "../ui/sheet";
@@ -19,7 +26,7 @@ interface TalentData {
   avgDiamondsPerStream: number;
 }
 
-type SortField = keyof Omit<TalentData, 'id'>;
+type SortField = keyof Omit<TalentData, "id">;
 
 interface TalentTableProps {
   data: TalentData[];
@@ -27,10 +34,14 @@ interface TalentTableProps {
   filterSettings: FilterSettings;
 }
 
-export const TalentTable = ({ data, searchValue, filterSettings }: TalentTableProps) => {
+export const TalentTable = ({
+  data,
+  searchValue,
+  filterSettings,
+}: TalentTableProps) => {
   const [items, setItems] = useState(data);
   const [filteredItems, setFilteredItems] = useState(data);
-  
+
   // Sort states
   const [nameClicked, setNameClicked] = useState(false);
   const [earningsClicked, setEarningsClicked] = useState(false);
@@ -43,7 +54,7 @@ export const TalentTable = ({ data, searchValue, filterSettings }: TalentTablePr
 
   // Helper function to get max value for a field
   function getMaxValue(data: TalentData[], field: keyof TalentData): number {
-    return Math.max(...data.map(item => Number(item[field])));
+    return Math.max(...data.map((item) => Number(item[field])));
   }
 
   function sortTalentData(field: SortField, ascending: boolean) {
@@ -51,7 +62,7 @@ export const TalentTable = ({ data, searchValue, filterSettings }: TalentTablePr
       const aValue = a[field];
       const bValue = b[field];
 
-      if (typeof aValue === 'number' && typeof bValue === 'number') {
+      if (typeof aValue === "number" && typeof bValue === "number") {
         return ascending ? aValue - bValue : bValue - aValue;
       }
 
@@ -61,7 +72,7 @@ export const TalentTable = ({ data, searchValue, filterSettings }: TalentTablePr
         ? aString.localeCompare(bString)
         : bString.localeCompare(aString);
     });
-    
+
     setFilteredItems(sortedItems);
   }
 
@@ -71,7 +82,7 @@ export const TalentTable = ({ data, searchValue, filterSettings }: TalentTablePr
       return;
     }
 
-    const filtered = items.filter(item =>
+    const filtered = items.filter((item) =>
       item.name.toLowerCase().includes(searchValue.toLowerCase())
     );
 
@@ -85,7 +96,7 @@ export const TalentTable = ({ data, searchValue, filterSettings }: TalentTablePr
       return;
     }
 
-    const filtered = dataToFilter.filter(item => {
+    const filtered = dataToFilter.filter((item) => {
       // Check each filter setting
       for (const [field, range] of Object.entries(filterSettings)) {
         const value = item[field as keyof TalentData] as number;
@@ -95,7 +106,7 @@ export const TalentTable = ({ data, searchValue, filterSettings }: TalentTablePr
       }
       return true;
     });
-    
+
     setFilteredItems(filtered);
   }
 
@@ -116,198 +127,253 @@ export const TalentTable = ({ data, searchValue, filterSettings }: TalentTablePr
   }, [filterSettings]);
 
   return (
-    <div className='flex flex-col px-4 '>
+    <div className="flex flex-col px-4 ">
       <Table className="bg-[#1E1E1E] text-sm max-lg:text-[0.58rem] max-md:text-[0.5rem] flex flex-col w-full py-4 border-0 rounded-xl">
-        <TableHeader className='w-full'>
+        <TableHeader className="w-full">
           <TableRow className="hover:bg-transparent border-white/50 px-4 flex justify-between w-full items-center">
-            <TableHead style={{ padding: 0 }} className="text-white flex gap-1.5 w-[7%]">
-              {nameClicked ?
-                <MoveUp 
+            <TableHead
+              style={{ padding: 0 }}
+              className="text-white flex gap-1.5 w-[7%]"
+            >
+              {nameClicked ? (
+                <MoveUp
                   onClick={() => {
                     setNameClicked(false);
-                    sortTalentData('name', true);
-                  }} 
-                  className='cursor-pointer' 
-                  size={21} 
-                /> :
-                <MoveDown 
+                    sortTalentData("name", true);
+                  }}
+                  className="cursor-pointer"
+                  size={21}
+                />
+              ) : (
+                <MoveDown
                   onClick={() => {
                     setNameClicked(true);
-                    sortTalentData('name', false);
-                  }} 
-                  className='cursor-pointer' 
-                  size={21} 
+                    sortTalentData("name", false);
+                  }}
+                  className="cursor-pointer"
+                  size={21}
                 />
-              }
+              )}
               <p className="w-full text-wrap">Name</p>
             </TableHead>
-            <TableHead style={{ padding: 0 }} className='text-white flex gap-1.5 w-[10%] overflow-hidden'>
-              {earningsClicked ?
-                <MoveUp 
+            <TableHead
+              style={{ padding: 0 }}
+              className="text-white flex gap-1.5 w-[10%] overflow-hidden"
+            >
+              {earningsClicked ? (
+                <MoveUp
                   onClick={() => {
                     setEarningsClicked(false);
-                    sortTalentData('totalEarnings', true);
-                  }} 
-                  className='cursor-pointer' 
-                  size={21} 
-                /> :
-                <MoveDown 
+                    sortTalentData("totalEarnings", true);
+                  }}
+                  className="cursor-pointer"
+                  size={21}
+                />
+              ) : (
+                <MoveDown
                   onClick={() => {
                     setEarningsClicked(true);
-                    sortTalentData('totalEarnings', false);
-                  }} 
-                  className='cursor-pointer' 
-                  size={21} 
+                    sortTalentData("totalEarnings", false);
+                  }}
+                  className="cursor-pointer"
+                  size={21}
                 />
-              }
+              )}
               <p className="w-full text-wrap">Total earnings</p>
             </TableHead>
-            <TableHead style={{ padding: 0 }} className='text-white flex gap-1.5 w-[10%] overflow-hidden'>
-              {streamsClicked ?
-                <MoveUp 
+            <TableHead
+              style={{ padding: 0 }}
+              className="text-white flex gap-1.5 w-[10%] overflow-hidden"
+            >
+              {streamsClicked ? (
+                <MoveUp
                   onClick={() => {
                     setStreamsClicked(false);
-                    sortTalentData('totalStreams', true);
-                  }} 
-                  className='cursor-pointer' 
-                  size={21} 
-                /> :
-                <MoveDown 
+                    sortTalentData("totalStreams", true);
+                  }}
+                  className="cursor-pointer"
+                  size={21}
+                />
+              ) : (
+                <MoveDown
                   onClick={() => {
                     setStreamsClicked(true);
-                    sortTalentData('totalStreams', false);
-                  }} 
-                  className='cursor-pointer' 
-                  size={21} 
+                    sortTalentData("totalStreams", false);
+                  }}
+                  className="cursor-pointer"
+                  size={21}
                 />
-              }
+              )}
               <p className="w-full text-wrap">Total streams</p>
             </TableHead>
-            <TableHead style={{ padding: 0 }} className='text-white flex gap-1.5 w-[10%] overflow-hidden'>
-              {followersClicked ?
-                <MoveUp 
+            <TableHead
+              style={{ padding: 0 }}
+              className="text-white flex gap-1.5 w-[10%] overflow-hidden"
+            >
+              {followersClicked ? (
+                <MoveUp
                   onClick={() => {
                     setFollowersClicked(false);
-                    sortTalentData('totalFollowers', true);
-                  }} 
-                  className='cursor-pointer' 
-                  size={21} 
-                /> :
-                <MoveDown 
+                    sortTalentData("totalFollowers", true);
+                  }}
+                  className="cursor-pointer"
+                  size={21}
+                />
+              ) : (
+                <MoveDown
                   onClick={() => {
                     setFollowersClicked(true);
-                    sortTalentData('totalFollowers', false);
-                  }} 
-                  className='cursor-pointer' 
-                  size={21} 
+                    sortTalentData("totalFollowers", false);
+                  }}
+                  className="cursor-pointer"
+                  size={21}
                 />
-              }
+              )}
               <p className="w-full text-wrap">Total followers</p>
             </TableHead>
-            <TableHead style={{ padding: 0 }} className='text-white flex gap-1.5 w-[15%] overflow-hidden'>
-              {callDurationClicked ?
-                <MoveUp 
+            <TableHead
+              style={{ padding: 0 }}
+              className="text-white flex gap-1.5 w-[15%] overflow-hidden"
+            >
+              {callDurationClicked ? (
+                <MoveUp
                   onClick={() => {
                     setCallDurationClicked(false);
-                    sortTalentData('totalPrivateCallDuration', true);
-                  }} 
-                  className='cursor-pointer' 
-                  size={21} 
-                /> :
-                <MoveDown 
+                    sortTalentData("totalPrivateCallDuration", true);
+                  }}
+                  className="cursor-pointer"
+                  size={21}
+                />
+              ) : (
+                <MoveDown
                   onClick={() => {
                     setCallDurationClicked(true);
-                    sortTalentData('totalPrivateCallDuration', false);
-                  }} 
-                  className='cursor-pointer' 
-                  size={21} 
+                    sortTalentData("totalPrivateCallDuration", false);
+                  }}
+                  className="cursor-pointer"
+                  size={21}
                 />
-              }
+              )}
               <p className="w-full text-wrap">Total private call duration</p>
             </TableHead>
-            <TableHead style={{ padding: 0 }} className='text-white flex gap-1.5 w-[10%] overflow-hidden'>
-              {avgStreamTimeClicked ?
-                <MoveUp 
+            <TableHead
+              style={{ padding: 0 }}
+              className="text-white flex gap-1.5 w-[10%] overflow-hidden"
+            >
+              {avgStreamTimeClicked ? (
+                <MoveUp
                   onClick={() => {
                     setAvgStreamTimeClicked(false);
-                    sortTalentData('avgStreamTime', true);
-                  }} 
-                  className='cursor-pointer' 
-                  size={21} 
-                /> :
-                <MoveDown 
+                    sortTalentData("avgStreamTime", true);
+                  }}
+                  className="cursor-pointer"
+                  size={21}
+                />
+              ) : (
+                <MoveDown
                   onClick={() => {
                     setAvgStreamTimeClicked(true);
-                    sortTalentData('avgStreamTime', false);
-                  }} 
-                  className='cursor-pointer' 
-                  size={21} 
+                    sortTalentData("avgStreamTime", false);
+                  }}
+                  className="cursor-pointer"
+                  size={21}
                 />
-              }
+              )}
               <p className="w-full text-wrap">Avg stream time</p>
             </TableHead>
-            <TableHead style={{ padding: 0 }} className='text-white flex gap-1.5 w-[13%] overflow-hidden'>
-              {viewersClicked ?
-                <MoveUp 
+            <TableHead
+              style={{ padding: 0 }}
+              className="text-white flex gap-1.5 w-[13%] overflow-hidden"
+            >
+              {viewersClicked ? (
+                <MoveUp
                   onClick={() => {
                     setViewersClicked(false);
-                    sortTalentData('avgViewersPerStream', true);
-                  }} 
-                  className='cursor-pointer' 
-                  size={21} 
-                /> :
-                <MoveDown 
+                    sortTalentData("avgViewersPerStream", true);
+                  }}
+                  className="cursor-pointer"
+                  size={21}
+                />
+              ) : (
+                <MoveDown
                   onClick={() => {
                     setViewersClicked(true);
-                    sortTalentData('avgViewersPerStream', false);
-                  }} 
-                  className='cursor-pointer' 
-                  size={21} 
+                    sortTalentData("avgViewersPerStream", false);
+                  }}
+                  className="cursor-pointer"
+                  size={21}
                 />
-              }
+              )}
               <p className="w-full text-wrap">Avg viewer per stream</p>
             </TableHead>
-            <TableHead style={{ padding: 0 }} className='text-white flex gap-1.5 w-[13%] overflow-hidden'>
-              {diamondsClicked ?
-                <MoveUp 
+            <TableHead
+              style={{ padding: 0 }}
+              className="text-white flex gap-1.5 w-[13%] overflow-hidden"
+            >
+              {diamondsClicked ? (
+                <MoveUp
                   onClick={() => {
                     setDiamondsClicked(false);
-                    sortTalentData('avgDiamondsPerStream', true);
-                  }} 
-                  className='cursor-pointer' 
-                  size={21} 
-                /> :
-                <MoveDown 
+                    sortTalentData("avgDiamondsPerStream", true);
+                  }}
+                  className="cursor-pointer"
+                  size={21}
+                />
+              ) : (
+                <MoveDown
                   onClick={() => {
                     setDiamondsClicked(true);
-                    sortTalentData('avgDiamondsPerStream', false);
-                  }} 
-                  className='cursor-pointer' 
-                  size={21} 
+                    sortTalentData("avgDiamondsPerStream", false);
+                  }}
+                  className="cursor-pointer"
+                  size={21}
                 />
-              }
+              )}
               <p className="w-full text-wrap">Avg diamonds per stream</p>
             </TableHead>
-            <TableHead style={{ padding: 0 }} className="text-white text-right w-[3%]"></TableHead>
+            <TableHead
+              style={{ padding: 0 }}
+              className="text-white text-right w-[3%]"
+            ></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody className="overflow-scroll h-[65vh] px-1">
           {filteredItems.map((item) => (
-            <TableRow key={item.id} className="flex justify-between items-center hover:bg-transparent border-dashed border-white/30 text-white/85">
-              <TableCell style={{ paddingTop: "18px", paddingBottom: "18px" }} className="w-[7%]"><p className="text-wrap">{item.name}</p></TableCell>
+            <TableRow
+              key={item.id}
+              className="flex justify-between items-center hover:bg-transparent border-dashed border-white/30 text-white/85"
+            >
+              <TableCell
+                style={{ paddingTop: "18px", paddingBottom: "18px" }}
+                className="w-[7%]"
+              >
+                <p className="text-wrap">{item.name}</p>
+              </TableCell>
               <TableCell className="w-[10%] text-center">
                 <Badge variant="payout">₹{item.totalEarnings}</Badge>
               </TableCell>
-              <TableCell className="w-[10%] text-center">{item.totalStreams}</TableCell>
-              <TableCell className="w-[10%] text-center">{item.totalFollowers}</TableCell>
-              <TableCell className="w-[15%] text-center">{item.totalPrivateCallDuration} mins</TableCell>
-              <TableCell className="w-[10%] text-center">{item.avgStreamTime} mins</TableCell>
-              <TableCell className="w-[13%] text-center">{item.avgViewersPerStream}</TableCell>
-              <TableCell className="w-[13%] text-center">{item.avgDiamondsPerStream}</TableCell>
+              <TableCell className="w-[10%] text-center">
+                {item.totalStreams}
+              </TableCell>
+              <TableCell className="w-[10%] text-center">
+                {item.totalFollowers}
+              </TableCell>
+              <TableCell className="w-[15%] text-center">
+                {item.totalPrivateCallDuration} mins
+              </TableCell>
+              <TableCell className="w-[10%] text-center">
+                {item.avgStreamTime} mins
+              </TableCell>
+              <TableCell className="w-[13%] text-center">
+                {item.avgViewersPerStream}
+              </TableCell>
+              <TableCell className="w-[13%] text-center">
+                {item.avgDiamondsPerStream}
+              </TableCell>
               <SideSheet>
                 <SheetTrigger asChild>
                   <TableCell className="flex justify-end w-[3%]">
-                    <ChevronRight className='cursor-pointer' size={21} />
+                    <ChevronRight className="cursor-pointer" size={21} />
                   </TableCell>
                 </SheetTrigger>
               </SideSheet>
@@ -316,5 +382,5 @@ export const TalentTable = ({ data, searchValue, filterSettings }: TalentTablePr
         </TableBody>
       </Table>
     </div>
-  )
-}
+  );
+};

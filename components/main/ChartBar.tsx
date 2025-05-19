@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { Bar, BarChart, Cell, LabelList, XAxis } from "recharts"
+import { Bar, BarChart, Cell, LabelList, XAxis } from "recharts";
 
-import { type ChartConfig, ChartContainer } from "@/components/ui/chart"
+import { type ChartConfig, ChartContainer } from "@/components/ui/chart";
 
 const chartData = [
   { month: "January", desktop: 186, mobile: 80 },
@@ -19,18 +19,21 @@ const chartData = [
   { month: "December", desktop: 260, mobile: 210 },
 ];
 
-
 const chartConfig = {
   mobile: {
     label: "Mobile",
     color: "grey",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 export function ChartBar() {
   return (
     <ChartContainer config={chartConfig} className="w-full h-[84%]">
-      <BarChart accessibilityLayer data={chartData} margin={{ top: 30, right: 10, left: 10, bottom: 10 }}>
+      <BarChart
+        accessibilityLayer
+        data={chartData}
+        margin={{ top: 30, right: 10, left: 10, bottom: 10 }}
+      >
         <XAxis
           dataKey="month"
           tickLine={false}
@@ -42,12 +45,20 @@ export function ChartBar() {
           {chartData.map((entry, index) => (
             <Cell
               key={`cell-${index}`}
-              fill={index === chartData.length - 1 ? "#e85414" : "var(--color-mobile)"}
+              fill={
+                index === chartData.length - 1
+                  ? "#e85414"
+                  : "var(--color-mobile)"
+              }
             />
           ))}
-          <LabelList dataKey="mobile" position="top" style={{ fill: "white", fontWeight: "bold" }} />
+          <LabelList
+            dataKey="mobile"
+            position="top"
+            style={{ fill: "white", fontWeight: "bold" }}
+          />
         </Bar>
       </BarChart>
     </ChartContainer>
-  )
+  );
 }

@@ -13,7 +13,7 @@ import {
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
-import logo from  "@/public/assets/agency_logo.png";
+import logo from "@/public/assets/agency_logo.png";
 
 import {
   Sidebar,
