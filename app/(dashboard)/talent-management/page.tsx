@@ -129,19 +129,23 @@ const Page = () => {
     name: "Total Earnings",
     field: "totalEarnings",
     min: 0,
-    max: Math.max(...sampleTalentData.map(item => Number(item.totalEarnings))),
+    max: Math.max(
+      ...sampleTalentData.map((item) => Number(item.totalEarnings))
+    ),
     step: 100,
-    prefix: "₹"
+    prefix: "₹",
   },
   {
     name: "Total Followers",
     field: "totalFollowers",
     min: 0,
-    max: Math.max(...sampleTalentData.map(item => Number(item.totalFollowers))),
-    step: 100
-  }
+    max: Math.max(
+      ...sampleTalentData.map((item) => Number(item.totalFollowers))
+    ),
+    step: 100,
+  },
 ];
-  
+
   const onFilterChange = (filters: FilterSettings) => {
     setFilterSettings(filters);
   };
@@ -164,24 +168,24 @@ const Page = () => {
           fields={filterFields}
           initialFilters={filterSettings}
         />
-        
-        <Input 
-          value={searchValue} 
-          onChange={(e) => setSearchValue(e.target.value)}  
-          className='w-[35%] h-[2.5rem]' 
-          placeholder='Search Creator'
+
+        <Input
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+          className="w-[35%] h-[2.5rem]"
+          placeholder="Search Creator"
         />
       </div>
-      
-      <div className='mt-8'>
-        <TalentTable 
-          searchValue={searchValue} 
+
+      <div className="mt-8">
+        <TalentTable
+          searchValue={searchValue}
           data={sampleTalentData}
           filterSettings={filterSettings}
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Page;

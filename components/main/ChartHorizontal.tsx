@@ -1,10 +1,23 @@
-"use client"
+"use client";
 
-import { Bar, BarChart, CartesianGrid, Cell, LabelList, XAxis, YAxis } from "recharts"
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  LabelList,
+  XAxis,
+  YAxis,
+} from "recharts";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { useEffect, useState } from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  type ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+import { useEffect, useState } from "react";
 const chartData = [
   { category: "Fitness", value: 45000 },
   { category: "Gaming", value: 22000 },
@@ -13,8 +26,7 @@ const chartData = [
   { category: "Lifestyle", value: 32000 },
   { category: "Travel", value: 48000 },
   { category: "Professional", value: 34000 },
-]
-
+];
 
 const chartConfig = {
   value: {
@@ -24,7 +36,7 @@ const chartConfig = {
   label: {
     color: "hsl(var(--background))",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 export function ChartHorizontal() {
   const [max, setMax] = useState<number>(-1);
@@ -36,8 +48,8 @@ export function ChartHorizontal() {
         setMax(i.value);
         max = i.value;
       }
-    })
-  }, [])
+    });
+  }, []);
 
   return (
     <ChartContainer config={chartConfig} className="h-full flex py-1 px-6">
@@ -51,10 +63,25 @@ export function ChartHorizontal() {
           bottom: 10,
         }}
       >
-        <YAxis dataKey="category" type="category" tickLine={false} tickMargin={10} axisLine={false} hide />
+        <YAxis
+          dataKey="category"
+          type="category"
+          tickLine={false}
+          tickMargin={10}
+          axisLine={false}
+          hide
+        />
         <XAxis dataKey="value" type="number" hide />
-        <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
-        <Bar dataKey="value" layout="vertical" fill="var(--color-value)" radius={4}>
+        <ChartTooltip
+          cursor={false}
+          content={<ChartTooltipContent indicator="line" />}
+        />
+        <Bar
+          dataKey="value"
+          layout="vertical"
+          fill="var(--color-value)"
+          radius={4}
+        >
           <LabelList
             dataKey="category"
             position="insideLeft"
@@ -79,5 +106,5 @@ export function ChartHorizontal() {
         </Bar>
       </BarChart>
     </ChartContainer>
-  )
+  );
 }

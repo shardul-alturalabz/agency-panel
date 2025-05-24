@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import NotificationFilters from './NotificationFilters';
-import { cn } from '@/lib/utils';
+import React, { useState } from "react";
+import NotificationFilters from "./NotificationFilters";
+import { cn } from "@/lib/utils";
 
 type Notification = {
   id: string;
   title: string;
   description?: string;
-  type: 'payout' | 'milestone' | 'security' | string;
+  type: "payout" | "milestone" | "security" | string;
   timestamp: string;
 };
 
@@ -17,18 +17,19 @@ interface NotificationsListProps {
 }
 
 const NotificationsList = ({ notifications }: NotificationsListProps) => {
-  const [selectedNotification, setSelectedNotification] = useState<Notification | null>(null);
+  const [selectedNotification, setSelectedNotification] =
+    useState<Notification | null>(null);
 
   const getNotificationIcon = (type: string) => {
     switch (type) {
-      case 'payout':
-        return '👤';
-      case 'milestone':
-        return '🎉';
-      case 'security':
-        return '⚠️';
+      case "payout":
+        return "👤";
+      case "milestone":
+        return "🎉";
+      case "security":
+        return "⚠️";
       default:
-        return '👤';
+        return "👤";
     }
   };
 
@@ -44,7 +45,9 @@ const NotificationsList = ({ notifications }: NotificationsListProps) => {
             )}
             onClick={() => setSelectedNotification(notification)}
           >
-            <div className="text-2xl">{getNotificationIcon(notification.type)}</div>
+            <div className="text-2xl">
+              {getNotificationIcon(notification.type)}
+            </div>
             <div className="flex-1 space-y-1">
               <p className="text-sm text-zinc-200">{notification.title}</p>
               <div className="flex items-center gap-2 text-xs text-zinc-500">
@@ -60,10 +63,16 @@ const NotificationsList = ({ notifications }: NotificationsListProps) => {
       <div className="w-2/3 bg-zinc-900/50 border-l border-zinc-800 p-6 overflow-y-auto">
         {selectedNotification ? (
           <div className="space-y-4">
-            <div className="text-2xl">{getNotificationIcon(selectedNotification.type)}</div>
-            <h2 className="text-lg font-semibold text-zinc-200">{selectedNotification.title}</h2>
+            <div className="text-2xl">
+              {getNotificationIcon(selectedNotification.type)}
+            </div>
+            <h2 className="text-lg font-semibold text-zinc-200">
+              {selectedNotification.title}
+            </h2>
             {selectedNotification.description && (
-              <p className="text-sm text-zinc-400">{selectedNotification.description}</p>
+              <p className="text-sm text-zinc-400">
+                {selectedNotification.description}
+              </p>
             )}
             <div className="flex items-center gap-2 text-xs text-zinc-500">
               <span>{selectedNotification.timestamp.split(" ")[0]}</span>

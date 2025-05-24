@@ -19,11 +19,13 @@ export default function StatsSection() {
           </div>
 
           <div className="space-y-2">
-            <h2 className="text-3xl md:text-4xl font-bold text-white">₹124K+</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-white">
+              ₹124K+
+            </h2>
             <p className="text-gray-300">Payouts</p>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
