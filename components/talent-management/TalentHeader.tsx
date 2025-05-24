@@ -69,7 +69,7 @@ export default function TalentHeader({ data }: { data: TalentData[] }) {
       <div className="flex justify-between w-[50%]">
         <p className="text-[1.1rem]">
           <b>Total onboarded creators : </b>
-          <span>{52}</span>
+          <span>{data.length}</span>
         </p>
         <p className="text-[1.1rem]">
           <b>Total earnings : </b>
