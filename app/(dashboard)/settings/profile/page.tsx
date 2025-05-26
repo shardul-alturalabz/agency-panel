@@ -21,13 +21,14 @@ type Profile = {
 const ProfilePage = () => {
   const [profile, setProfile] = useState<Profile | null>(null);
   const token = Cookies.get("token");
+  console.log("Auth token:", token);
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         const response = await axios.post(
           process.env.NEXT_PUBLIC_LOGIN_API!,
-          {}, // send empty body if none
+          {}, // Assuming no body is required. If body is needed, provide it here.
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -38,6 +39,7 @@ const ProfilePage = () => {
 
         if (response.data.statusCode === 200) {
           setProfile(response.data.data.agencyDetails);
+          console.log("Profile fetched successfully:", response.data.data.agencyDetails);
         }
       } catch (error) {
         console.error("Failed to fetch profile", error);
@@ -49,6 +51,8 @@ const ProfilePage = () => {
   console.log("Profile data:", profile); // Debugging line to check the fetched profile data
   const agency = profile?.agency;
   const meta = profile?.meta;
+
+  console.log("Agency data:", agency); // Debugging line to check the agency data
 
   return (
     <div className="p-6 overflow-scroll">
