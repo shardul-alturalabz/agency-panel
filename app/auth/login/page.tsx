@@ -37,7 +37,17 @@ export default function LoginPage() {
       console.log("Login response:", data);
 
       if (data?.data?.token) {
+        // Save token
         Cookies.set("token", data.data.token, { expires: 7 });
+
+        // Save agencyId from nested path
+        const agencyId = data.data.agencyDetails?.meta?.agencyId;
+        if (agencyId) {
+          Cookies.set("agencyId", agencyId.toString(), { expires: 7 });
+        } else {
+          console.warn("agencyId not found in login response");
+        }
+
         router.push("/main");
       } else {
         console.warn("Token missing in response:", data);
@@ -46,7 +56,7 @@ export default function LoginPage() {
       const errorMessage =
         err.response?.data?.data.error || "Login failed. Please try again.";
       setError(errorMessage);
-      toast.error("Check your email and password"); // ✅ Show toast
+      toast.error("Check your email and password");
     } finally {
       setLoading(false);
     }

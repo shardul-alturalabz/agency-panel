@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import { Copy, User } from "lucide-react";
 import axios from "axios";
@@ -9,50 +10,93 @@ type Profile = {
     name?: string;
     email?: string;
     createdAt?: string;
-    // add other fields as needed
   };
   meta: {
     code?: string;
     members?: number;
-    // add other fields as needed
   };
 };
 
 const ProfilePage = () => {
   const [profile, setProfile] = useState<Profile | null>(null);
-  const token = Cookies.get("token");
-  console.log("Auth token:", token);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [copySuccess, setCopySuccess] = useState(false);
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const response = await axios.post(
-          process.env.NEXT_PUBLIC_LOGIN_API!,
-          {}, // Assuming no body is required. If body is needed, provide it here.
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            withCredentials: true,
-          }
-        );
+    const token = Cookies.get("token");
+    const agencyId = Cookies.get("agencyId");
 
-        if (response.data.statusCode === 200) {
-          setProfile(response.data.data.agencyDetails);
-          console.log("Profile fetched successfully:", response.data.data.agencyDetails);
+    if (!token) {
+      setError("Token not found. Please login.");
+      console.warn("Token not found in cookies");
+      return;
+    }
+    if (!agencyId) {
+      setError("Agency ID not found. Please login.");
+      console.warn("Agency ID not found in cookies");
+      return;
+    }
+
+    const fetchProfile = async () => {
+      setError(null);
+      setLoading(true);
+
+      try {
+        console.log("Fetching profile with token:", token);
+        console.log("Fetching profile for agencyId:", agencyId);
+
+        const url = `https://uat-api.workuplift.com/v1/agency/details/${agencyId}`;
+        const response = await axios.get(url, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        // Updated condition for your API response
+        if (response.data.agency && response.data.meta) {
+          setProfile({
+            agency: response.data.agency,
+            meta: response.data.meta,
+          });
+          setError(null);
+          console.log("Profile fetched:", response.data);
+        } else {
+          setError("Failed to fetch profile data.");
+          console.warn("API responded without expected data:", response.data);
         }
-      } catch (error) {
-        console.error("Failed to fetch profile", error);
+      } catch (err: any) {
+        setError(
+          err.response?.status === 401
+            ? "Unauthorized: Please login again."
+            : "Failed to fetch profile."
+        );
+        console.error("Error fetching profile:", err);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchProfile();
   }, []);
-  console.log("Profile data:", profile); // Debugging line to check the fetched profile data
-  const agency = profile?.agency;
-  const meta = profile?.meta;
 
-  console.log("Agency data:", agency); // Debugging line to check the agency data
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 2000);
+    });
+  };
+
+  if (loading)
+    return (
+      <div className="p-6 text-white font-semibold">Loading profile...</div>
+    );
+  if (error)
+    return <div className="p-6 text-red-400 font-semibold">{error}</div>;
+  if (!profile) return null;
+
+  const agency = profile.agency;
+  const meta = profile.meta;
 
   return (
     <div className="p-6 overflow-scroll">
@@ -70,7 +114,7 @@ const ProfilePage = () => {
           <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-300">
             <div>
               <p className="text-gray-500">Agency name</p>
-              <p>{agency?.name || "Loading..."}</p>
+              <p>{agency?.name || "N/A"}</p>
             </div>
             <div>
               <p className="text-gray-500">Website link</p>
@@ -80,21 +124,26 @@ const ProfilePage = () => {
                 rel="noopener noreferrer"
                 className="text-blue-400 hover:underline"
               >
-                {/* No website in response, using placeholder */}
                 www.agencywebsite.com
               </a>
             </div>
             <div className="col-span-2 sm:col-span-1 flex items-center gap-2">
               <div>
                 <p className="text-gray-500">Agency code</p>
-                <p>{meta?.code || "Loading..."}</p>
+                <p>{meta?.code || "N/A"}</p>
               </div>
               <button
                 className="text-gray-400 hover:text-white"
-                onClick={() => navigator.clipboard.writeText(meta?.code || "")}
+                onClick={() => handleCopy(meta?.code || "")}
+                aria-label="Copy agency code"
               >
                 <Copy size={16} />
               </button>
+              {copySuccess && (
+                <span className="ml-2 text-green-400 text-sm select-none">
+                  Copied!
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -108,11 +157,11 @@ const ProfilePage = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-300">
           <div>
             <p className="text-gray-500">Contact email</p>
-            <p>{agency?.email || "Loading..."}</p>
+            <p>{agency?.email || "N/A"}</p>
           </div>
           <div>
             <p className="text-gray-500">Phone number</p>
-            <p>+91-9876543210</p> {/* No phone in API response */}
+            <p>+91-9876543210</p> {/* Placeholder */}
           </div>
         </div>
       </div>
@@ -125,7 +174,7 @@ const ProfilePage = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-300">
           <div>
             <p className="text-gray-500">Total creators onboard</p>
-            <p>{meta?.members || "0"}</p>
+            <p>{meta?.members ?? "0"}</p>
           </div>
           <div>
             <p className="text-gray-500">Registered with Salsa</p>
