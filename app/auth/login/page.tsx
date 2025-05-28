@@ -5,12 +5,14 @@ import Image from "next/image";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "sonner"; // ✅ Import toast
+import { useProfileUrlStore } from "@/zustand/stores/useProfileUrlStore";
 
 export default function LoginPage() {
   const router = useRouter();
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const profileUrl = useProfileUrlStore((state)=> state.setUrl)
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
@@ -47,6 +49,8 @@ export default function LoginPage() {
         } else {
           console.warn("agencyId not found in login response");
         }
+
+        profileUrl(data.data.agencyDetails?.agency?.avatar);
 
         router.push("/main");
       } else {
