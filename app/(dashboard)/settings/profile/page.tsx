@@ -47,9 +47,11 @@ const ProfilePage = () => {
   const [copySuccess, setCopySuccess] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [saving, setSaving] = useState(false);
-  
-  const [originalData, setOriginalData] = useState<EditableProfile | null>(null);
-  
+
+  const [originalData, setOriginalData] = useState<EditableProfile | null>(
+    null
+  );
+
   const [editData, setEditData] = useState<EditableProfile>({
     agency: {
       name: "",
@@ -97,7 +99,7 @@ const ProfilePage = () => {
           agency: response.data.agency,
           meta: response.data.meta,
         });
-        
+
         const initialData = {
           agency: {
             name: response.data.agency.name || "",
@@ -110,10 +112,10 @@ const ProfilePage = () => {
             code: response.data.meta.code || "",
           },
         };
-        
+
         setEditData(initialData);
         setOriginalData(initialData);
-        
+
         setError(null);
         console.log("Profile fetched:", response.data);
       } else {
@@ -150,7 +152,7 @@ const ProfilePage = () => {
   const handleCancel = () => {
     setIsEditing(false);
     if (originalData) {
-      setEditData({...originalData});
+      setEditData({ ...originalData });
     }
   };
 
@@ -188,7 +190,7 @@ const ProfilePage = () => {
     setSaving(true);
     const token = Cookies.get("token");
     const agencyId = Cookies.get("agencyId");
-    
+
     try {
       const updatePromises = [];
       let avatarUrl = profile?.agency?.avatar || "";
@@ -210,7 +212,7 @@ const ProfilePage = () => {
 
       if (hasAgencyChanges()) {
         const agencyData: any = {};
-        
+
         if (editData.agency.name !== originalData?.agency.name) {
           agencyData.name = editData.agency.name;
         }
@@ -219,7 +221,8 @@ const ProfilePage = () => {
         }
         agencyData.avatar = avatarUrl;
 
-        const agencyUrl = `${process.env.NEXT_PUBLIC_AGENCY_UPDATE_API!}/${agencyId}`;
+        const agencyUrl = `${process.env
+          .NEXT_PUBLIC_AGENCY_UPDATE_API!}/${agencyId}`;
         updatePromises.push(
           axios.put(agencyUrl, agencyData, {
             headers: {
@@ -232,7 +235,7 @@ const ProfilePage = () => {
 
       if (hasMetaChanges()) {
         const metaData: any = {};
-        
+
         if (editData.meta.description !== originalData?.meta.description) {
           metaData.description = editData.meta.description;
         }
@@ -260,7 +263,7 @@ const ProfilePage = () => {
       console.log("Profile updated successfully");
     } catch (err: any) {
       console.error("Error updating profile:", err);
-      toast("Failed to update profile. Please try again.")
+      toast("Failed to update profile. Please try again.");
     } finally {
       setSaving(false);
     }
@@ -391,9 +394,7 @@ const ProfilePage = () => {
       </div>
 
       <div className="bg-[#1E1E1E] rounded-xl p-6 mb-6 shadow-lg">
-        <h2 className="text-lg text-white font-semibold mb-4">
-          Description
-        </h2>
+        <h2 className="text-lg text-white font-semibold mb-4">Description</h2>
         <div className="text-sm text-gray-300">
           {isEditing ? (
             <textarea
@@ -456,7 +457,10 @@ const ProfilePage = () => {
                 onChange={(e) =>
                   setEditData({
                     ...editData,
-                    meta: { ...editData.meta, members: parseInt(e.target.value) || 0 },
+                    meta: {
+                      ...editData.meta,
+                      members: parseInt(e.target.value) || 0,
+                    },
                   })
                 }
                 className="w-full bg-zinc-800 text-white px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"

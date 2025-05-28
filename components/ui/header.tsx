@@ -8,12 +8,13 @@ import { useState } from "react";
 import FeedbackForm from "./FeedbackForm";
 import { useProfileUrlStore } from "@/zustand/stores/useProfileUrlStore";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Header() {
   const router = useRouter();
   const [menu, setMenu] = useState(-1);
-  const profileUrl = useProfileUrlStore((state)=> state.url)
-  console.log("Hi"+" "+profileUrl);
+  const profileUrl = useProfileUrlStore((state) => state.url);
+  console.log("Hi" + " " + profileUrl);
 
   const handleLogout = () => {
     Cookies.remove("token"); // Remove token from cookies
@@ -66,9 +67,21 @@ export default function Header() {
 
         {/* Profile Icon with Hover Dropdown */}
         <div className="relative group">
-          <div className="size-12 rounded-full border-0 flex items-center justify-center overflow-hidden cursor-pointer">
-            {profileUrl?<Image width={50} height={50} src={profileUrl} alt="profile" className=""></Image>:<UserCircle className="w-10 h-10 text-white border-2 border-white rounded-full p-1 cursor-pointer hover:text-orange-500" />}
-          </div>
+          <Link href="/settings/profile">
+            <div className="size-12 rounded-full border-0 flex items-center justify-center overflow-hidden cursor-pointer">
+              {profileUrl ? (
+                <Image
+                  width={50}
+                  height={50}
+                  src={profileUrl}
+                  alt="profile"
+                  className=""
+                />
+              ) : (
+                <UserCircle className="w-10 h-10 text-white border-2 border-white rounded-full p-1 hover:text-orange-500" />
+              )}
+            </div>
+          </Link>
 
           <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded-xl shadow-xl opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200 z-50 overflow-hidden">
             <button
