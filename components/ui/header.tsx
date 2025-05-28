@@ -69,11 +69,11 @@ export default function Header() {
         <div className="relative group">
           <Link href="/settings/profile">
             <div className="size-12 rounded-full border-0 flex items-center justify-center overflow-hidden cursor-pointer">
-              {profileUrl ? (
+              {profileUrl || Cookies.get('profileUrl') ? (
                 <Image
                   width={50}
                   height={50}
-                  src={profileUrl}
+                  src={profileUrl! || Cookies.get('profileUrl')!}
                   alt="profile"
                   className=""
                 />

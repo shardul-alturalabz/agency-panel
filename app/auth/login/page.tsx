@@ -50,6 +50,7 @@ export default function LoginPage() {
           console.warn("agencyId not found in login response");
         }
 
+        Cookies.set('profileUrl', data.data.agencyDetails?.agency?.avatar);
         profileUrl(data.data.agencyDetails?.agency?.avatar);
 
         router.push("/main");
