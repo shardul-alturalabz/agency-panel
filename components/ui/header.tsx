@@ -17,6 +17,8 @@ export default function Header() {
   console.log("Hi" + " " + profileUrl);
 
   const handleLogout = () => {
+    Cookies.remove("agencyId")
+    Cookies.remove("profileUrl")
     Cookies.remove("token"); // Remove token from cookies
     router.push("/auth/login"); // Redirect to login
   };

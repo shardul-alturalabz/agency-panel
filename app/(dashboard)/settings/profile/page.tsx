@@ -222,7 +222,7 @@ const ProfilePage = () => {
         agencyData.avatar = avatarUrl;
 
         const agencyUrl = `${process.env
-          .NEXT_PUBLIC_AGENCY_UPDATE_API!}/${agencyId}`;
+          .NEXT_PUBLIC_AGENCY_UPDATE_API!}/${profile?.agency.id}`;
         updatePromises.push(
           axios.put(agencyUrl, agencyData, {
             headers: {
@@ -243,7 +243,7 @@ const ProfilePage = () => {
           metaData.members = editData.meta.members;
         }
 
-        const metaUrl = `${process.env.NEXT_PUBLIC_AGENCY_META_API!}/2`;
+        const metaUrl = `${process.env.NEXT_PUBLIC_AGENCY_META_API!}/${profile?.meta.id}`;
         updatePromises.push(
           axios.put(metaUrl, metaData, {
             headers: {
