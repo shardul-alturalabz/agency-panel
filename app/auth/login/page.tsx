@@ -43,13 +43,14 @@ export default function LoginPage() {
         Cookies.set("token", data.data.token, { expires: 7 });
 
         // Save agencyId from nested path
-        const agencyId = data.data.agencyDetails?.meta?.agencyId;
+        const agencyId = data.data.id;
         if (agencyId) {
           Cookies.set("agencyId", agencyId.toString(), { expires: 7 });
         } else {
           console.warn("agencyId not found in login response");
         }
 
+        Cookies.set('profileUrl', data.data.agencyDetails?.agency?.avatar);
         profileUrl(data.data.agencyDetails?.agency?.avatar);
 
         router.push("/main");
