@@ -9,11 +9,13 @@ import Image from "next/image";
 import { ChartHorizontal } from "@/components/main/ChartHorizontal";
 import NotificationFilters from "@/components/notification/NotificationFilters";
 import { Copy } from "lucide-react";
+import { useMenuStore } from "@/zustand/stores/useMenuStore";
 
 const filters = ["This year", "Last month", "This month", "This week"];
 
 const Page = () => {
   const [activeFilter, setActiveFilter] = useState<string>("This year");
+  const setMenu = useMenuStore((state)=> state.setIndex);
 
   return (
     <div className="w-full bg-black text-white overflow-auto">
@@ -24,7 +26,7 @@ const Page = () => {
             <Copy />
             Copy app link to invite creators
           </div>
-          <p className="text-[#1A88FF] underline cursor-pointer text-lg pr-2">
+          <p onClick={()=> setMenu(2)}  className="text-[#1A88FF] underline cursor-pointer text-lg pr-2">
             Send feedback
           </p>
         </div>
