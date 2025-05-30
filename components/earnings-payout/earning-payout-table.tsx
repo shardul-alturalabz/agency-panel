@@ -86,7 +86,7 @@ export const EarningPayoutTable = ({ data }: { data: Transaction[] }) => {
 
   return (
     <div className="flex pr-4">
-      <Table className="bg-zinc-900 flex flex-col p-4 border-0 rounded-xl">
+      <Table className="bg-[#1E1E1E] flex flex-col p-4 border-0 rounded-xl">
         <TableHeader className="w-full">
           <TableRow className="hover:bg-transparent border-white/50 flex justify-between w-full items-center">
             <TableHead

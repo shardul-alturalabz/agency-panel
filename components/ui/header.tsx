@@ -4,15 +4,16 @@ import { useRouter } from "next/navigation";
 import { Bell, Headphones, UserCircle } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import Cookies from "js-cookie";
-import { useState } from "react";
 import FeedbackForm from "./FeedbackForm";
 import { useProfileUrlStore } from "@/zustand/stores/useProfileUrlStore";
 import Image from "next/image";
 import Link from "next/link";
+import { useMenuStore } from "@/zustand/stores/useMenuStore";
 
 export default function Header() {
   const router = useRouter();
-  const [menu, setMenu] = useState(-1);
+  const menu = useMenuStore((state)=> state.index);
+  const setMenu = useMenuStore((state)=> state.setIndex);
   const profileUrl = useProfileUrlStore((state) => state.url);
   console.log("Hi" + " " + profileUrl);
 
@@ -45,7 +46,7 @@ export default function Header() {
 
       {/* Right: Icons */}
       <div className="flex items-center gap-6 flex-shrink-0 ml-4 relative">
-        <Bell className="text-white w-5 h-5 cursor-pointer hover:text-orange-500" />
+        <Bell onClick={()=> router.push('/notification')} className="text-white w-5 h-5 cursor-pointer hover:text-orange-500" />
 
         {/* Headphones Icon with Hover Dropdown */}
         <div className="relative group">

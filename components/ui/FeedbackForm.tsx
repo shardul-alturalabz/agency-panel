@@ -3,6 +3,7 @@ import { error } from "console";
 import { CrossIcon } from "lucide-react";
 import React, { useState, ChangeEvent, FormEvent, SetStateAction } from "react";
 import { FaCheckCircle } from "react-icons/fa";
+import Cookies from "js-cookie";
 
 interface FeedbackFormData {
   category: string;
@@ -14,7 +15,7 @@ type FeedbackCategory = "bug" | "feature" | "improvement" | "other" | "";
 const FeedbackForm = ({
   setMenu,
 }: {
-  setMenu: React.Dispatch<SetStateAction<number>>;
+  setMenu: (msg: number) => void;
 }) => {
   const [formData, setFormData] = useState<FeedbackFormData>({
     category: "",
@@ -40,7 +41,11 @@ const FeedbackForm = ({
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     try {
-      // await axios.post(process.env.NEXT_PUBLIC_FEEDBACK_API!, { ...formData, agencyId: 0});
+      await axios.post(process.env.NEXT_PUBLIC_FEEDBACK_API!, { ...formData, agencyId: 0}, {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`
+        }
+      });
 
       setStatus("success");
       setShowSuccessNotification(true);
