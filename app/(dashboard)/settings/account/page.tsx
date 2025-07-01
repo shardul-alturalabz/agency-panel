@@ -99,11 +99,6 @@ const AccountPage = () => {
                 <span>Add another bank account</span>
                 <ChevronRight size={16} />
               </button>
-
-              <button className="w-full flex items-center justify-between p-3 bg-zinc-800 rounded-lg hover:bg-zinc-700 transition-colors">
-                <span>Add card details</span>
-                <ChevronRight size={16} />
-              </button>
             </div>
           </div>
         </div>

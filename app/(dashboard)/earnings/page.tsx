@@ -1,9 +1,15 @@
+'use client'
+import CreatorEarningsTable from "@/components/earnings-payout/CreatorEarningsTable";
 import { EarningPayoutTable } from "@/components/earnings-payout/earning-payout-table";
+import WalletEarnings from "@/components/earnings-payout/WalletEarnings";
 import { BadgeWithHeader } from "@/components/ui/badge-with-header";
 
-import React from "react";
+import React, { useState } from "react";
 
 const page = () => {
+
+  const [table, setTable] = useState(false);
+
   const data = [
     {
       transactionId: "12124235748",
@@ -52,7 +58,7 @@ const page = () => {
   return (
     <div className="bg-black h-full pl-8 flex flex-col text-white gap-8 overflow-auto">
       <div className="mt-10 flex flex-wrap  gap-5 text-[1.10rem] max-lg:text-sm">
-        <BadgeWithHeader type="price" text="Total earnings" price={24000} />
+        {/* <BadgeWithHeader type="price" text="Total earnings" price={24000} />
         <BadgeWithHeader type="price" text="Total payout" price={24000} />
         <BadgeWithHeader type="price" text="Balance" price={0} />
         <BadgeWithHeader
@@ -60,18 +66,39 @@ const page = () => {
           text="Next payout scheduled on"
           currencySymbol=""
           price={"24 / 04 / 2025"}
-        />
+        /> */}
+        <WalletEarnings />
       </div>
-      <p className="mt-8 text-3xl font-semibold">Transaction history</p>
-      {data.length > 0 ? (
-        <EarningPayoutTable data={data} />
-      ) : (
-        <div className="flex items-center justify-center h-[53vh] bg-zinc-900 rounded-xl">
-          <p className="text-white/50 text-lg">
-            You don't have any previous transactions.
-          </p>
+      <div className="flex gap-4 items-end">
+        <div onClick={() => setTable(false)} className={`mt-8 text-2xl ${table ? 'text-white/40' : ''} cursor-pointer font-semibold`}>Settlement history</div>
+        <div onClick={() => setTable(true)} className={`mt-8 text-2xl ${table ? '' : 'text-white/40'}  cursor-pointer font-semibold border-l-2 border-white/30 pl-4`}>Payout history</div>
+
+      </div>
+      {table ?
+        <div>
+          {data.length > 0 ? (
+            <EarningPayoutTable data={data} />
+          ) : (
+            <div className="flex items-center justify-center h-[53vh] bg-zinc-900 rounded-xl">
+              <p className="text-white/50 text-lg">
+                You don't have any previous transactions.
+              </p>
+            </div>
+          )}
         </div>
-      )}
+        :
+        <div>
+          {data.length > 0 ? (
+            <CreatorEarningsTable/>
+          ) : (
+            <div className="flex items-center justify-center h-[53vh] bg-zinc-900 rounded-xl">
+              <p className="text-white/50 text-lg">
+                You don't have any previous transactions.
+              </p>
+            </div>
+          )}
+        </div>
+      }
     </div>
   );
 };
