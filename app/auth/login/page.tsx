@@ -6,15 +6,20 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "sonner"; // ✅ Import toast
 import { useProfileUrlStore } from "@/zustand/stores/useProfileUrlStore";
+// import React, { useState } from "react"; // removed duplicate useState import
+import ForgotPasswordModal from "@/components/guard/ForgotPasswordModal";
+
 
 export default function LoginPage() {
   const router = useRouter();
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const profileUrl = useProfileUrlStore((state)=> state.setUrl)
+  const profileUrl = useProfileUrlStore((state) => state.setUrl);
 
   const [mounted, setMounted] = useState(false);
+  const [showForgot, setShowForgot] = useState(false);
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -50,7 +55,7 @@ export default function LoginPage() {
           console.warn("agencyId not found in login response");
         }
 
-        Cookies.set('profileUrl', data.data.agencyDetails?.agency?.avatar);
+        Cookies.set("profileUrl", data.data.agencyDetails?.agency?.avatar);
         profileUrl(data.data.agencyDetails?.agency?.avatar);
 
         router.push("/main");
@@ -65,6 +70,13 @@ export default function LoginPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  // Forgot password handler (API call placeholder)
+  const handleForgotPassword = async (email: string) => {
+    // TODO: Call your forgot password API here
+    // Example: await api.forgotPassword(email)
+    setShowForgot(false);
   };
 
   if (!mounted) return null;
@@ -131,9 +143,22 @@ export default function LoginPage() {
                 {loading ? "Logging in..." : "Login"}
               </button>
             </form>
+
+            <button
+              type="button"
+              className="mt-4 text-blue-400 hover:text-blue-300 text-sm self-end underline"
+              onClick={() => setShowForgot(true)}
+            >
+              Forgot password?
+            </button>
           </div>
         </div>
       </div>
+      <ForgotPasswordModal
+        isOpen={showForgot}
+        onClose={() => setShowForgot(false)}
+        onSubmit={handleForgotPassword}
+      />
     </div>
   );
 }

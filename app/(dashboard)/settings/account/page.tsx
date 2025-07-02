@@ -1,6 +1,25 @@
+'use client'
 import { Trash2, ChevronRight, CreditCard } from "lucide-react";
+import React, { useState } from "react";
+import ChangePasswordModal from "@/components/settings/ChangePasswordModal";
+
 
 const AccountPage = () => {
+  const [showChangePassword, setShowChangePassword] = useState(false);
+
+  // Placeholder for API call
+  const handleChangePassword = async (data: {
+    email: string;
+    oldPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+  }) => {
+    // TODO: Call your API here
+    // Example: await api.changePassword(data)
+    // For now, just close the modal
+    setShowChangePassword(false);
+  };
+
   return (
     <div className="w-full min-h-screen bg-black text-white p-4 md:p-6 lg:p-8 overflow-auto">
       <h1 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8">Account</h1>
@@ -23,7 +42,10 @@ const AccountPage = () => {
               <p className="text-zinc-400 text-sm">Password</p>
               <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
                 <p className="font-mono">••••••••••••</p>
-                <button className="text-blue-500 text-sm hover:text-blue-400 transition-colors">
+                <button
+                  className="text-blue-500 text-sm hover:text-blue-400 transition-colors"
+                  onClick={() => setShowChangePassword(true)}
+                >
                   Change Password
                 </button>
               </div>
@@ -48,7 +70,13 @@ const AccountPage = () => {
           </div>
         </div>
       </div>
+      <ChangePasswordModal
+        isOpen={showChangePassword}
+        onClose={() => setShowChangePassword(false)}
+        onSubmit={handleChangePassword}
+      />
 
+      {/* ...existing code for Payment Methods... */}
       <div className="w-full mb-6 rounded-xl bg-[#1E1E1E] shadow-lg overflow-hidden">
         <div className="p-4 md:p-6 lg:p-8">
           <div className="flex items-center justify-between mb-6">
