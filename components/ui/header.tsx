@@ -54,7 +54,7 @@ export default function Header() {
 
           <div className="absolute z-20 h-[8rem] border-0 rounded-2xl flex flex-col items-start pl-4 text-lg gap-5 text-white font-semibold justify-center w-[17rem] bg-zinc-800 top-8 right-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
             <p
-              onClick={() => setMenu(1)}
+              onClick={() => window.location.href = 'mailto:info@salsayou.app'}
               className="hover:bg-white/20 px-5 pr-12 py-1.5 rounded-xl cursor-pointer"
             >
               Contact us

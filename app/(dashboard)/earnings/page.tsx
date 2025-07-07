@@ -1,6 +1,6 @@
 'use client'
 import CreatorEarningsTable from "@/components/earnings-payout/CreatorEarningsTable";
-import { EarningPayoutTable } from "@/components/earnings-payout/earning-payout-table";
+import EarningPayoutTable from "@/components/earnings-payout/earning-payout-table";
 import WalletEarnings from "@/components/earnings-payout/WalletEarnings";
 import { BadgeWithHeader } from "@/components/ui/badge-with-header";
 
@@ -77,7 +77,7 @@ const page = () => {
       {table ?
         <div>
           {data.length > 0 ? (
-            <EarningPayoutTable data={data} />
+            <EarningPayoutTable />
           ) : (
             <div className="flex items-center justify-center h-[53vh] bg-zinc-900 rounded-xl">
               <p className="text-white/50 text-lg">

@@ -9,13 +9,19 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { downloadPDF } from "@/lib/pdf";
 
-interface Transaction {
-  transactionId: string;
-  status: "Completed" | "Failed" | "Pending" | string;
-  payoutAmount: number;
-  date: string;
+
+// API Transaction type
+type Transaction = {
+  id: number;
+  paymentReference: string;
+  status: string;
+  requestedAmount: number;
+  requestedAt: string;
 }
 
 interface SortOptionsBase {
@@ -34,11 +40,32 @@ interface StatusSortOptions extends SortOptionsBase {
 
 type SortOptions = AmountDateSortOptions | StatusSortOptions;
 
-export const EarningPayoutTable = ({ data }: { data: Transaction[] }) => {
+const EarningPayoutTable = () => {
   const [statusClicked, setStatusClicked] = useState(false);
   const [dateClicked, setDateClicked] = useState(false);
   const [amountClicked, setAmountClicked] = useState(false);
-  const [items, setItems] = useState(data);
+  const [items, setItems] = useState<Transaction[]>([]);
+  const agencyId = Cookies.get('agencyId');
+  const token = Cookies.get('token');
+
+  useEffect(() => {
+    async function fetchWithdrawals() {
+      try {
+        // Replace with your actual API endpoint
+        const res = await axios.get(process.env.NEXT_PUBLIC_PAYOUT_DETAILS_API!+'/'+agencyId, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        const withdrawals = res.data?.data?.withdrawals || [];
+        setItems(withdrawals);
+      } catch (err) {
+        // Optionally handle error
+        setItems([]);
+      }
+    }
+    fetchWithdrawals();
+  }, []);
 
   function sortTransactions(data: Transaction[], sortOptions: SortOptions) {
     let result = [...data];
@@ -47,17 +74,14 @@ export const EarningPayoutTable = ({ data }: { data: Transaction[] }) => {
       let comparison = 0;
 
       if (sortOptions.field === "payoutAmount") {
-        comparison = a.payoutAmount - b.payoutAmount;
+        comparison = a.requestedAmount - b.requestedAmount;
         return (sortOptions as AmountDateSortOptions).ascending
           ? comparison
           : -comparison;
       } else if (sortOptions.field === "date") {
-        const [dayA, monthA, yearA] = a.date.split("/");
-        const [dayB, monthB, yearB] = b.date.split("/");
-
-        const dateA = new Date(`20${yearA}-${monthA}-${dayA}`);
-        const dateB = new Date(`20${yearB}-${monthB}-${dayB}`);
-
+        // Use requestedAt for date
+        const dateA = new Date(a.requestedAt);
+        const dateB = new Date(b.requestedAt);
         comparison = dateA.getTime() - dateB.getTime();
         return (sortOptions as AmountDateSortOptions).ascending
           ? comparison
@@ -134,7 +158,7 @@ export const EarningPayoutTable = ({ data }: { data: Transaction[] }) => {
                 <MoveUp
                   onClick={() => {
                     setDateClicked((p) => !p);
-                    sortTransactions(data, {
+                    sortTransactions(items, {
                       field: "date",
                       ascending: dateClicked,
                     });
@@ -146,7 +170,7 @@ export const EarningPayoutTable = ({ data }: { data: Transaction[] }) => {
                 <MoveDown
                   onClick={() => {
                     setDateClicked((p) => !p);
-                    sortTransactions(data, {
+                    sortTransactions(items, {
                       field: "date",
                       ascending: dateClicked,
                     });
@@ -173,7 +197,7 @@ export const EarningPayoutTable = ({ data }: { data: Transaction[] }) => {
                 <div className="absolute h-[23%] bg-zinc-800 flex flex-col items-start px-4 justify-between py-2 w-[12%] mt-8 rounded-xl border-1 border-white/30">
                   <p
                     onClick={() => {
-                      sortTransactions(data, {
+                      sortTransactions(items, {
                         field: "status",
                         ascending: "Completed",
                       });
@@ -185,7 +209,7 @@ export const EarningPayoutTable = ({ data }: { data: Transaction[] }) => {
                   </p>
                   <p
                     onClick={() => {
-                      sortTransactions(data, {
+                      sortTransactions(items, {
                         field: "status",
                         ascending: "Pending",
                       });
@@ -197,7 +221,7 @@ export const EarningPayoutTable = ({ data }: { data: Transaction[] }) => {
                   </p>
                   <p
                     onClick={() => {
-                      sortTransactions(data, {
+                      sortTransactions(items, {
                         field: "status",
                         ascending: "Failed",
                       });
@@ -221,34 +245,38 @@ export const EarningPayoutTable = ({ data }: { data: Transaction[] }) => {
         <TableBody className="overflow-scroll h-[51vh]">
           {items.map((item) => (
             <TableRow
-              key={item.transactionId}
+              key={item.id}
               className="flex justify-between items-center hover:bg-transparent border-dashed border-white/30 text-white/85"
             >
               <TableCell
                 style={{ paddingTop: "18px", paddingBottom: "18px" }}
                 className="w-[20%]"
               >
-                {item.transactionId}
+                {item.paymentReference}
               </TableCell>
               <TableCell className="w-[20%] ml-2">
-                <Badge variant="payout">₹{item.payoutAmount}</Badge>
+                <Badge variant="payout">₹{item.requestedAmount}</Badge>
               </TableCell>
-              <TableCell className="w-[20%]">{item.date}</TableCell>
+              <TableCell className="w-[20%]">
+                {new Date(item.requestedAt).toLocaleDateString()}
+              </TableCell>
               <TableCell className="w-[20%]">
                 <Badge
                   variant={
-                    item.status === "Completed"
+                    item.status === "paid"
                       ? "success"
-                      : item.status === "Failed"
+                      : item.status === "failed"
                       ? "destructive"
                       : "warn"
                   }
                 >
-                  {item.status}
+                  {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
                 </Badge>
               </TableCell>
               <TableCell className="flex justify-end w-[20%] pr-10">
-                <Download className="cursor-pointer" size={21} />
+                <Download onClick={()=> {
+                  downloadPDF()
+                }} className="cursor-pointer" size={21} />
               </TableCell>
             </TableRow>
           ))}
@@ -257,3 +285,5 @@ export const EarningPayoutTable = ({ data }: { data: Transaction[] }) => {
     </div>
   );
 };
+
+export default EarningPayoutTable;
