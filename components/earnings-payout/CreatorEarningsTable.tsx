@@ -1,6 +1,6 @@
 "use client";
 import { MoveDown, MoveUp } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface CreatorEarning {
   week: string;
@@ -31,58 +31,20 @@ interface StatusSortOptions extends SortOptionsBase {
 
 type SortOptions = NumericSortOptions | WeekSortOptions | StatusSortOptions;
 
-// Sample data
-const sampleData: CreatorEarning[] = [
-  {
-    week: "xx Jun 25 - xx Jun 25",
-    totalCreatorEarnings: 600000,
-    agencyCommission: 90000,
-    commissionSlab: 15,
-    status: "Added to wallet"
-  },
-  {
-    week: "xx Jun 25 - xx Jun 25",
-    totalCreatorEarnings: 600000,
-    agencyCommission: 90000,
-    commissionSlab: 15,
-    status: "Added to wallet"
-  },
-  {
-    week: "29 May 25 - xx Jun 25",
-    totalCreatorEarnings: 600000,
-    agencyCommission: 90000,
-    commissionSlab: 15,
-    status: "Added to wallet"
-  },
-  {
-    week: "22 May 25 - 28 May 25",
-    totalCreatorEarnings: 600000,
-    agencyCommission: 90000,
-    commissionSlab: 15,
-    status: "Added to wallet"
-  },
-  {
-    week: "15 May 25 - 21 May 25",
-    totalCreatorEarnings: 600000,
-    agencyCommission: 90000,
-    commissionSlab: 15,
-    status: "Added to wallet"
-  },
-  {
-    week: "08 May 25 - 14 May 25",
-    totalCreatorEarnings: 550000,
-    agencyCommission: 82500,
-    commissionSlab: 15,
-    status: "Processing"
-  },
-  {
-    week: "01 May 25 - 07 May 25",
-    totalCreatorEarnings: 720000,
-    agencyCommission: 108000,
-    commissionSlab: 15,
-    status: "Pending"
-  }
-];
+import axios from "axios";
+import Cookies from "js-cookie";
+
+// API response settlement type
+interface Settlement {
+  id: number;
+  agencyId: number;
+  isoWeek: string;
+  totalHostEarnings: number;
+  commissionPercent: number;
+  commissionAmount: number;
+  generatedAt: string;
+  remarks: string;
+}
 
 const Badge = ({ children, variant, className = "" }: { children: React.ReactNode; variant: string; className?: string }) => {
   const baseStyles = "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border";
@@ -99,13 +61,46 @@ const Badge = ({ children, variant, className = "" }: { children: React.ReactNod
   );
 };
 
-export default function CreatorEarningsTable({ data = sampleData }: { data?: CreatorEarning[] }) {
+export default function CreatorEarningsTable() {
   const [statusClicked, setStatusClicked] = useState(false);
   const [weekClicked, setWeekClicked] = useState(false);
   const [earningsClicked, setEarningsClicked] = useState(false);
   const [commissionClicked, setCommissionClicked] = useState(false);
   const [slabClicked, setSlabClicked] = useState(false);
-  const [items, setItems] = useState(data);
+  const [items, setItems] = useState<CreatorEarning[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchSettlements = async () => {
+      setLoading(true);
+      setError("");
+      try {
+        const token = Cookies.get('token');
+        const agencyId = Cookies.get('agencyId');
+        const res = await axios.get(process.env.NEXT_PUBLIC_SETTLEMENT_DETAILS_API!+'/'+agencyId, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const settlements: Settlement[] = res.data?.data?.settlements || [];
+
+        const mapped: CreatorEarning[] = settlements.map((s) => ({
+          week: s.isoWeek,
+          totalCreatorEarnings: s.totalHostEarnings,
+          agencyCommission: s.commissionAmount,
+          commissionSlab: s.commissionPercent,
+          status: "Added to wallet",
+        }));
+        setItems(mapped);
+      } catch (err) {
+        setError("Failed to fetch settlements.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchSettlements();
+  }, []);
 
   function sortEarnings(data: CreatorEarning[], sortOptions: SortOptions) {
     let result = [...data];
@@ -150,6 +145,7 @@ export default function CreatorEarningsTable({ data = sampleData }: { data?: Cre
       <div className="bg-[#1E1E1E] flex flex-col p-4 border-0 rounded-xl w-full">
         <div className="w-full">
           <div className="hover:bg-transparent border-b border-white/50 flex justify-between w-full items-center pb-4">
+            {/* ...existing header code... */}
             <div className="text-white flex gap-1.5 w-[20%] items-center">
               {weekClicked ? (
                 <MoveUp
@@ -315,44 +311,52 @@ export default function CreatorEarningsTable({ data = sampleData }: { data?: Cre
           </div>
         </div>
         <div className="overflow-auto h-[51vh] mt-2">
-          {items.map((item, index) => (
-            <div
-              key={`${item.week}-${index}`}
-              className="flex justify-between items-center hover:bg-white/5 border-b border-dashed border-white/30 text-white/85 py-4"
-            >
-              <div className="w-[20%] text-sm">
-                {item.week}
+          {loading ? (
+            <div className="text-zinc-400 text-center py-8">Loading settlements...</div>
+          ) : error ? (
+            <div className="text-red-500 text-center py-8">{error}</div>
+          ) : items.length === 0 ? (
+            <div className="text-zinc-400 text-center py-8">No settlements found.</div>
+          ) : (
+            items.map((item, index) => (
+              <div
+                key={`${item.week}-${index}`}
+                className="flex justify-between items-center hover:bg-white/5 border-b border-dashed border-white/30 text-white/85 py-4"
+              >
+                <div className="w-[20%] text-sm">
+                  {item.week}
+                </div>
+                <div className="w-[25%]">
+                  <span className="text-white font-medium">
+                    {formatCurrency(item.totalCreatorEarnings)}
+                  </span>
+                </div>
+                <div className="w-[20%]">
+                  <span className="text-white font-medium">
+                    {formatCurrency(item.agencyCommission)}
+                  </span>
+                </div>
+                <div className="w-[15%]">
+                  <span className="text-white font-medium">
+                    {item.commissionSlab}%
+                  </span>
+                </div>
+                <div className="w-[20%]">
+                  <Badge
+                    variant={
+                      item.status === "Added to wallet"
+                        ? "success"
+                        : item.status === "Processing"
+                        ? "warn"
+                        : "destructive"
+                    }
+                  >
+                    {item.status}
+                  </Badge>
+                </div>
               </div>
-              <div className="w-[25%]">
-                <span className="text-white font-medium">
-                  {formatCurrency(item.totalCreatorEarnings)}
-                </span>
-              </div>
-              <div className="w-[20%]">
-                <span className="text-white font-medium">
-                  {formatCurrency(item.agencyCommission)}
-                </span>
-              </div>
-              <div className="w-[15%]">
-                <span className="text-white font-medium">
-                  {item.commissionSlab}%
-                </span>
-              </div>
-              <div className="w-[20%]">
-                <Badge
-                  variant={
-                    item.status === "Added to wallet"
-                      ? "success"
-                      : item.status === "Processing"
-                      ? "warn"
-                      : "destructive"
-                  }
-                >
-                  {item.status}
-                </Badge>
-              </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
     </div>

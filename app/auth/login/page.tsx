@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import axios from "axios";
@@ -13,6 +14,7 @@ import ForgotPasswordModal from "@/components/guard/ForgotPasswordModal";
 export default function LoginPage() {
   const router = useRouter();
   const [form, setForm] = useState({ email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const profileUrl = useProfileUrlStore((state) => state.setUrl);
@@ -72,11 +74,20 @@ export default function LoginPage() {
     }
   };
 
-  // Forgot password handler (API call placeholder)
   const handleForgotPassword = async (email: string) => {
-    // TODO: Call your forgot password API here
-    // Example: await api.forgotPassword(email)
-    setShowForgot(false);
+    try {
+      await axios.post(process.env.NEXT_PUBLIC_FORGOT_PASSWORD_API!, { email }, {
+        headers: {
+          Authorization: `Bearer ${Cookies.get('token')}`
+        }
+      });
+      toast.success("Password reset link sent! Check your email.");
+    } catch (err: any) {
+      const errorMessage = err.response?.data?.data?.error || "Failed to send reset link.";
+      toast.error(errorMessage);
+    } finally {
+      setShowForgot(false);
+    }
   };
 
   if (!mounted) return null;
@@ -123,16 +134,27 @@ export default function LoginPage() {
                 >
                   Password
                 </label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  value={form.password}
-                  onChange={handleChange}
-                  placeholder="6+ characters"
-                  className="w-full px-4 py-2 rounded bg-gray-900 text-white placeholder-gray-500 border border-gray-700 focus:outline-none focus:border-orange-500"
-                  required
-                />
+                <div className="relative">
+                  <input
+                    id="password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    value={form.password}
+                    onChange={handleChange}
+                    placeholder="6+ characters"
+                    className="w-full px-4 py-2 rounded bg-gray-900 text-white placeholder-gray-500 border border-gray-700 focus:outline-none focus:border-orange-500 pr-10"
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-200"
+                    tabIndex={-1}
+                    onClick={() => setShowPassword((v) => !v)}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                  >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </button>
+                </div>
               </div>
 
               <button

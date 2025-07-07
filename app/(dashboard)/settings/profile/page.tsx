@@ -5,6 +5,7 @@ import { Copy, User, Edit, X, Check, Upload } from "lucide-react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "sonner";
+import { useProfileUrlStore } from "@/zustand/stores/useProfileUrlStore";
 
 type Profile = {
   agency: {
@@ -47,6 +48,7 @@ const ProfilePage = () => {
   const [copySuccess, setCopySuccess] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [saving, setSaving] = useState(false);
+  const { setUrl } = useProfileUrlStore();
 
   const [originalData, setOriginalData] = useState<EditableProfile | null>(
     null
@@ -99,6 +101,9 @@ const ProfilePage = () => {
           agency: response.data.agency,
           meta: response.data.meta,
         });
+
+        Cookies.set("profileUrl", response.data.agency.avatar);
+        setUrl(response.data.agency.avatar);
 
         const initialData = {
           agency: {
