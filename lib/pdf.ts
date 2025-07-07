@@ -129,7 +129,6 @@ export const downloadPDF = async ( filename: string = 'invoice.pdf'): Promise<vo
   
   try {
     const canvas = await html2canvas(container, {
-      scale: 2,
       useCORS: true,
     });
     
