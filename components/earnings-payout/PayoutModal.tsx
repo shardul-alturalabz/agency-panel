@@ -4,7 +4,12 @@ import axios from "axios";
 import { toast } from "sonner";
 import { Check, ChevronDown, X } from "lucide-react";
 
-export default function PayoutRequestModal({ set }: { set: React.Dispatch<SetStateAction<boolean>> }) {
+interface PayoutRequestModalProps {
+  set: React.Dispatch<SetStateAction<boolean>>;
+  availableBalance?: number;
+}
+
+export default function PayoutRequestModal({ set, availableBalance: propAvailableBalance }: PayoutRequestModalProps) {
     const [withdrawAll, setWithdrawAll] = useState(true);
     const [payoutAmount, setPayoutAmount] = useState('6,00,000');
     const [showDropdown, setShowDropdown] = useState(false);
@@ -26,8 +31,6 @@ export default function PayoutRequestModal({ set }: { set: React.Dispatch<SetSta
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setPayoutMethods(res.data || []);
-                // Optionally, fetch available balance from API if needed
-                // setAvailableBalance(...)
             } catch (err: any) {
                 let message = 'Failed to fetch payout methods';
                 if (err.response) {
@@ -44,6 +47,17 @@ export default function PayoutRequestModal({ set }: { set: React.Dispatch<SetSta
         };
         fetchMethods();
     }, []);
+
+    // Update availableBalance if prop changes
+    useEffect(() => {
+      if (typeof propAvailableBalance === 'number') {
+        const formatted = Number(propAvailableBalance).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+        setAvailableBalance(formatted);
+        if (withdrawAll) {
+          setPayoutAmount(formatted);
+        }
+      }
+    }, [propAvailableBalance]);
 
     const handleWithdrawAllChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const checked = e.target.checked;
