@@ -60,7 +60,7 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
         >
           ×
         </button>
-        <h3 className="text-xl font-semibold mb-4 text-white">Change Password</h3>
+        <h3 className="text-xl font-semibold mb-4 text-white">Reset Password</h3>
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
             <label className="block text-zinc-400 text-sm mb-1">Email</label>

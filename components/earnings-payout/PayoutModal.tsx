@@ -16,7 +16,7 @@ export default function PayoutRequestModal({ set, availableBalance: propAvailabl
     const [selectedMethod, setSelectedMethod] = useState(0);
     const [response, setResponse] = useState(false);
     const [payoutMethods, setPayoutMethods] = useState<any[]>([]);
-    const [availableBalance, setAvailableBalance] = useState('6,00,000');
+    const [availableBalance, setAvailableBalance] = useState('00');
     const [loading, setLoading] = useState(false); // Loading for payout methods
     const [requesting, setRequesting] = useState(false); // Loading for payout request
 

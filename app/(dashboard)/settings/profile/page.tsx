@@ -48,7 +48,7 @@ const ProfilePage = () => {
   const [copySuccess, setCopySuccess] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [saving, setSaving] = useState(false);
-  const { setUrl } = useProfileUrlStore();
+  const { setUrl, setName } = useProfileUrlStore();
 
   const [originalData, setOriginalData] = useState<EditableProfile | null>(
     null
@@ -104,6 +104,7 @@ const ProfilePage = () => {
 
         Cookies.set("profileUrl", response.data.agency.avatar);
         setUrl(response.data.agency.avatar);
+        setName(response.data.agency.name)
 
         const initialData = {
           agency: {
