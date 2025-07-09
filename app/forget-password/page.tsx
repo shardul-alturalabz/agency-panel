@@ -19,7 +19,6 @@ const passwordChecks = [
   },
 ];
 
-// Extract the component that uses useSearchParams
 function ResetPasswordForm() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -44,12 +43,9 @@ function ResetPasswordForm() {
           token,
           newPassword,
           confirmPassword,
-        },
-        {
-          headers: { "Content-Type": "application/json" },
         }
       );
-      setMessage("Password reset successful! You can now log in.");
+      setMessage("Password reset successful! You can now ");
     } catch (err: any) {
       const errorMsg = err.response?.data?.data?.error || "Failed to reset password.";
       setError(errorMsg);
@@ -61,6 +57,16 @@ function ResetPasswordForm() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-black">
       <div className="bg-[#1E1E1E] p-8 rounded-xl shadow-lg w-full max-w-md">
+        <button
+          type="button"
+          className="mb-4 text-zinc-400 hover:text-white cursor-pointer flex items-center gap-2 text-sm font-medium"
+          onClick={() => window.history.back()}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+          </svg>
+          Back
+        </button>
         <h2 className="text-white text-2xl font-bold mb-6">Reset Password</h2>
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
@@ -117,7 +123,7 @@ function ResetPasswordForm() {
               ))}
             </ul>
           </div>
-          {message && <div className="text-green-400 text-sm">{message}</div>}
+          {message && <div className="text-green-400 text-sm">{message}<a href="/auth/login" className="underline">Log In</a></div>}
           {error && <div className="text-red-400 text-sm">{error}</div>}
           <button
             type="submit"

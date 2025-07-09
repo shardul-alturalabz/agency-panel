@@ -5,7 +5,7 @@ import ChangePasswordModal from "@/components/settings/ChangePasswordModal";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "sonner";
-
+import { useProfileUrlStore } from "@/zustand/stores/useProfileUrlStore";
 
 
 const initialFormState = {
@@ -32,6 +32,7 @@ const AccountPage = () => {
   const [methods, setMethods] = useState<any[]>([]);
   const [methodsLoading, setMethodsLoading] = useState(true);
   const [methodsError, setMethodsError] = useState("");
+  const { name } = useProfileUrlStore();
 
   // Fetch all payment methods on mount
   React.useEffect(() => {
@@ -178,7 +179,7 @@ const AccountPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             <div className="space-y-2">
               <p className="text-zinc-400 text-sm">Username</p>
-              <p className="font-medium">Sushi_vid1207</p>
+              <p className="font-medium">{name}</p>
             </div>
 
             <div className="space-y-2">
@@ -189,7 +190,7 @@ const AccountPage = () => {
                   className="text-blue-500 text-sm hover:text-blue-400 transition-colors"
                   onClick={() => setShowChangePassword(true)}
                 >
-                  Change Password
+                  Reset Password
                 </button>
               </div>
             </div>
@@ -242,7 +243,7 @@ const AccountPage = () => {
                   required
                 />
               </div>
-              {error && <div className="text-red-500 text-sm">{error}</div>}
+              {/* Error is now only shown as toast, not in modal */}
               <button type="submit" className="w-full bg-blue-600 hover:bg-blue-500 text-white py-2 rounded-lg font-medium flex items-center justify-center" disabled={loading}>
                 {loading ? <span className="animate-spin mr-2 w-4 h-4 border-2 border-white border-t-transparent rounded-full"></span> : null}
                 {loading ? 'Adding...' : 'Add UPI'}
@@ -301,7 +302,7 @@ const AccountPage = () => {
                   required
                 />
               </div>
-              {error && <div className="text-red-500 text-sm">{error}</div>}
+              {/* Error is now only shown as toast, not in modal */}
               <button type="submit" className="w-full bg-blue-600 hover:bg-blue-500 text-white py-2 rounded-lg font-medium flex items-center justify-center" disabled={loading}>
                 {loading ? <span className="animate-spin mr-2 w-4 h-4 border-2 border-white border-t-transparent rounded-full"></span> : null}
                 {loading ? 'Adding...' : 'Add Bank Account'}
@@ -354,7 +355,7 @@ const AccountPage = () => {
                           <p className="text-zinc-500 text-xs">IFSC: {method.ifscCode}</p>
                         )}
                       </div>
-                      <button
+                      {!method.isPrimary && <button
                         className="text-zinc-400 hover:text-red-500 transition-colors"
                         aria-label="Delete payment method"
                         onClick={async () => {
@@ -370,7 +371,7 @@ const AccountPage = () => {
                                 Authorization: `Bearer ${token}`,
                               },
                             });
-                            // Refresh methods after deleting
+
                             const res = await axios.get(process.env.NEXT_PUBLIC_WITHDRAWAL_LIST_API!, {
                               headers: { Authorization: `Bearer ${token}` },
                             });
@@ -385,7 +386,7 @@ const AccountPage = () => {
                         }}
                       >
                         <Trash2 size={18} />
-                      </button>
+                      </button>}
                     </div>
                   ))}
                 </div>

@@ -150,6 +150,8 @@ export const downloadPDF = async ( filename: string = 'invoice.pdf'): Promise<vo
       pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
       heightLeft -= pageHeight;
     }
+
+    console.log(pdf);
     
     pdf.save(filename);
   } finally {

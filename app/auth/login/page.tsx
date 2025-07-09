@@ -21,6 +21,7 @@ export default function LoginPage() {
 
   const [mounted, setMounted] = useState(false);
   const [showForgot, setShowForgot] = useState(false);
+  const { setName } = useProfileUrlStore();
 
   useEffect(() => {
     setMounted(true);
@@ -59,6 +60,7 @@ export default function LoginPage() {
 
         Cookies.set("profileUrl", data.data.agencyDetails?.agency?.avatar);
         profileUrl(data.data.agencyDetails?.agency?.avatar);
+        setName(data.data.agencyDetails?.agency?.name)
 
         router.push("/main");
       } else {
