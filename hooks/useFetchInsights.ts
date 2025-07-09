@@ -57,7 +57,7 @@ const fetchTalentData = async (
     });
 
     if (response.data.statusCode === 200 && response.data.data) {
-      const mappedData: SampleTalentData[] = response.data.data.map((item: ApiTalentData) => ({
+      const mappedData: SampleTalentData[] = response.data.data.userResults.map((item: ApiTalentData) => ({
         id: `T${String(item.userId).padStart(3, '0')}`, // T001, T037, etc.
         name: `Talent ${item.userId}`, // Default name since not provided by API
         totalEarnings: Math.round(item.totalDiamonds || 0),
