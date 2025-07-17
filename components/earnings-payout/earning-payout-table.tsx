@@ -35,7 +35,7 @@ interface AmountDateSortOptions extends SortOptionsBase {
 
 interface StatusSortOptions extends SortOptionsBase {
   field: "status";
-  ascending: "Completed" | "Failed" | "Pending";
+  priorityStatus: "Paid" | "Rejected" | "Processing" | "Requested";
 }
 
 type SortOptions = AmountDateSortOptions | StatusSortOptions;
@@ -71,42 +71,58 @@ const EarningPayoutTable = () => {
     let result = [...data];
 
     result.sort((a, b) => {
-      let comparison = 0;
-
       if (sortOptions.field === "payoutAmount") {
-        comparison = a.requestedAmount - b.requestedAmount;
+        const comparison = a.requestedAmount - b.requestedAmount;
         return (sortOptions as AmountDateSortOptions).ascending
           ? comparison
           : -comparison;
       } else if (sortOptions.field === "date") {
-        // Use requestedAt for date
         const dateA = new Date(a.requestedAt);
         const dateB = new Date(b.requestedAt);
-        comparison = dateA.getTime() - dateB.getTime();
+        const comparison = dateA.getTime() - dateB.getTime();
         return (sortOptions as AmountDateSortOptions).ascending
           ? comparison
           : -comparison;
       } else if (sortOptions.field === "status") {
         const statusOption = sortOptions as StatusSortOptions;
-        if (
-          a.status === statusOption.ascending &&
-          b.status !== statusOption.ascending
-        ) {
+        const priorityStatus = statusOption.priorityStatus.toLowerCase();
+        
+        // Normalize status for comparison
+        const statusA = a.status.toLowerCase();
+        const statusB = b.status.toLowerCase();
+        
+        // If one matches priority status, it comes first
+        if (statusA === priorityStatus && statusB !== priorityStatus) {
           return -1;
-        } else if (
-          a.status !== statusOption.ascending &&
-          b.status === statusOption.ascending
-        ) {
+        } else if (statusA !== priorityStatus && statusB === priorityStatus) {
           return 1;
         } else {
-          return a.status.localeCompare(b.status);
+          // Both match or both don't match priority, sort alphabetically
+          return statusA.localeCompare(statusB);
         }
       }
 
-      return comparison;
+      return 0;
     });
     setItems(result);
   }
+
+  // Function to get badge variant based on status
+  const getBadgeVariant = (status: string) => {
+    const normalizedStatus = status.toLowerCase();
+    switch (normalizedStatus) {
+      case "paid":
+        return "success";
+      case "rejected":
+        return "destructive";
+      case "processing":
+        return "warn";
+      case "requested":
+        return "secondary"; // or you can use "outline" or create a new variant
+      default:
+        return "warn";
+    }
+  };
 
   return (
     <div className="flex pr-4">
@@ -126,10 +142,10 @@ const EarningPayoutTable = () => {
               {amountClicked ? (
                 <MoveUp
                   onClick={() => {
-                    setAmountClicked((p) => !p);
+                    setAmountClicked(false);
                     sortTransactions(items, {
                       field: "payoutAmount",
-                      ascending: amountClicked,
+                      ascending: false,
                     });
                   }}
                   className="cursor-pointer"
@@ -138,10 +154,10 @@ const EarningPayoutTable = () => {
               ) : (
                 <MoveDown
                   onClick={() => {
-                    setAmountClicked((p) => !p);
+                    setAmountClicked(true);
                     sortTransactions(items, {
                       field: "payoutAmount",
-                      ascending: amountClicked,
+                      ascending: true,
                     });
                   }}
                   className="cursor-pointer"
@@ -157,10 +173,10 @@ const EarningPayoutTable = () => {
               {dateClicked ? (
                 <MoveUp
                   onClick={() => {
-                    setDateClicked((p) => !p);
+                    setDateClicked(false);
                     sortTransactions(items, {
                       field: "date",
-                      ascending: dateClicked,
+                      ascending: false,
                     });
                   }}
                   className="cursor-pointer"
@@ -169,10 +185,10 @@ const EarningPayoutTable = () => {
               ) : (
                 <MoveDown
                   onClick={() => {
-                    setDateClicked((p) => !p);
+                    setDateClicked(true);
                     sortTransactions(items, {
                       field: "date",
-                      ascending: dateClicked,
+                      ascending: true,
                     });
                   }}
                   className="cursor-pointer"
@@ -183,7 +199,7 @@ const EarningPayoutTable = () => {
             </TableHead>
             <TableHead
               style={{ padding: 0 }}
-              className="text-white flex gap-1.5 w-[20%]"
+              className="text-white flex gap-1.5 w-[20%] relative"
             >
               <MoveDown
                 onClick={() => {
@@ -194,52 +210,64 @@ const EarningPayoutTable = () => {
               />
               Status
               {statusClicked && (
-                <div className="absolute h-[23%] bg-zinc-800 flex flex-col items-start px-4 justify-between py-2 w-[12%] mt-8 rounded-xl border-1 border-white/30">
+                <div className="absolute h-fit w-[8rem] gap-y-3  bg-zinc-800 flex flex-col items-start px-4 justify-between py-2 mt-8 rounded-xl border-1 border-white/30 z-10">
                   <p
                     onClick={() => {
                       sortTransactions(items, {
                         field: "status",
-                        ascending: "Completed",
+                        priorityStatus: "Paid",
                       });
                       setStatusClicked(false);
                     }}
                     className="text-green-500 cursor-pointer hover:underline"
                   >
-                    Completed
+                    Paid
                   </p>
                   <p
                     onClick={() => {
                       sortTransactions(items, {
                         field: "status",
-                        ascending: "Pending",
+                        priorityStatus: "Processing",
                       });
                       setStatusClicked(false);
                     }}
                     className="text-yellow-500 cursor-pointer hover:underline"
                   >
-                    Pending
+                    Processing
                   </p>
                   <p
                     onClick={() => {
                       sortTransactions(items, {
                         field: "status",
-                        ascending: "Failed",
+                        priorityStatus: "Requested",
+                      });
+                      setStatusClicked(false);
+                    }}
+                    className="text-blue-500 cursor-pointer hover:underline"
+                  >
+                    Requested
+                  </p>
+                  <p
+                    onClick={() => {
+                      sortTransactions(items, {
+                        field: "status",
+                        priorityStatus: "Rejected",
                       });
                       setStatusClicked(false);
                     }}
                     className="text-red-500 cursor-pointer hover:underline"
                   >
-                    Failed
+                    Rejected
                   </p>
                 </div>
               )}
             </TableHead>
-            <TableHead
+            {/* <TableHead
               style={{ padding: 0 }}
               className="text-white text-right gap-1 w-[20%]"
             >
               Download item
-            </TableHead>
+            </TableHead> */}
           </TableRow>
         </TableHeader>
         <TableBody className="overflow-scroll h-[51vh]">
@@ -261,23 +289,15 @@ const EarningPayoutTable = () => {
                 {new Date(item.requestedAt).toLocaleDateString()}
               </TableCell>
               <TableCell className="w-[20%]">
-                <Badge
-                  variant={
-                    item.status === "paid"
-                      ? "success"
-                      : item.status === "failed"
-                      ? "destructive"
-                      : "warn"
-                  }
-                >
+                <Badge variant={getBadgeVariant(item.status)}>
                   {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
                 </Badge>
               </TableCell>
-              <TableCell className="flex justify-end w-[20%] pr-10">
+              {/* <TableCell className="flex justify-end w-[20%] pr-10">
                 <Download onClick={()=> {
                   downloadPDF()
                 }} className="cursor-pointer" size={21} />
-              </TableCell>
+              </TableCell> */}
             </TableRow>
           ))}
         </TableBody>

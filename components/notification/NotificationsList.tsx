@@ -13,7 +13,7 @@ type Notification = {
 };
 
 interface NotificationsListProps {
-  notifications: Notification[];
+  notifications: Notification[] | [];
 }
 
 const NotificationsList = ({ notifications }: NotificationsListProps) => {
@@ -36,7 +36,7 @@ const NotificationsList = ({ notifications }: NotificationsListProps) => {
   return (
     <div className="flex gap-4 h-screen px-6 bg-[#151515] py-4 rounded-2xl overflow-hidden">
       <div className="space-y-1 w-1/3 overflow-y-auto">
-        {notifications.map((notification) => (
+        { false ? notifications.map((notification) => (
           <div
             key={notification.id}
             className={cn(
@@ -57,7 +57,7 @@ const NotificationsList = ({ notifications }: NotificationsListProps) => {
             </div>
             <div className="h-2 w-2 rounded-full bg-yellow-500 self-center group-hover:bg-yellow-400" />
           </div>
-        ))}
+        )): <div className="h-full w-full flex items-center justify-center opacity-55">No Notifications</div>}
       </div>
 
       <div className="w-2/3 bg-zinc-900/50 border-l border-zinc-800 p-6 overflow-y-auto">

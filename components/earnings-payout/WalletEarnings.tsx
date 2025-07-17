@@ -58,7 +58,7 @@ const WalletEarnings = () => {
         ) : (
           <p className="text-xl font-semibold mb-2">₹{wallet ? Number(wallet.estimatedCurrentWeek).toLocaleString('en-IN', { maximumFractionDigits: 2 }) : '0'}</p>
         )}
-        <p className="text-sm text-gray-400">Next settlement due on 24/05/2025</p>
+        <p className="text-sm text-gray-400"></p>
       </div>
       {modal && <PayoutRequestModal set={setModal} availableBalance={wallet ? wallet.withdrawableBalance : 0} />} 
     </div>

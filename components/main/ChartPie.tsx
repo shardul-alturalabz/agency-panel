@@ -2,13 +2,23 @@
 
 import { LabelList, Pie, PieChart, ResponsiveContainer } from "recharts";
 import { ChartContainer } from "@/components/ui/chart";
+import { useTalentStore } from "@/zustand/stores/useTalentStore";
 
 export default function ChartPie() {
-  const data = [
-    { name: "Segment 1", value: 45, fill: "#e85414" },
-    { name: "Segment 2", value: 35, fill: "#FEBE24" },
-    { name: "Segment 3", value: 20, fill: "#61C4C7" },
-  ];
+  // Get the sourceSplit from zustand store
+  const sourceSplit = useTalentStore((state) => state.sourceSplit);
+
+  // Show sourceSplit as pie if available, else fallback to static
+  const data = sourceSplit
+    ? [
+        { name: "Gift", value: sourceSplit.gift, fill: "#e85414" },
+        { name: "Call", value: sourceSplit.call, fill: "#61C4C7" },
+      ]
+    : [
+        { name: "Segment 1", value: 45, fill: "#e85414" },
+        { name: "Segment 2", value: 35, fill: "#FEBE24" },
+        { name: "Segment 3", value: 20, fill: "#61C4C7" },
+      ];
 
   const chartConfig = {
     value: { label: "Value" },
