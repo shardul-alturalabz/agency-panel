@@ -183,12 +183,7 @@ export function SideSheet({ children }: SideSheetProps) {
             </div>
 
             <div className="mt-4">
-              {/* <button
-                className="cursor-pointer text-white text-sm font-medium border-0 py-1.5 px-2 rounded-lg bg-red-600/90 border-none text-left"
-                onClick={onRemoveCreator}
-              >
-                Remove creator
-              </button> */}
+
             </div>
           </div>
         </div>
