@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import Cookies from "js-cookie";
+import { useTalentStore, SampleTalentData, SourceSplit } from "../zustand/stores/useTalentStore";
 
 interface ApiTalentData {
   userId: number;
@@ -19,17 +20,7 @@ interface ApiResponse {
 }
 
 // Mapped Data Types
-interface SampleTalentData {
-  id: string;
-  name: string;
-  totalEarnings: number;
-  totalStreams: number;
-  totalFollowers: number;
-  totalPrivateCallDuration: number;
-  avgStreamTime: number;
-  avgViewersPerStream: number;
-  avgDiamondsPerStream: number;
-}
+// SampleTalentData is imported from zustand store
 
 const parseTimeToMinutes = (timeStr: string): number => {
   if (!timeStr) return 0;
@@ -46,7 +37,8 @@ const parseTimeToMinutes = (timeStr: string): number => {
 const token = Cookies.get('token');
 
 const fetchTalentData = async (
-  setSampleTalentData: React.Dispatch<React.SetStateAction<SampleTalentData[]>>
+  setTalentData: (data: SampleTalentData[]) => void,
+  setSourceSplit: (split: SourceSplit) => void
 ): Promise<SampleTalentData[]> => {
   try {
     const response = await axios.get(process.env.NEXT_PUBLIC_INSIGHTS_API!, {
@@ -57,21 +49,21 @@ const fetchTalentData = async (
     });
 
     if (response.data.statusCode === 200 && response.data.data) {
+      if (response.data.data.sourceSplit) {
+        setSourceSplit(response.data.data.sourceSplit);
+      }
       const mappedData: SampleTalentData[] = response.data.data.userResults.map((item: ApiTalentData) => ({
-        id: `T${String(item.userId).padStart(3, '0')}`, // T001, T037, etc.
-        name: `Talent ${item.userId}`, // Default name since not provided by API
+        id: `T${String(item.userId).padStart(3, '0')}`,
+        name: `Talent ${item.userId}`,
         totalEarnings: Math.round(item.totalDiamonds || 0),
         totalStreams: item.totalStreams || 0,
         totalFollowers: item.followers || 0,
-        totalPrivateCallDuration: 0, // Default value - not provided by API
-        avgStreamTime: parseTimeToMinutes(item.avgStreamTime), // Convert to minutes
-        avgViewersPerStream: 250, // Default value - not provided by API
+        totalPrivateCallDuration: 0,
+        avgStreamTime: parseTimeToMinutes(item.avgStreamTime),
+        avgViewersPerStream: 250,
         avgDiamondsPerStream: Math.round(item.avgDiamonds || 0)
       }));
-
-      // Update the state with mapped data
-      setSampleTalentData(mappedData);
-
+      setTalentData(mappedData);
       console.log('Talent data fetched and mapped successfully:', mappedData);
       return mappedData;
     } else {
@@ -79,7 +71,6 @@ const fetchTalentData = async (
     }
   } catch (error) {
     console.error('Error fetching talent data:', error);
-
     // Set default data on error
     const defaultData: SampleTalentData[] = [{
       id: "T001",
@@ -92,8 +83,7 @@ const fetchTalentData = async (
       avgViewersPerStream: 0,
       avgDiamondsPerStream: 0
     }];
-
-    setSampleTalentData(defaultData);
+    setTalentData(defaultData);
     throw error;
   }
 };
@@ -106,16 +96,17 @@ interface UseFetchTalentDataReturn {
 }
 
 export const useFetchTalentData = (): UseFetchTalentDataReturn => {
-  const [sampleTalentData, setSampleTalentData] = useState<SampleTalentData[]>([]);
+  const sampleTalentData = useTalentStore((state) => state.talentData);
+  const setTalentData = useTalentStore((state) => state.setTalentData);
+  const setSourceSplit = useTalentStore((state) => state.setSourceSplit);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const fetchData = async (): Promise<void> => {
     setLoading(true);
     setError(null);
-
     try {
-      await fetchTalentData(setSampleTalentData);
+      await fetchTalentData(setTalentData, setSourceSplit);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unknown error occurred');
     } finally {

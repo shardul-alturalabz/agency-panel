@@ -88,6 +88,7 @@ const AccountPage = () => {
       upi: formData.upi,
       type: "upi",
       accountHolderName: formData.accountHolderName,
+      isPrimary: formData.isPrimary,
     };
     try {
       const token = Cookies.get('token');
@@ -132,6 +133,7 @@ const AccountPage = () => {
       accountNumber: formData.accountNumber,
       bankName: formData.bankName,
       ifscCode: formData.ifscCode,
+      isPrimary: formData.isPrimary,
     };
     try {
       const token = Cookies.get('token');
@@ -243,6 +245,16 @@ const AccountPage = () => {
                   required
                 />
               </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="upi-is-primary"
+                  checked={formData.isPrimary}
+                  onChange={e => setFormData(f => ({ ...f, isPrimary: e.target.checked }))}
+                  className="accent-blue-600"
+                />
+                <label htmlFor="upi-is-primary" className="text-sm">Set as Primary</label>
+              </div>
               {/* Error is now only shown as toast, not in modal */}
               <button type="submit" className="w-full bg-blue-600 hover:bg-blue-500 text-white py-2 rounded-lg font-medium flex items-center justify-center" disabled={loading}>
                 {loading ? <span className="animate-spin mr-2 w-4 h-4 border-2 border-white border-t-transparent rounded-full"></span> : null}
@@ -301,6 +313,16 @@ const AccountPage = () => {
                   onChange={e => setFormData(f => ({ ...f, ifscCode: e.target.value }))}
                   required
                 />
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="bank-is-primary"
+                  checked={formData.isPrimary}
+                  onChange={e => setFormData(f => ({ ...f, isPrimary: e.target.checked }))}
+                  className="accent-blue-600"
+                />
+                <label htmlFor="bank-is-primary" className="text-sm">Set as Primary</label>
               </div>
               {/* Error is now only shown as toast, not in modal */}
               <button type="submit" className="w-full bg-blue-600 hover:bg-blue-500 text-white py-2 rounded-lg font-medium flex items-center justify-center" disabled={loading}>
