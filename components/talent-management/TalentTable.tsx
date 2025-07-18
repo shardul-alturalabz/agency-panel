@@ -370,13 +370,13 @@ export const TalentTable = ({
               <TableCell className="w-[13%] text-center">
                 {item.avgDiamondsPerStream}
               </TableCell>
-              <SideSheet>
-                <SheetTrigger asChild>
+{/*               <SideSheet>
+                <SheetTrigger asChild> */}
                   <TableCell className="flex justify-end w-[3%]">
                     <ChevronRight className="cursor-pointer" size={21} />
                   </TableCell>
-                </SheetTrigger>
-              </SideSheet>
+{/*                 </SheetTrigger>
+              </SideSheet> */}
             </TableRow>
           ))}
         </TableBody>
