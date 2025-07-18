@@ -73,7 +73,7 @@ export default function TalentHeader({ data }: { data: TalentData[] }) {
         </p>
         <p className="text-[1.1rem]">
           <b>Total earnings : </b>
-          <span>{"140M"}</span>
+          <span>{" --"}</span>
         </p>
       </div>
       <div className="flex w-[50%] justify-end">
