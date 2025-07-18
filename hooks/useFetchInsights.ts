@@ -5,6 +5,7 @@ import { useTalentStore, SampleTalentData, SourceSplit } from "../zustand/stores
 
 interface ApiTalentData {
   userId: number;
+  name: string;
   totalStreams: number;
   totalDiamonds: number;
   avgDiamonds: number;
@@ -59,7 +60,7 @@ const fetchTalentData = async (
   const userResults = response.data.data.userResults || [];
   const mappedData: SampleTalentData[] = userResults.map((item: ApiTalentData) => ({
     id: `T${String(item.userId).padStart(3, '0')}`,
-    name: `Talent ${item.userId}`,
+    name: `${item.name}`,
     totalEarnings: Math.round(item.totalDiamonds || 0),
     totalStreams: item.totalStreams || 0,
     totalFollowers: item.followers || 0,
