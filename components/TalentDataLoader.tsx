@@ -7,7 +7,6 @@ export default function TalentDataLoader() {
   const { fetchData } = useFetchTalentData();
 
   useEffect(() => {
-    // Only fetch data if user is logged in (token exists)
     if (Cookies.get('token')) {
       fetchData();
     }
