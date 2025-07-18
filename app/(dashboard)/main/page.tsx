@@ -11,23 +11,25 @@ import NotificationFilters from "@/components/notification/NotificationFilters";
 import { Copy } from "lucide-react";
 import { useMenuStore } from "@/zustand/stores/useMenuStore";
 import { toast } from "sonner";
+import { useTalentStore } from "@/zustand/stores/useTalentStore";
 
 const filters = ["This year", "Last month", "This month", "This week"];
 
 const Page = () => {
   const [activeFilter, setActiveFilter] = useState<string>("This year");
-  const setMenu = useMenuStore((state)=> state.setIndex);
+  const setMenu = useMenuStore((state) => state.setIndex);
+  const sourceSplit = useTalentStore((state) => state.sourceSplit);
 
   return (
     <div className="w-full bg-black text-white overflow-auto">
       <div className="border-white/15 border-b-2 w-full p-4 pb-1 flex justify-between  items-center">
         <h1 className="text-2xl font-semibold mb-4">Welcome to Agency Panel</h1>
         <div className="flex items-center gap-10">
-          <div onClick={()=>{navigator.clipboard.writeText("https://play.google.com/store/apps/details?id=app.salsayou.android&pli=1"); toast.info("Copied the link")}} className="bg-[#404040] flex gap-3 p-3 mb-1.5 rounded-lg cursor-pointer">
+          <div onClick={() => { navigator.clipboard.writeText("https://play.google.com/store/apps/details?id=app.salsayou.android&pli=1"); toast.info("Copied the link") }} className="bg-[#404040] flex gap-3 p-3 mb-1.5 rounded-lg cursor-pointer">
             <Copy />
             Copy app link to invite creators
           </div>
-          <p onClick={()=> setMenu(2)}  className="text-[#1A88FF] underline cursor-pointer text-lg pr-2">
+          <p onClick={() => setMenu(2)} className="text-[#1A88FF] underline cursor-pointer text-lg pr-2">
             Send feedback
           </p>
         </div>
@@ -65,7 +67,7 @@ const Page = () => {
             </div>
             <ChartBar /> */}
             <div className='flex items-center opacity-45 justify-center mt-4'>
-                No Data found
+              No Data found
             </div>
           </div>
           <div className="w-[50%] bg-[#1e1e1e] h-[36vh] h-min-fit pb-5 px-1 flex flex-col  rounded-2xl">
@@ -82,10 +84,11 @@ const Page = () => {
                 </div>
               </div>
               <div className="w-[60%] h-full flex">
-                {/* <ChartPie /> */}
-                <div className="size-56 rounded-full flex ml-32 mt-6 items-center justify-center text-white/80 bg-[#e85414] border-0">
-                  No data found
-                </div>
+                {(sourceSplit && sourceSplit?.call!==0 && sourceSplit?.gift!==0) ? <ChartPie /> :
+                  <div className="h-[68%] w-[45%] rounded-full text-[1vw] flex ml-32 mt-6 items-center justify-center text-white/80 bg-[#e85414] border-0">
+                    No data found
+                  </div>
+                }
               </div>
             </div>
           </div>
@@ -95,7 +98,7 @@ const Page = () => {
             <TitleCard text="Most watched category" />
             {/* <ChartHorizontal /> */}
             <div className='flex items-center opacity-45 justify-center mt-4'>
-                No Data found
+              No Data found
             </div>
           </div>
           <div className="w-1/3 h-full bg-[#1e1e1e] rounded-2xl pb-3 flex flex-col">
