@@ -281,7 +281,7 @@ export const TalentTable = ({
               )}
               <p className="w-full text-wrap">Avg stream time</p>
             </TableHead>
-            <TableHead
+{/*             <TableHead
               style={{ padding: 0 }}
               className="text-white flex gap-1.5 w-[13%] overflow-hidden"
             >
@@ -305,7 +305,7 @@ export const TalentTable = ({
                 />
               )}
               <p className="w-full text-wrap">Avg viewer per stream</p>
-            </TableHead>
+            </TableHead> */}
             <TableHead
               style={{ padding: 0 }}
               className="text-white flex gap-1.5 w-[13%] overflow-hidden"
@@ -364,9 +364,9 @@ export const TalentTable = ({
               <TableCell className="w-[10%] text-center">
                 {item.avgStreamTime} mins
               </TableCell>
-              <TableCell className="w-[13%] text-center">
+{/*               <TableCell className="w-[13%] text-center">
                 {item.avgViewersPerStream}
-              </TableCell>
+              </TableCell> */}
               <TableCell className="w-[13%] text-center">
                 {item.avgDiamondsPerStream}
               </TableCell>
