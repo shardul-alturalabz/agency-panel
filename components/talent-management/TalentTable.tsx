@@ -308,7 +308,7 @@ export const TalentTable = ({
             </TableHead> */}
             <TableHead
               style={{ padding: 0 }}
-              className="text-white flex gap-1.5 w-[13%] overflow-hidden"
+              className="text-white flex gap-1.5 w-[9%] justify-center overflow-hidden"
             >
               {diamondsClicked ? (
                 <MoveUp
@@ -329,7 +329,7 @@ export const TalentTable = ({
                   size={21}
                 />
               )}
-              <p className="w-full text-wrap">Avg diamonds per stream</p>
+              <p className="w-full text-wrap">Diamonds</p>
             </TableHead>
             <TableHead
               style={{ padding: 0 }}

@@ -66,8 +66,8 @@ const fetchTalentData = async (
     totalFollowers: item.followers || 0,
     totalPrivateCallDuration: 0,
     avgStreamTime: parseTimeToMinutes(item.avgStreamTime),
-    avgViewersPerStream: 250,
-    avgDiamondsPerStream: Math.round(item.avgDiamonds || 0)
+    avgViewersPerStream: 0,
+    avgDiamondsPerStream: Math.round(item.totalDiamonds || 0)
   }));
 
   setTalentData(mappedData);
