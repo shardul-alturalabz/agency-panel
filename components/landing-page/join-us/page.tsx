@@ -11,10 +11,10 @@ const JoinUs = () => {
   const [formData, setFormData] = useState({
     fullName: "",
     country: "",
-    mobileCode: "",
+    mobileCode: "+91",
     mobileNumber: "",
     companyWebsite: "",
-    whatsappCode: "",
+    whatsappCode: "+91",
     whatsappNumber: "",
     sameAsMobile: false,
     hostCount: "",
