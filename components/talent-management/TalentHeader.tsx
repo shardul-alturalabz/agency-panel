@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { ChevronDown } from "lucide-react";
 import Papa from "papaparse";
@@ -20,6 +20,7 @@ interface TalentData {
 
 export default function TalentHeader({ data }: { data: TalentData[] }) {
   const [exportButton, setExportButton] = useState(false);
+  const [earningSum, setEarningSum] = useState<number>();
 
   const handleCSV = () => {
     const csv = Papa.unparse(data as unknown as Record<string, string>[]);
@@ -31,6 +32,14 @@ export default function TalentHeader({ data }: { data: TalentData[] }) {
     link.click();
     setExportButton(false);
   };
+
+  useEffect(() => {
+    const sum = data.map((i) => i.totalEarnings).reduce((accumulator, currentValue) => {
+      return accumulator + currentValue;
+    }, 0);
+    setEarningSum(sum);
+
+  }, [data])
 
   const handlePDF = () => {
     const doc = new jsPDF();
@@ -73,7 +82,7 @@ export default function TalentHeader({ data }: { data: TalentData[] }) {
         </p>
         <p className="text-[1.1rem]">
           <b>Total earnings : </b>
-          <span>{" --"}</span>
+          <span>{earningSum ? earningSum : " --"}</span>
         </p>
       </div>
       <div className="flex w-[50%] justify-end">

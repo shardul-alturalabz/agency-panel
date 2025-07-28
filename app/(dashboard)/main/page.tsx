@@ -4,7 +4,8 @@ import ChartPie from "@/components/main/ChartPie";
 import TitleCard from "@/components/main/TiltleCard";
 import { BadgeWithHeader } from "@/components/ui/badge-with-header";
 import badge from "../../../public/badgeleader.png";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Image from "next/image";
 import { ChartHorizontal } from "@/components/main/ChartHorizontal";
 import NotificationFilters from "@/components/notification/NotificationFilters";
@@ -12,13 +13,54 @@ import { Copy } from "lucide-react";
 import { useMenuStore } from "@/zustand/stores/useMenuStore";
 import { toast } from "sonner";
 import { useTalentStore } from "@/zustand/stores/useTalentStore";
+import Cookies from "js-cookie";
+import { useFetchTalentData } from "@/hooks/useFetchInsights";
 
-const filters = ["This year", "Last month", "This month", "This week"];
+const filters = ["This year", "Last month", "This month", "This week", "Last week"];
 
 const Page = () => {
   const [activeFilter, setActiveFilter] = useState<string>("This year");
   const setMenu = useMenuStore((state) => state.setIndex);
   const sourceSplit = useTalentStore((state) => state.sourceSplit);
+  const { sampleTalentData } = useFetchTalentData();
+  const [earningSum, setEarningSum] = useState<number>();
+  const [avgStream, setAvgStream] = useState<number>();
+
+  const token = Cookies.get('token')
+
+  const [totalEarnings, setTotalEarnings] = useState<number | null>(null);
+
+  useEffect(() => {
+    const fetchEarnings = async () => {
+      try {
+        setTotalEarnings(null);
+        const res = await axios.get(process.env.NEXT_PUBLIC_EARNINGS_API + `${activeFilter.toLowerCase().split(' ').join('_')}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        const data = res.data;
+        setTotalEarnings(Number(data));
+      } catch (err) {
+        toast.error("Could not load earnings");
+      }
+    };
+    fetchEarnings();
+  }, [activeFilter]);
+
+  useEffect(() => {
+    const sum = sampleTalentData.map((i) => i.totalEarnings).reduce((accumulator, currentValue) => {
+      return accumulator + currentValue;
+    }, 0);
+    setEarningSum(sum);
+
+    const sum2 = sampleTalentData.map((i) => i.avgStreamTime).reduce((accumulator, currentValue) => {
+      return accumulator + currentValue;
+    }, 0);
+    setAvgStream(sum2);
+
+
+  }, [sampleTalentData])
 
   return (
     <div className="w-full bg-black text-white overflow-auto">
@@ -41,12 +83,12 @@ const Page = () => {
           onFilterChange={setActiveFilter}
         />
         <div className="flex gap-x-4 flex-wrap gap-y-4">
-          <BadgeWithHeader type="price" price={' --'} text="Total earnings" />
-          <BadgeWithHeader type="price" price={' --'} text="Average earnings" />
-          <BadgeWithHeader type="text" price={' --'} text="Creators onboard" />
+          <BadgeWithHeader type="price" price={totalEarnings ? totalEarnings : " --"} text="Total earnings" />
+          <BadgeWithHeader type="price" price={earningSum ? (earningSum / sampleTalentData.length).toFixed(2) : ' --'} text="Average earnings" />
+          <BadgeWithHeader type="text" price={sampleTalentData ? sampleTalentData.length : ' --'} text="Creators onboard" />
           <BadgeWithHeader
             type="text"
-            price={' --'}
+            price={avgStream ? (avgStream / sampleTalentData.length).toFixed(2) + " min" : ' --'}
             text="Avg stream time"
           />
         </div>
@@ -84,7 +126,7 @@ const Page = () => {
                 </div>
               </div>
               <div className="w-[60%] h-full flex">
-                {(sourceSplit && sourceSplit?.call!==0 && sourceSplit?.gift!==0) ? <ChartPie /> :
+                {(sourceSplit && sourceSplit?.call !== 0 && sourceSplit?.gift !== 0) ? <ChartPie /> :
                   <div className="h-[68%] w-[45%] rounded-full text-[1vw] flex ml-32 mt-6 items-center justify-center text-white/80 bg-[#e85414] border-0">
                     No data found
                   </div>
