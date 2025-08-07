@@ -2,7 +2,6 @@
 import CreatorEarningsTable from "@/components/earnings-payout/CreatorEarningsTable";
 import EarningPayoutTable from "@/components/earnings-payout/earning-payout-table";
 import WalletEarnings from "@/components/earnings-payout/WalletEarnings";
-import { BadgeWithHeader } from "@/components/ui/badge-with-header";
 
 import React, { useState } from "react";
 

@@ -23,6 +23,26 @@ const Hero = () => {
         <div className="flex items-center space-x-3 text-white font-semibold">
           <img src="/assets/logo.png" alt="logo" className="w-30 h-10" />
         </div>
+        {/* Login Button at Top Right */}
+        <div
+          className="relative flex items-center"
+          onMouseEnter={() => setShowTooltip(true)}
+          onMouseLeave={() => setShowTooltip(false)}
+        >
+          <button
+            onClick={() => router.push("/auth/login")}
+            className="py-2.5 px-5 flex cursor-pointer items-center justify-center gap-3 rounded-md bg-gradient-to-r from-[#ff7143] to-[#ff4e1b] text-white shadow-md hover:scale-105 transition"
+          >
+            <FaSignInAlt size={18} />
+           <span className="font-medium">Log In</span> 
+          </button>
+          {/* Tooltip */}
+          {showTooltip && (
+            <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-white text-[#e94e1b] text-sm px-4 py-2 rounded-lg shadow-lg whitespace-nowrap z-10">
+              Login, if you are already a partner
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Main Content */}
@@ -43,27 +63,6 @@ const Hero = () => {
           >
             Become a partner
           </Button>
-
-          {/* Login Button with Tooltip */}
-          <div
-            className="relative flex items-center"
-            onMouseEnter={() => setShowTooltip(true)}
-            onMouseLeave={() => setShowTooltip(false)}
-          >
-            <button
-              onClick={() => router.push("/auth/login")}
-              className="p-3 rounded-md bg-gradient-to-r from-[#ff7143] to-[#ff4e1b] text-white shadow-md hover:scale-105 transition"
-            >
-              <FaSignInAlt size={18} />
-            </button>
-
-            {/* Tooltip */}
-            {showTooltip && (
-              <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-white text-[#e94e1b] text-sm px-4 py-2 rounded-lg shadow-lg whitespace-nowrap z-10">
-                Login, if you are already a partner
-              </div>
-            )}
-          </div>
         </div>
       </div>
     </div>

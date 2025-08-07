@@ -1,10 +1,16 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Copy, User, Edit, X, Check, Upload } from "lucide-react";
+import { Edit, X } from "lucide-react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "sonner";
+import ProfileAvatar from "@/components/profile/ProfileAvatar";
+import AgencyCode from "@/components/profile/AgencyCode";
+import DescriptionSection from "@/components/profile/DescriptionSection";
+import ContactInfo from "@/components/profile/ContactInfo";
+import PlatformDetails from "@/components/profile/PlatformDetails";
+import SaveButton from "@/components/profile/SaveButton";
 import { useProfileUrlStore } from "@/zustand/stores/useProfileUrlStore";
 
 type Profile = {
@@ -144,13 +150,6 @@ const ProfilePage = () => {
     fetchProfile();
   }, []);
 
-  const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text).then(() => {
-      setCopySuccess(true);
-      setTimeout(() => setCopySuccess(false), 2000);
-    });
-  };
-
   const handleEdit = () => {
     setIsEditing(true);
   };
@@ -159,19 +158,6 @@ const ProfilePage = () => {
     setIsEditing(false);
     if (originalData) {
       setEditData({ ...originalData });
-    }
-  };
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setEditData({
-        ...editData,
-        agency: {
-          ...editData.agency,
-          avatar: file,
-        },
-      });
     }
   };
 
@@ -314,50 +300,13 @@ const ProfilePage = () => {
           Basic information
         </h2>
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
-          <div className="relative">
-            {isEditing ? (
-              <label className="cursor-pointer group">
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="hidden"
-                />
-                <div className="w-24 h-24 flex items-center justify-center bg-zinc-800 rounded-full relative overflow-hidden group-hover:opacity-80 transition-opacity">
-                  {editData.agency.avatar ? (
-                    <img
-                      src={URL.createObjectURL(editData.agency.avatar)}
-                      alt="Profile"
-                      className="w-full h-full object-cover"
-                    />
-                  ) : agency?.avatar ? (
-                    <img
-                      src={agency.avatar}
-                      alt="Profile"
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <User size={40} className="text-white" />
-                  )}
-                  <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Upload size={24} className="text-white" />
-                  </div>
-                </div>
-              </label>
-            ) : (
-              <div className="w-24 h-24 flex items-center justify-center bg-zinc-800 rounded-full overflow-hidden">
-                {agency?.avatar ? (
-                  <img
-                    src={agency.avatar}
-                    alt="Profile"
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <User size={40} className="text-white" />
-                )}
-              </div>
-            )}
-          </div>
+          <ProfileAvatar
+            isEditing={isEditing}
+            agencyAvatar={agency?.avatar}
+            editAvatar={editData.agency.avatar ?? null}
+            setEditData={setEditData}
+            editData={editData}
+          />
           <div className="flex-1 grid grid-cols-1 gap-4 text-sm text-gray-300">
             <div>
               <p className="text-gray-500 mb-1">Agency name</p>
@@ -379,133 +328,40 @@ const ProfilePage = () => {
             </div>
             <div>
               <p className="text-gray-500 mb-1">Agency code</p>
-              <div className="flex items-center gap-2">
-                <p>{meta?.code || "N/A"}</p>
-                <button
-                  className="text-gray-400 hover:text-white"
-                  onClick={() => handleCopy(meta?.code || "")}
-                  aria-label="Copy agency code"
-                >
-                  <Copy size={16} />
-                </button>
-                {copySuccess && (
-                  <span className="ml-2 text-green-400 text-sm select-none">
-                    Copied!
-                  </span>
-                )}
-              </div>
+              <AgencyCode code={meta?.code || ""} copySuccess={copySuccess} setCopySuccess={setCopySuccess} />
             </div>
           </div>
         </div>
       </div>
 
-      <div className="bg-[#1E1E1E] rounded-xl p-6 mb-6 shadow-lg">
-        <h2 className="text-lg text-white font-semibold mb-4">Description</h2>
-        <div className="text-sm text-gray-300">
-          {isEditing ? (
-            <textarea
-              value={editData.meta.description}
-              onChange={(e) =>
-                setEditData({
-                  ...editData,
-                  meta: { ...editData.meta, description: e.target.value },
-                })
-              }
-              rows={4}
-              className="w-full bg-zinc-800 text-white px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-              placeholder="Add a description for your agency..."
-            />
-          ) : (
-            <p className="text-gray-300">
-              {meta?.description || "No description provided"}
-            </p>
-          )}
-        </div>
-      </div>
+      <DescriptionSection
+        isEditing={isEditing}
+        value={editData.meta.description}
+        setEditData={setEditData}
+        editData={editData}
+      />
 
-      <div className="bg-[#1E1E1E] rounded-xl p-6 mb-6 shadow-lg">
-        <h2 className="text-lg text-white font-semibold mb-4">
-          Contact information
-        </h2>
-        <div className="text-sm text-gray-300">
-          <div>
-            <p className="text-gray-500 mb-1">Contact email</p>
-            {isEditing ? (
-              <input
-                type="email"
-                value={editData.agency.email}
-                onChange={(e) =>
-                  setEditData({
-                    ...editData,
-                    agency: { ...editData.agency, email: e.target.value },
-                  })
-                }
-                className="w-full bg-zinc-800 text-white px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            ) : (
-              <p>{agency?.email || "N/A"}</p>
-            )}
-          </div>
-        </div>
-      </div>
+      <ContactInfo
+        isEditing={isEditing}
+        email={editData.agency.email}
+        setEditData={setEditData}
+        editData={editData}
+      />
 
-      <div className="bg-[#1E1E1E] rounded-xl p-6 shadow-lg">
-        <h2 className="text-lg text-white font-semibold mb-4">
-          Platform details
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-300">
-          <div>
-            <p className="text-gray-500 mb-1">Total creators onboard</p>
-            {isEditing ? (
-              <input
-                type="number"
-                value={editData.meta.members}
-                onChange={(e) =>
-                  setEditData({
-                    ...editData,
-                    meta: {
-                      ...editData.meta,
-                      members: parseInt(e.target.value) || 0,
-                    },
-                  })
-                }
-                className="w-full bg-zinc-800 text-white px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            ) : (
-              <p>{meta?.members ?? "0"}</p>
-            )}
-          </div>
-          <div>
-            <p className="text-gray-500 mb-1">Registered with Salsa</p>
-            <p>
-              {agency?.createdAt
-                ? new Date(agency.createdAt).toLocaleDateString()
-                : "—"}
-            </p>
-          </div>
-        </div>
-      </div>
+      <PlatformDetails
+        isEditing={isEditing}
+        members={editData.meta.members}
+        createdAt={agency?.createdAt}
+        setEditData={setEditData}
+        editData={editData}
+      />
 
       {isEditing && (
-        <div className="mt-8 flex justify-end">
-          <button
-            onClick={handleSubmit}
-            disabled={saving || (!hasAgencyChanges() && !hasMetaChanges())}
-            className="flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {saving ? (
-              <>
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                Saving...
-              </>
-            ) : (
-              <>
-                <Check size={18} />
-                Save Changes
-              </>
-            )}
-          </button>
-        </div>
+        <SaveButton
+          saving={saving}
+          disabled={saving || (!hasAgencyChanges() && !hasMetaChanges())}
+          onClick={handleSubmit}
+        />
       )}
     </div>
   );

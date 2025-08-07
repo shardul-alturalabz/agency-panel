@@ -1,13 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaArrowLeft } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { toast } from "sonner"; // ✅ Import toast
+import { toast } from "sonner";
 import { useProfileUrlStore } from "@/zustand/stores/useProfileUrlStore";
-// import React, { useState } from "react"; // removed duplicate useState import
 import ForgotPasswordModal from "@/components/guard/ForgotPasswordModal";
 
 
@@ -104,8 +103,18 @@ export default function LoginPage() {
         priority
       />
 
+      {/* Back Button fixed at top left of viewport */}
+      <button
+        type="button"
+        className="fixed top-6 cursor-pointer left-6 flex items-center gap-2 text-white hover:text-orange-400 bg-black/40 hover:bg-black/60 rounded-full px-4 py-2 transition z-30 text-base font-medium shadow-lg"
+        onClick={() => router.back()}
+        aria-label="Go back"
+      >
+        <FaArrowLeft size={18} />
+        <span>Back</span>
+      </button>
       <div className="absolute inset-0 flex items-center justify-center z-10">
-        <div className="bg-black bg-opacity-80 rounded-xl shadow-lg w-full max-w-md">
+        <div className="bg-black bg-opacity-80 rounded-xl shadow-lg w-full max-w-md relative">
           <div className="p-8 flex flex-col">
             <h2 className="text-white text-2xl font-bold mb-6">Login</h2>
 
