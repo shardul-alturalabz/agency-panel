@@ -13,6 +13,7 @@ export interface SampleTalentData {
   totalFollowers: number;
   totalPrivateCallDuration: number;
   avgStreamTime: number;
+  totalStreamTime: number;
   avgViewersPerStream: number;
   avgDiamondsPerStream: number;
 }

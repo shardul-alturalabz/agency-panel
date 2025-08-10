@@ -40,10 +40,10 @@ const fetchTalentData = async (
   setTalentData: (data: SampleTalentData[]) => void,
   setSourceSplit: (split: SourceSplit) => void
 ): Promise<SampleTalentData[]> => {
-  const response = await axios.get<ApiResponse>(process.env.NEXT_PUBLIC_INSIGHTS_API!, {
+  const response = await axios.post<ApiResponse>(process.env.NEXT_PUBLIC_INSIGHTS_API!,{}, {
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'authorization': `Bearer ${token}`
     }
   });
 
@@ -66,6 +66,7 @@ const fetchTalentData = async (
     totalFollowers: item.followers || 0,
     totalPrivateCallDuration: 0,
     avgStreamTime: parseTimeToMinutes(item.avgStreamTime),
+    totalStreamTime: parseTimeToMinutes(item.totalStreamTime),
     avgViewersPerStream: 0,
     avgDiamondsPerStream: Math.round(item.totalDiamonds || 0)
   }));
@@ -132,6 +133,7 @@ export const useFetchTalentData = (): UseFetchTalentDataReturn => {
         totalFollowers: 0,
         totalPrivateCallDuration: 0,
         avgStreamTime: 0,
+        totalStreamTime: 0,
         avgViewersPerStream: 0,
         avgDiamondsPerStream: 0
       }];

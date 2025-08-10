@@ -22,6 +22,7 @@ interface TalentData {
   totalFollowers: number;
   totalPrivateCallDuration: number;
   avgStreamTime: number;
+  totalStreamTime: number;
   avgViewersPerStream: number;
   avgDiamondsPerStream: number;
 }
@@ -49,6 +50,7 @@ export const TalentTable = ({
   const [followersClicked, setFollowersClicked] = useState(false);
   const [callDurationClicked, setCallDurationClicked] = useState(false);
   const [avgStreamTimeClicked, setAvgStreamTimeClicked] = useState(false);
+  const [totalStreamTimeClicked, setTotalStreamTimeClicked] = useState(false);
   const [viewersClicked, setViewersClicked] = useState(false);
   const [diamondsClicked, setDiamondsClicked] = useState(false);
 
@@ -133,7 +135,7 @@ export const TalentTable = ({
           <TableRow className="hover:bg-transparent border-white/50 px-4 flex justify-between w-full items-center">
             <TableHead
               style={{ padding: 0 }}
-              className="text-white flex gap-1.5 w-[7%]"
+              className="text-white flex gap-1.5 w-[6%]"
             >
               {nameClicked ? (
                 <MoveUp
@@ -158,7 +160,7 @@ export const TalentTable = ({
             </TableHead>
             <TableHead
               style={{ padding: 0 }}
-              className="text-white flex gap-1.5 w-[10%] overflow-hidden"
+              className="text-white flex gap-1.5 w-[9%] overflow-hidden"
             >
               {earningsClicked ? (
                 <MoveUp
@@ -183,7 +185,7 @@ export const TalentTable = ({
             </TableHead>
             <TableHead
               style={{ padding: 0 }}
-              className="text-white flex gap-1.5 w-[10%] overflow-hidden"
+              className="text-white flex gap-1.5 w-[9%] overflow-hidden"
             >
               {streamsClicked ? (
                 <MoveUp
@@ -208,7 +210,7 @@ export const TalentTable = ({
             </TableHead>
             <TableHead
               style={{ padding: 0 }}
-              className="text-white flex gap-1.5 w-[10%] overflow-hidden"
+              className="text-white flex gap-1.5 w-[9%] overflow-hidden"
             >
               {followersClicked ? (
                 <MoveUp
@@ -233,7 +235,7 @@ export const TalentTable = ({
             </TableHead>
             <TableHead
               style={{ padding: 0 }}
-              className="text-white flex gap-1.5 w-[15%] overflow-hidden"
+              className="text-white flex gap-1.5 w-[13%] overflow-hidden"
             >
               {callDurationClicked ? (
                 <MoveUp
@@ -258,7 +260,7 @@ export const TalentTable = ({
             </TableHead>
             <TableHead
               style={{ padding: 0 }}
-              className="text-white flex gap-1.5 w-[10%] overflow-hidden"
+              className="text-white flex gap-1.5 w-[9%] overflow-hidden"
             >
               {avgStreamTimeClicked ? (
                 <MoveUp
@@ -280,6 +282,31 @@ export const TalentTable = ({
                 />
               )}
               <p className="w-full text-wrap">Avg stream time</p>
+            </TableHead>
+            <TableHead
+              style={{ padding: 0 }}
+              className="text-white flex gap-1.5 w-[10%] overflow-hidden"
+            >
+              {totalStreamTimeClicked ? (
+                <MoveUp
+                  onClick={() => {
+                    setTotalStreamTimeClicked(false);
+                    sortTalentData("totalStreamTime", true);
+                  }}
+                  className="cursor-pointer"
+                  size={21}
+                />
+              ) : (
+                <MoveDown
+                  onClick={() => {
+                    setTotalStreamTimeClicked(true);
+                    sortTalentData("totalStreamTime", false);
+                  }}
+                  className="cursor-pointer"
+                  size={21}
+                />
+              )}
+              <p className="w-full text-wrap">Total stream time</p>
             </TableHead>
 {/*             <TableHead
               style={{ padding: 0 }}
@@ -345,24 +372,27 @@ export const TalentTable = ({
             >
               <TableCell
                 style={{ paddingTop: "18px", paddingBottom: "18px" }}
-                className="w-[7%]"
+                className="w-[6%]"
               >
                 <p className="text-wrap">{item.name}</p>
               </TableCell>
-              <TableCell className="w-[10%] text-center">
+              <TableCell className="w-[9%] text-center">
                 <Badge variant="payout">₹{item.totalEarnings}</Badge>
               </TableCell>
-              <TableCell className="w-[10%] text-center">
+              <TableCell className="w-[9%] text-center">
                 {item.totalStreams}
               </TableCell>
-              <TableCell className="w-[10%] text-center">
+              <TableCell className="w-[9%] text-center">
                 {item.totalFollowers}
               </TableCell>
-              <TableCell className="w-[15%] text-center">
+              <TableCell className="w-[13%] text-center">
                 {item.totalPrivateCallDuration} mins
               </TableCell>
-              <TableCell className="w-[10%] text-center">
+              <TableCell className="w-[9%] text-center">
                 {item.avgStreamTime} mins
+              </TableCell>
+              <TableCell className="w-[9%] text-center">
+                {item.totalStreamTime} mins
               </TableCell>
 {/*               <TableCell className="w-[13%] text-center">
                 {item.avgViewersPerStream}
